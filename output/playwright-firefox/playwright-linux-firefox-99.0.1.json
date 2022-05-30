@@ -49,6 +49,54 @@
       "pass": true
     },
     {
+      "id": "html/figcaption/targetable",
+      "pass": true
+    },
+    {
+      "id": "html/figcaption/role",
+      "pass": true
+    },
+    {
+      "id": "html/figcaption/name",
+      "pass": true
+    },
+    {
+      "id": "html/figure/targetable",
+      "pass": true
+    },
+    {
+      "id": "html/figure/role",
+      "pass": true
+    },
+    {
+      "id": "html/figure/name",
+      "pass": true
+    },
+    {
+      "id": "html/figure/nameMissingFigcaption",
+      "pass": true
+    },
+    {
+      "id": "html/input/file/targetable",
+      "pass": true
+    },
+    {
+      "id": "html/input/file/targetable",
+      "pass": true
+    },
+    {
+      "id": "html/input/file/role",
+      "pass": true
+    },
+    {
+      "id": "html/input/file/name",
+      "pass": false
+    },
+    {
+      "id": "html/input/file/name",
+      "pass": true
+    },
+    {
       "id": "html/meter/targetable",
       "pass": true
     },
