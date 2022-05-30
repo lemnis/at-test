@@ -1,0 +1,17 @@
+{
+  "ts-node": {
+    "files": true
+  },
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": ["es2019", "DOM"],
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "types": ["codeceptjs", "node"],
+    "resolveJsonModule": true,
+    // "isolatedModules": true,
+    "strict": true
+  }
+}
