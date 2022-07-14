@@ -9,8 +9,6 @@ function btoa(str: string) {
   return Buffer.from(str, "binary").toString("base64");
 }
 
-
-
 const getAOM = async () => {
   const el = document.querySelector("#test");
   if (!el) return;
@@ -134,6 +132,13 @@ class Accessibility extends Helper {
     }
   }
 
+  async grabATOutput(
+    locator?: CodeceptJS.LocatorOrString,
+    includeIgnored = false
+  ) {
+    return this.grabAXNode(locator, includeIgnored);
+  }
+
   async amFocusable(locator?: CodeceptJS.LocatorOrString, ignored = true) {
     if (this.helpers.Playwright) {
       const elements: ElementHandle[] = locator
@@ -196,40 +201,6 @@ class Accessibility extends Helper {
       return AXNode?.role;
     } else {
       throw new Error("grabA11yRole: No helper founded that is supported");
-    }
-  }
-
-  async setContent(html: string) {
-    if (this.helpers.Playwright) {
-      const page: Page = this.helpers.Playwright.page;
-      return await page?.setContent(html);
-    } else if (this.helpers.WebDriver) {
-      const browser: any = this.helpers.WebDriver.browser;
-      return await browser.url(`data:text/html;base64,${btoa(html)}`);
-    } else {
-      throw new Error("setConetent: No helper founded that is supported");
-    }
-  }
-
-  async grabRunningInfo() {
-    if (this.helpers.Playwright) {
-      const browser: Browser = this.helpers.Playwright.browser;
-      return {
-        name: codeceptjs.config.get("helpers").Playwright.browser,
-        driver: "Playwright",
-        version: browser?.version(),
-      };
-    } else if (this.helpers.WebDriver) {
-      //   const browser: any = this.helpers.WebDriver.browser;
-      //   const capabilities: Capabilities | undefined = browser?.capabilities;
-      //   return {
-      //     name: codeceptjs.config.get("helpers").WebDriver.browser,
-      //     driver: "WebDriver",
-      //     version: capabilities?.browserVersion,
-      //     platform: capabilities?.platformName,
-      //   };
-    } else {
-      throw new Error("grabRunningInfo: No helper founded that is supported");
     }
   }
 }

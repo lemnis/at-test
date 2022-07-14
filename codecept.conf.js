@@ -10,6 +10,7 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 const browser = process.env.BROWSER || "chromium";
+const output = `./output/playwright-${browser}`;
 
 /** @type {import("playwright").LaunchOptions} */
 let playwrightConfig = {
@@ -26,8 +27,9 @@ let playwrightConfig = {
 };
 
 exports.config = {
+  name: "computed-aria",
   tests: "tests/**/*.ts",
-  output: "./output",
+  output,
   helpers: {
     Playwright: {
       url: "http://localhost",
@@ -36,37 +38,12 @@ exports.config = {
       restart: false,
       ...playwrightConfig
     },
+    BaseExtend: {
+      require: "./codeceptjs/base-extend-helper.ts",
+    },
     Accessibility: {
       require: "./codeceptjs/a11y-helper.ts",
     },
   },
-  multiple: {
-    all: {
-      browsers: [
-        { browser: "firefox" },
-        { browser: "webkit" },
-        { browser: "chromium" },
-      ],
-    },
-  },
-  bootstrap: null,
-  mocha: {
-    // reporter: "./codeceptjs/reporter.js",
-    reporterOptions: {
-      browser,
-    },
-  },
-  name: "computed-aria",
-  plugins: {
-    pauseOnFail: {},
-    retryFailedStep: {
-      enabled: true,
-    },
-    tryTo: {
-      enabled: true,
-    },
-    screenshotOnFail: {
-      enabled: false,
-    },
-  },
+  mocha: { reporterOptions: { browser } },
 };
