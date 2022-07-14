@@ -1,28 +1,58 @@
 /// <reference path="../../codeceptjs/steps.d.ts" />
 
-import { equal, ok } from "assert";
+import { expect } from "../utils/expect";
 
 Feature("Meter").tag("html/meter");
 
-const html = () => /*html*/ `<meter id="test"></meter>`;
-const htmlWithLabel = () =>
-  /*html*/ `<meter id="test"></meter><label for="test">Label</label>`;
+const helpers = codeceptjs.config.get("helpers");
+const html = /*html*/ `<meter id="test2"></meter>`;
+const htmlWithLabel = /*html*/ `<meter id="test"></meter><label for="test">Label</label>`;
 
-Scenario("Should be targetable when having a label", async ({ I }) => {
-  I.setContent(htmlWithLabel());
-  ok(await I.grabAXNode("#test", true));
-  I.setContent(html());
-  equal(await I.grabAXNode("#test"), undefined);
+Scenario.skip("Should be targetable when having a label", async ({ I }) => {
+  I.setContent(/*html*/ `
+    ${htmlWithLabel}
+    <button>Seperator</button>
+    ${html}
+  `);
+
+  if (helpers.ChromevoxHelper) {
+    I.wait(2);
+    I.nextItem();
+    I.nextItem();
+  }
+
+  expect(await I.grabATOutput("#test")).to.exist;
+
+  if (helpers.ChromevoxHelper) {
+    I.nextItem();
+    I.nextItem();
+  }
+
+  expect(await I.grabATOutput("#test2")).to.not.be.exist;
 }).tag("targetable");
 
 Scenario("Should have role", async ({ I }) => {
-  I.setContent(htmlWithLabel());
-  equal((await I.grabAXNode("#test"))?.role, "meter");
+  I.setContent(htmlWithLabel);
+
+  if (helpers.ChromevoxHelper) {
+    I.wait(2);
+    I.nextItem();
+    I.nextItem();
+  }
+
+  expect(await I.grabATOutput("#test", true)).to.have.role("meter");
 }).tag("role");
 
 Scenario("Should have accessible name", async ({ I }) => {
-  I.setContent(htmlWithLabel());
-  equal((await I.grabAXNode("#test"))?.name, "Label");
+  I.setContent(htmlWithLabel);
+
+  if (helpers.ChromevoxHelper) {
+    I.wait(2);
+    I.nextItem();
+    I.nextItem();
+  }
+
+  expect(await I.grabATOutput("#test", true)).to.have.name("Label");
 }).tag("name");
 
 Scenario.todo("Shoud convey low range").tag("value");

@@ -25,6 +25,10 @@
       "pass": true
     },
     {
+      "id": "aria/role/time/role",
+      "pass": false
+    },
+    {
       "id": "html/abbr/targetable",
       "pass": false
     },
@@ -62,7 +66,7 @@
     },
     {
       "id": "html/figure/targetable",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/figure/role",
@@ -74,7 +78,7 @@
     },
     {
       "id": "html/figure/nameMissingFigcaption",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/input/color/targetable",
@@ -107,10 +111,6 @@
     {
       "id": "html/input/file/name",
       "pass": true
-    },
-    {
-      "id": "html/meter/targetable",
-      "pass": false
     },
     {
       "id": "html/meter/role",

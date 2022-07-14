@@ -2,9 +2,11 @@
 
 import { equal, ok } from "assert";
 import snapshot from "snap-shot-it";
+import { expect } from "../utils/expect";
 
 Feature("Textarea").tag("html/textarea");
 
+const helpers = codeceptjs.config.get("helpers");
 const html = /*html*/ `<textarea id="test"></textarea>`;
 
 Scenario("Should be targetable", async ({ I }) => {
@@ -22,7 +24,14 @@ Scenario("Should be focusable", async ({ I }) => {
 
 Scenario("Should have role", async ({ I }) => {
   I.setContent(html);
-  equal((await I.grabAXNode("#test"))?.role, "textbox");
+
+  if (helpers.ChromevoxHelper) {
+    I.wait(2);
+    I.nextItem();
+    I.nextItem();
+  }
+
+  expect(await I.grabATOutput("#test")).to.have.role(["textbox", "text area"]);
 }).tag("role");
 
 Scenario("Should be multiline", async ({ I }) => {
