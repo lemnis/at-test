@@ -70,7 +70,7 @@
     },
     {
       "id": "html/figure/role",
-      "pass": false
+      "pass": true
     },
     {
       "id": "html/figure/name",
@@ -114,11 +114,11 @@
     },
     {
       "id": "html/meter/role",
-      "pass": false
+      "pass": true
     },
     {
       "id": "html/meter/name",
-      "pass": false
+      "pass": true
     },
     {
       "id": "html/optgroup/targetable",
@@ -198,7 +198,7 @@
     },
     {
       "id": "html/summary/role",
-      "pass": false
+      "pass": true
     },
     {
       "id": "html/summary/name",
@@ -214,7 +214,7 @@
     },
     {
       "id": "html/textarea/role",
-      "pass": false
+      "pass": true
     },
     {
       "id": "html/textarea/multiline",
