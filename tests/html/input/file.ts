@@ -15,7 +15,7 @@ Scenario("Should be targetable", async function (this: any, { I }) {
   ok(ax);
 }).tag("targetable");
 
-Scenario(
+Scenario.only(
   "Name should reflect attached files",
   async function (this: any, { I }) {
     I.setContent(html);
@@ -23,6 +23,7 @@ Scenario(
     const ax = await I.grabAXNode("#test");
     snapshot(ax as any);
     const textAx = ax?.children?.[1] || ax;
+    I.wait(4);
     ok(textAx?.name, "image.svg");
   }
 ).tag("targetable");
