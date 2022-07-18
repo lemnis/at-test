@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "playwright test",
         "codeceptjs": "codeceptjs run --steps",
         "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
         "codeceptjs:ui": "codecept-ui --app",
@@ -19,6 +19,8 @@
     "devDependencies": {
         "@codeceptjs/configure": "^0.8.0",
         "@codeceptjs/ui": "^0.4.6",
+        "@guidepup/playwright": "^0.6.1",
+        "@playwright/test": "^1.17.1",
         "@types/chai": "^4.3.1",
         "@types/node": "^17.0.36",
         "chai": "^4.3.6",
