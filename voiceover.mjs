@@ -1,16 +1,8 @@
-import { voiceOver } from "@guidepup/guidepup";
+import { VoiceOver } from '@accesslint/voiceover';
 
-async function run() {
-  // Start your screen-reader instance 🎉
-  await voiceOver.start();
-
-  // Navigate your environment with screen-readers just as your users do 🏎
-  await voiceOver.next();
-
-  // Assert on what your users really see and hear when using screen-readers 👂
-  console.log(await voiceOver.lastSpokenPhrase());
-
-  await voiceOver.stop();
-}
-
-run();
+const voiceOver = new VoiceOver();
+await voiceOver.launch(); // start VoiceOver screen reader
+await new Promise(r => setTimeout(r, 4000));
+console.log(await voiceOver.lastPhrase()); // print last phrase on navigation
+// perform actions using seek, rotor, and execute
+await voiceOver.quit(); // stop VoiceOver
