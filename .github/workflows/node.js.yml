@@ -27,5 +27,4 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npx @guidepup/setup --ci
-    - run: npm run test:voiceover:chromium
-    - run: npm run test:voiceover:webkit --reporter ../codeceptjs/reporter.js
+    - run: npm-run-all -s -c test:voiceover:chromium "test:voiceover:webkit -- --reporter ../codeceptjs/reporter.js"
