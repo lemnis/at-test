@@ -26,6 +26,14 @@ let playwrightConfig = {
   webkit: {},
 };
 
+/** @type {import("mocha").MochaOptions} */
+const mocha = {
+  reporterOptions: { browser },
+  ...(process.env.REPORT === "true"
+    ? { reporter: require("./codeceptjs/reporter.js") }
+    : {}),
+};
+
 exports.config = {
   name: "playwright",
   tests: "tests/**/*.ts",
@@ -45,7 +53,7 @@ exports.config = {
       require: "./codeceptjs/a11y-helper.ts",
     },
   },
-  mocha: { reporterOptions: { browser } },
+  mocha,
   plugins: {
     screenshotOnFail: {
       enabled: false,
