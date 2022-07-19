@@ -28,7 +28,9 @@ let playwrightConfig = {
 /** @type {import("mocha").MochaOptions} */
 const mocha = {
   reporterOptions: { browser },
-  reporter: require("./codeceptjs/reporter.js")
+  ...(process.env.REPORT === "true"
+    ? { reporter: require("./codeceptjs/reporter.js") }
+    : {}),
 };
 
 exports.config = {
