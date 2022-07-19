@@ -18,11 +18,17 @@ class VoiceOverHelper extends Helper implements ScreenReaderHelper {
   };
 
   protected async _init() {
-    await voiceOver.launch();
+    return new Promise((resolve, reject) => {
+      voiceOver.launch().then(resolve)
+      setTimeout(() => reject('Failed to start'), 5000);
+    })
   }
 
   protected async _finishTest() {
-    await voiceOver.quit();
+    return new Promise((resolve, reject) => {
+      voiceOver.quit().then(resolve)
+      setTimeout(() => reject('Failed to start'), 5000);
+    })
   }
 
   async grabATOutput(locator: CodeceptJS.LocatorOrString) {
