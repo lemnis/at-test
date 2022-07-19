@@ -140,6 +140,7 @@ class Accessibility extends Helper {
   }
 
   async grabFocusedElement() {}
+  async pressEscape() {}
 
   async amFocusable(locator?: CodeceptJS.LocatorOrString, ignored = true) {
     if (this.helpers.Playwright) {

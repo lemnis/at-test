@@ -1,44 +1,52 @@
 /// <reference path="../../codeceptjs/steps.d.ts" />
 
 import { equal, ok } from "assert";
+import { expect } from "../utils/expect";
 
-Feature("Select").tag('html/select');
+Feature("Select").tag("html/select");
 
 const html = (label?: string) => /*html*/ `<select
   id="test"
-  ${label ? `aria-label="${label}"` : ''}
+  ${label ? `aria-label="${label}"` : ""}
 >
-  <option>Apple</option>
+  <option>apple</option>
 </select>`;
 
 Scenario("Should be targetable", async ({ I }) => {
   I.setContent(html());
-  ok(await I.grabAXNode("#test"));
-}).tag('targetable')
+  I.focus('#test');
+  ok(await I.grabATOutput("#test"));
+}).tag("targetable");
 
 Scenario("Should be focusable", async ({ I }) => {
   I.setContent(html());
   I.pressKey("Tab");
-  ok((await I.grabAXNode("#test"))?.focused);
-}).tag('focusable')
+  ok((await I.grabATOutput("#test"))?.focused);
+}).tag("focusable");
 
 Scenario("Should be expandable", async ({ I }) => {
   I.setContent(html());
+  I.focus('#test');
+  expect(await I.grabATOutput("#test")).to.be.collapsed;
   I.click("#test");
-  equal((await I.grabAXNode("#test"))?.expanded, true);
-}).tag('expandable');
+  expect(await I.grabATOutput("#test")).to.be.expanded;
+  I.pressEscape();
+}).tag("expandable");
 
 Scenario("Should have value", async ({ I }) => {
   I.setContent(html());
-  equal((await I.grabAXNode('#test'))?.value, 'Apple');
-}).tag('role')
+  I.focus('#test');
+  expect(await I.grabATOutput("#test")).to.have.value("apple");
+}).tag("role");
 
 Scenario("Should have role", async ({ I }) => {
   I.setContent(html());
-  equal((await I.grabAXNode('#test'))?.role, 'combobox');
-}).tag('role')
+  I.focus('#test');
+  expect(await I.grabATOutput("#test")).to.have.role(["combobox", "pop up button"]);
+}).tag("role");
 
 Scenario("Should have accessible name", async ({ I }) => {
-  I.setContent(html('Select label'));
-  equal((await I.grabAXNode("#test"))?.name, "Select label");
-}).tag('name')
+  I.setContent(html("Select label"));
+  I.focus('#test');
+  expect(await I.grabATOutput("#test")).to.have.name("Select label");
+}).tag("name");

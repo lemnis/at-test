@@ -61,6 +61,14 @@ class VoiceOverHelper extends Helper implements ScreenReaderHelper {
     await voiceOver.execute(moveRight);
   }
 
+  async pressEscape() {
+    await voiceOver.execute({
+      name: "Escape",
+      keyCode: 53,
+      modifiers: []
+  });
+  }
+
   async previousItem() {
     await voiceOver.keyStrokes({ text: "ArrowLeft" });
   }
