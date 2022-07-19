@@ -8,7 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const container = require("codeceptjs").container;
 
-const { EVENT_RUN_END, EVENT_TEST_FAIL, EVENT_TEST_BEGIN, EVENT_TEST_PASS } =
+const { EVENT_RUN_END, EVENT_TEST_FAIL, EVENT_TEST_BEGIN, EVENT_TEST_PASS, EVENT_SUITE_BEGIN } =
   Mocha.Runner.constants;
 
 // this reporter outputs test results, indenting two spaces per suite
@@ -53,6 +53,9 @@ class MyReporter {
       })
       .on(EVENT_TEST_BEGIN, (test) => {
         console.log(test.tags, 'start');
+      })
+      .on(EVENT_SUITE_BEGIN, (test) => {
+        console.log(test.title, 'suite start');
       })
       .on(EVENT_TEST_PASS, (test) => {
         json.results.push({
