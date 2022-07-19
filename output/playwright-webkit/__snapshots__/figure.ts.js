@@ -13,16 +13,6 @@ exports['Figure @html/figure: Should be targetable @targetable 1'] = {
       ]
     },
     {
-      "role": "paragraph",
-      "name": "",
-      "children": [
-        {
-          "role": "text",
-          "name": "Non-image figure content"
-        }
-      ]
-    },
-    {
       "role": "Group",
       "name": "",
       "children": [
@@ -40,24 +30,8 @@ exports['Figure @html/figure: Should have empty name when missing caption @nameM
   "name": "",
   "children": [
     {
-      "role": "TextGroup",
-      "name": "",
-      "children": [
-        {
-          "role": "image",
-          "name": "Kitten"
-        }
-      ]
-    },
-    {
-      "role": "paragraph",
-      "name": "",
-      "children": [
-        {
-          "role": "text",
-          "name": "Non-image figure content"
-        }
-      ]
+      "role": "image",
+      "name": "Kitten"
     }
   ]
 }

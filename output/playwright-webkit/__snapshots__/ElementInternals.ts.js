@@ -22,6 +22,7 @@ exports['reportValidity() @js/reportvalidity: Should show validity & focus first
                 {
                   "role": "textbox",
                   "name": "Email foo",
+                  "roledescription": "email field",
                   "focused": true,
                   "required": true,
                   "invalid": "true",
@@ -80,7 +81,8 @@ exports['setCustomValidity() @js/setCustomValidity: Should show custom error & f
                 },
                 {
                   "role": "textbox",
-                  "name": "Email"
+                  "name": "Email",
+                  "roledescription": "email field"
                 }
               ]
             }

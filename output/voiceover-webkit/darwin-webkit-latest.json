@@ -1,0 +1,239 @@
+{
+  "results": [
+    {
+      "id": "js/reportvalidity/showAndFocus",
+      "pass": false
+    },
+    {
+      "id": "js/setCustomValidity/showAndFocus",
+      "pass": false
+    },
+    {
+      "id": "api/HTMLDialogElement/closed",
+      "pass": false
+    },
+    {
+      "id": "api/HTMLDialogElement/showAndFocus",
+      "pass": false
+    },
+    {
+      "id": "api/HTMLDialogElement/showAndFocus",
+      "pass": false
+    },
+    {
+      "id": "api/HTMLDialogElement/pressEscape",
+      "pass": false
+    },
+    {
+      "id": "aria/role/time/role",
+      "pass": false
+    },
+    {
+      "id": "html/abbr/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/abbr/name",
+      "pass": false
+    },
+    {
+      "id": "html/abbr/role",
+      "pass": false
+    },
+    {
+      "id": "html/details/ignored",
+      "pass": false
+    },
+    {
+      "id": "html/details/role",
+      "pass": false
+    },
+    {
+      "id": "html/details/hideContent",
+      "pass": false
+    },
+    {
+      "id": "html/figcaption/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/figcaption/role",
+      "pass": false
+    },
+    {
+      "id": "html/figcaption/name",
+      "pass": false
+    },
+    {
+      "id": "html/figure/targetable",
+      "pass": true
+    },
+    {
+      "id": "html/figure/role",
+      "pass": false
+    },
+    {
+      "id": "html/figure/name",
+      "pass": false
+    },
+    {
+      "id": "html/figure/nameMissingFigcaption",
+      "pass": false
+    },
+    {
+      "id": "html/input/color/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/input/color/role",
+      "pass": false
+    },
+    {
+      "id": "html/input/color/name",
+      "pass": false
+    },
+    {
+      "id": "html/input/file/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/input/file/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/input/file/role",
+      "pass": false
+    },
+    {
+      "id": "html/input/file/name",
+      "pass": false
+    },
+    {
+      "id": "html/input/file/name",
+      "pass": false
+    },
+    {
+      "id": "html/meter/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/meter/role",
+      "pass": false
+    },
+    {
+      "id": "html/meter/name",
+      "pass": true
+    },
+    {
+      "id": "html/optgroup/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/optgroup/role",
+      "pass": false
+    },
+    {
+      "id": "html/optgroup/name",
+      "pass": false
+    },
+    {
+      "id": "html/option/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/option/role",
+      "pass": false
+    },
+    {
+      "id": "html/option/name",
+      "pass": false
+    },
+    {
+      "id": "html/option/selected",
+      "pass": false
+    },
+    {
+      "id": "html/progress/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/progress/role",
+      "pass": false
+    },
+    {
+      "id": "html/progress/name",
+      "pass": false
+    },
+    {
+      "id": "html/select/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/select/focusable",
+      "pass": false
+    },
+    {
+      "id": "html/select/expandable",
+      "pass": false
+    },
+    {
+      "id": "html/select/role",
+      "pass": false
+    },
+    {
+      "id": "html/select/role",
+      "pass": false
+    },
+    {
+      "id": "html/select/name",
+      "pass": false
+    },
+    {
+      "id": "html/summary/targetable",
+      "pass": true
+    },
+    {
+      "id": "html/summary/focusable",
+      "pass": false
+    },
+    {
+      "id": "html/summary/expandable",
+      "pass": true
+    },
+    {
+      "id": "html/summary/role",
+      "pass": true
+    },
+    {
+      "id": "html/summary/name",
+      "pass": true
+    },
+    {
+      "id": "html/textarea/targetable",
+      "pass": true
+    },
+    {
+      "id": "html/textarea/focusable",
+      "pass": false
+    },
+    {
+      "id": "html/textarea/role",
+      "pass": false
+    },
+    {
+      "id": "html/textarea/multiline",
+      "pass": true
+    }
+  ],
+  "environment": {
+    "os": {
+      "name": "darwin",
+      "version": "20.6.0"
+    },
+    "browser": {
+      "name": "webkit",
+      "driver": "VoiceOver",
+      "version": "15.4"
+    }
+  }
+}

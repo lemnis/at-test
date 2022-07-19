@@ -66,7 +66,7 @@
     },
     {
       "id": "html/figure/targetable",
-      "pass": false
+      "pass": true
     },
     {
       "id": "html/figure/role",
@@ -78,7 +78,7 @@
     },
     {
       "id": "html/figure/nameMissingFigcaption",
-      "pass": false
+      "pass": true
     },
     {
       "id": "html/input/color/targetable",
@@ -94,11 +94,11 @@
     },
     {
       "id": "html/input/file/targetable",
-      "pass": false
+      "pass": true
     },
     {
       "id": "html/input/file/targetable",
-      "pass": false
+      "pass": true
     },
     {
       "id": "html/input/file/role",
@@ -111,6 +111,10 @@
     {
       "id": "html/input/file/name",
       "pass": true
+    },
+    {
+      "id": "html/meter/targetable",
+      "pass": false
     },
     {
       "id": "html/meter/role",

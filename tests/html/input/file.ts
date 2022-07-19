@@ -1,62 +1,108 @@
 /// <reference path="../../../codeceptjs/steps.d.ts" />
 
 import { ok } from "assert";
+import { expect } from "chai";
 import snapshot from "snap-shot-it";
 
 Feature("File").tag("html/input/file");
 
+const helpers = codeceptjs.config.get("helpers");
 const html = /*html*/ `<input id="test" type="file">`;
 const htmlWithLabel = /*html*/ `<input id="test" type="file" /><label for="test">Label</label>`;
 
 Scenario("Should be targetable", async function (this: any, { I }) {
   I.setContent(html);
-  const ax = await I.grabAXNode("#test");
+
+  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    I.wait(2);
+    I.focus("#test");
+  }
+
+  const ax = await I.grabATOutput("#test");
   snapshot(ax as any);
   ok(ax);
 }).tag("targetable");
 
-Scenario.only(
+Scenario(
   "Name should reflect attached files",
   async function (this: any, { I }) {
     I.setContent(html);
     I.attachFile("#test", "data/image.svg");
-    const ax = await I.grabAXNode("#test");
+
+    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+      I.wait(2);
+      I.focus("#test");
+    }
+
+    const ax = await I.grabATOutput("#test");
     snapshot(ax as any);
     const textAx = ax?.children?.[1] || ax;
-    I.wait(4);
-    ok(textAx?.name, "image.svg");
+    expect(textAx).to.have.name("image.svg");
   }
 ).tag("targetable");
 
+Scenario("Should have role", async function (this: any, { I }) {
+  I.setContent(html);
+
+  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    I.wait(2);
+    I.focus("#test");
+  }
+
+  const ax = await I.grabATOutput("#test");
+  const buttonAx = ax?.children?.[0] || ax;
+  expect(buttonAx).to.have.role("button");
+}).tag("role");
+
 Scenario(
-  "Should have upload button with informative name",
+  "Should have informative name",
   async function (this: any, { I }) {
     I.setContent(html);
-    const ax = await I.grabAXNode("#test");
+
+    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+      I.wait(2);
+      I.focus("#test");
+    }
+
+    const ax = await I.grabATOutput("#test");
     const buttonAx = ax?.children?.[0] || ax;
-    ok(buttonAx?.role, "button");
-    ok(
-      ["Choose File", "Browse…", "Choose file"].includes(buttonAx?.name as any)
-    );
+    expect(buttonAx).to.have.name([
+      "Choose File",
+      "Browse…",
+      "Choose file",
+      "file upload button",
+    ]);
   }
-).tag("role");
+).tag("name");
 
 Scenario(
   "Should indicate that no files are uploaded",
   async function (this: any, { I }) {
     I.setContent(html);
-    const ax = await I.grabAXNode("#test");
+
+    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+      I.wait(2);
+      I.focus("#test");
+    }
+
+    const ax = await I.grabATOutput("#test");
     const textAx = ax?.children?.[1] || ax;
-    ok(
-      ["no file selected", "No file chosen", "No file selected."].includes(
-        textAx?.value as any
-      )
-    );
+    expect(textAx).to.have.value([
+      "no file selected",
+      "No file chosen",
+      "No file selected.",
+    ]);
   }
-).tag("name");
+).tag("noFiles");
 
 Scenario("Should convey label", async function (this: any, { I }) {
   I.setContent(htmlWithLabel);
-  const ax = await I.grabAXNode("#test");
-  ok(ax?.name, "Label");
-}).tag("name");
+
+  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    I.wait(2);
+    I.focus("#test");
+  }
+
+  const ax = await I.grabATOutput("#test");
+  expect(ax).to.have.name("Label");
+}).tag("nativeLabel");

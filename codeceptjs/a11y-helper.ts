@@ -139,6 +139,8 @@ class Accessibility extends Helper {
     return this.grabAXNode(locator, includeIgnored);
   }
 
+  async grabFocusedElement() {}
+
   async amFocusable(locator?: CodeceptJS.LocatorOrString, ignored = true) {
     if (this.helpers.Playwright) {
       const elements: ElementHandle[] = locator

@@ -1,8 +1,8 @@
 {
   "results": [
     {
-      "id": "html/textarea/role",
-      "pass": true
+      "id": "html/figure/nameMissingFigcaption",
+      "pass": false
     }
   ],
   "environment": {

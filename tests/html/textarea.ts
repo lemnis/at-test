@@ -11,7 +11,12 @@ const html = /*html*/ `<textarea id="test"></textarea>`;
 
 Scenario("Should be targetable", async ({ I }) => {
   I.setContent(html);
-  const ax = await I.grabAXNode("#test");
+
+  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    I.wait(2);
+  }
+  
+  const ax = await I.grabATOutput("#test");
   ok(ax);
   snapshot(ax);
 }).tag("targetable");
@@ -19,22 +24,34 @@ Scenario("Should be targetable", async ({ I }) => {
 Scenario("Should be focusable", async ({ I }) => {
   I.setContent(html);
   I.pressKey("Tab");
-  ok((await I.grabAXNode("#test"))?.focused);
+  ok((await I.grabATOutput("#test"))?.focused);
 }).tag("focusable");
 
 Scenario("Should have role", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
     I.wait(2);
+  }
+
+  if (helpers.ChromevoxHelper) {
     I.nextItem();
     I.nextItem();
   }
 
-  expect(await I.grabATOutput("#test")).to.have.role(["textbox", "text area"]);
+  expect(await I.grabATOutput("#test")).to.have.role([
+    "textbox",
+    "text area",
+    "edit text",
+  ]);
 }).tag("role");
 
 Scenario("Should be multiline", async ({ I }) => {
   I.setContent(html);
-  ok((await I.grabAXNode("#test"))?.multiline);
+
+  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    I.wait(2);
+  }
+
+  expect(await I.grabATOutput("#test")).to.be.multiline();
 }).tag("multiline");

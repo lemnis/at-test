@@ -1,54 +1,52 @@
 /// <reference path="../../codeceptjs/steps.d.ts" />
 
+import snapshot from "snap-shot-it";
 import { expect } from "../utils/expect";
 
 Feature("Meter").tag("html/meter");
 
 const helpers = codeceptjs.config.get("helpers");
-const html = /*html*/ `<meter id="test2"></meter>`;
-const htmlWithLabel = /*html*/ `<meter id="test"></meter><label for="test">Label</label>`;
+const html = 
+  /*html*/ `<button id="start" aria-label="start">start</button><meter id="test2"></meter>`;
+const htmlWithLabel = 
+  /*html*/ `<button id="start" aria-label="start">start</button><meter id="test"></meter><label for="test">Label</label>`;
 
-Scenario.skip("Should be targetable when having a label", async ({ I }) => {
+Scenario("Should be targetable", async ({ I }) => {
   I.setContent(/*html*/ `
-    ${htmlWithLabel}
-    <button>Seperator</button>
     ${html}
   `);
 
-  if (helpers.ChromevoxHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
     I.wait(2);
-    I.nextItem();
-    I.nextItem();
-  }
-
-  expect(await I.grabATOutput("#test")).to.exist;
-
-  if (helpers.ChromevoxHelper) {
-    I.nextItem();
+    I.focus("#start");
     I.nextItem();
   }
 
-  expect(await I.grabATOutput("#test2")).to.not.be.exist;
+  expect(await I.grabATOutput("#test2")).to.exist;
+  snapshot((await I.grabATOutput("#test2")) as any);
 }).tag("targetable");
 
 Scenario("Should have role", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
-  if (helpers.ChromevoxHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
     I.wait(2);
-    I.nextItem();
+    I.focus("#start");
     I.nextItem();
   }
 
-  expect(await I.grabATOutput("#test", true)).to.have.role("meter");
+  expect(await I.grabATOutput("#test", true)).to.have.role([
+    "meter",
+    "level indicator",
+  ]);
 }).tag("role");
 
 Scenario("Should have accessible name", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
-  if (helpers.ChromevoxHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
     I.wait(2);
-    I.nextItem();
+    I.focus("#start");
     I.nextItem();
   }
 

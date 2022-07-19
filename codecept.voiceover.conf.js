@@ -10,11 +10,10 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 const browser = process.env.BROWSER || "chromium";
-const output = `./output/playwright-${browser}`;
+const output = `./output/voiceover-${browser}`;
 
 /** @type {import("playwright").LaunchOptions} */
 let playwrightConfig = {
-  // slowMo: 4000,
   chromium: {
     args: [`--enable-experimental-web-platform-features`],
   },
@@ -27,25 +26,25 @@ let playwrightConfig = {
 };
 
 exports.config = {
-  name: "playwright",
+  name: "voiceover",
   tests: "tests/**/*.ts",
   output,
   helpers: {
     Playwright: {
       url: "http://localhost",
       browser,
-      show: false,
+      show: true,
       restart: false,
       ...playwrightConfig,
     },
     BaseExtend: {
       require: "./codeceptjs/base-extend-helper.ts",
     },
-    Accessibility: {
-      require: "./codeceptjs/a11y-helper.ts",
+    VoiceOverHelper: {
+      require: "./codeceptjs/voiceover-helper.ts",
     },
   },
-  mocha: { reporterOptions: { browser } },
+  mocha: { reporterOptions: { browser, driver: "VoiceOver" } },
   plugins: {
     screenshotOnFail: {
       enabled: false,

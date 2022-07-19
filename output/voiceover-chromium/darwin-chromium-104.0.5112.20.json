@@ -2,7 +2,7 @@
   "results": [
     {
       "id": "js/reportvalidity/showAndFocus",
-      "pass": true
+      "pass": false
     },
     {
       "id": "js/setCustomValidity/showAndFocus",
@@ -10,19 +10,19 @@
     },
     {
       "id": "api/HTMLDialogElement/closed",
-      "pass": true
+      "pass": false
     },
     {
       "id": "api/HTMLDialogElement/showAndFocus",
-      "pass": true
+      "pass": false
     },
     {
       "id": "api/HTMLDialogElement/showAndFocus",
-      "pass": true
+      "pass": false
     },
     {
       "id": "api/HTMLDialogElement/pressEscape",
-      "pass": true
+      "pass": false
     },
     {
       "id": "aria/role/time/role",
@@ -42,35 +42,35 @@
     },
     {
       "id": "html/details/ignored",
-      "pass": true
-    },
-    {
-      "id": "html/details/role",
-      "pass": true
-    },
-    {
-      "id": "html/details/hideContent",
-      "pass": true
-    },
-    {
-      "id": "html/figcaption/targetable",
-      "pass": true
-    },
-    {
-      "id": "html/figcaption/role",
-      "pass": true
-    },
-    {
-      "id": "html/figcaption/name",
-      "pass": true
-    },
-    {
-      "id": "html/figure/targetable",
       "pass": false
     },
     {
-      "id": "html/figure/role",
+      "id": "html/details/role",
+      "pass": false
+    },
+    {
+      "id": "html/details/hideContent",
+      "pass": false
+    },
+    {
+      "id": "html/figcaption/targetable",
+      "pass": false
+    },
+    {
+      "id": "html/figcaption/role",
+      "pass": false
+    },
+    {
+      "id": "html/figcaption/name",
+      "pass": false
+    },
+    {
+      "id": "html/figure/targetable",
       "pass": true
+    },
+    {
+      "id": "html/figure/role",
+      "pass": false
     },
     {
       "id": "html/figure/name",
@@ -86,11 +86,11 @@
     },
     {
       "id": "html/input/color/role",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/input/color/name",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/input/file/targetable",
@@ -102,19 +102,23 @@
     },
     {
       "id": "html/input/file/role",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/input/file/name",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/input/file/name",
+      "pass": false
+    },
+    {
+      "id": "html/meter/targetable",
       "pass": true
     },
     {
       "id": "html/meter/role",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/meter/name",
@@ -134,39 +138,39 @@
     },
     {
       "id": "html/option/targetable",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/option/role",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/option/name",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/option/selected",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/progress/targetable",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/progress/role",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/progress/name",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/select/targetable",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/select/focusable",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/select/expandable",
@@ -174,15 +178,15 @@
     },
     {
       "id": "html/select/role",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/select/role",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/select/name",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/summary/targetable",
@@ -190,7 +194,7 @@
     },
     {
       "id": "html/summary/focusable",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/summary/expandable",
@@ -198,7 +202,7 @@
     },
     {
       "id": "html/summary/role",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/summary/name",
@@ -210,7 +214,7 @@
     },
     {
       "id": "html/textarea/focusable",
-      "pass": true
+      "pass": false
     },
     {
       "id": "html/textarea/role",
@@ -228,7 +232,7 @@
     },
     "browser": {
       "name": "chromium",
-      "driver": "Playwright",
+      "driver": "VoiceOver",
       "version": "104.0.5112.20"
     }
   }

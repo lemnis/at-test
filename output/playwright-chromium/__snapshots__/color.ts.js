@@ -15,8 +15,8 @@ exports['Color @html/input/color: Should be targetable when having a label @targ
       "children": [
         {
           "role": "slider",
-          "name": "Colour well",
-          "roledescription": "Colour well with two-dimensional slider for selecting saturation and lightness",
+          "name": "Color well",
+          "roledescription": "Color well with two-dimensional slider for selecting saturation and lightness",
           "valuetext": "X: 0, Y: 136",
           "focused": true,
           "valuemax": 32016,
