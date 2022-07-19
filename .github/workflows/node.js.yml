@@ -32,7 +32,7 @@ jobs:
     - run: npm install
     - run: npx @guidepup/setup --ci
     # Working: details, meter
-    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:webkit -- "tests/html/{input,progress,summary,details,meter,textarea}.ts"
+    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:webkit -- "tests/html/{input,progress,summary,details,textarea}.ts"
     
   chromium:
     name: Chromium with VoiceOver
