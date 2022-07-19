@@ -1,6 +1,8 @@
 require("ts-node/register");
 
 const { setHeadlessWhen, setCommonPlugins } = require("@codeceptjs/configure");
+const fs = require("fs");
+const plist = require("plist");
 
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
@@ -27,7 +29,11 @@ let playwrightConfig = {
 
 /** @type {import("mocha").MochaOptions} */
 const mocha = {
-  reporterOptions: { browser },
+  reporterOptions: {
+    browser,
+    ATVersion: plist.parse(fs.readFileSync('/System/Library/CoreServices/VoiceOver.app/Contents/version.plist', 'utf-8'))?.CFBundleVersion,
+    ATName: 'VoiceOver'
+  },
   ...(process.env.REPORT === "true"
     ? { reporter: require("./codeceptjs/reporter.js") }
     : {}),

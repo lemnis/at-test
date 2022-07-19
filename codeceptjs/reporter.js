@@ -17,6 +17,8 @@ class MyReporter {
     const config = options.override ? JSON.parse(options.override) : options;
 
     const driver = options.reporterOptions.driver || "Playwright";
+    const ATName = options.reporterOptions.ATName || undefined;
+    const ATVersion = options.reporterOptions.ATVersion || undefined;
     const browser =
       config.helpers?.Playwright.browser || options.reporterOptions.browser;
 
@@ -26,6 +28,7 @@ class MyReporter {
       results: [],
       environment: {
         os: { name: os.platform(), version: os.release() },
+        at: { name: ATName, version: ATVersion }
       },
     };
 
