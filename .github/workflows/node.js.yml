@@ -72,9 +72,9 @@ jobs:
     - run: npx @guidepup/setup --ci
     - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:firefox
 
-  Playwright:
+  PlaywrightMacOs:
     runs-on: macos-latest
-
+    name: Playwright on MacOs
     strategy:
       matrix:
         node-version: [14.x]
@@ -88,4 +88,22 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npx @guidepup/setup --ci
-    - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel run:webkit run:chromium run:firefox
+    - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox
+  
+  PlaywrightUbuntu:
+    runs-on: ubuntu-latest
+    name: Playwright on Ubuntu
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
+    - run: npx @guidepup/setup --ci
+    - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox
