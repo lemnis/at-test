@@ -17,11 +17,11 @@ class VoiceOverHelper extends Helper implements ScreenReaderHelper {
     return voiceOver.lastPhrase();
   };
 
-  protected async _before() {
+  protected async _init() {
     await voiceOver.launch();
   }
 
-  protected async _after() {
+  protected async _finishTest() {
     await voiceOver.quit();
   }
 
