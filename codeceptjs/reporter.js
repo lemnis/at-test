@@ -51,17 +51,22 @@ class MyReporter {
             .browser.version()),
         };
       })
+      .on(EVENT_TEST_BEGIN, (test) => {
+        console.log(test.tags, 'start');
+      })
       .on(EVENT_TEST_PASS, (test) => {
         json.results.push({
           id: test.tags.map((i) => i.replace(/@/g, "")).join("/"),
           pass: true,
         });
+        console.log(test.tags, true);
       })
       .on(EVENT_TEST_FAIL, (test, err) => {
         json.results.push({
           id: test.tags.map((i) => i.replace(/@/g, "")).join("/"),
           pass: false,
         });
+        console.log(test.tags, false);
       })
       .once(EVENT_RUN_END, () => {
         const folder = path.join(
