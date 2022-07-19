@@ -25,6 +25,12 @@ let playwrightConfig = {
   webkit: {},
 };
 
+/** @type {import("mocha").MochaOptions} */
+const mocha = {
+  reporterOptions: { browser },
+  reporter: require("./codeceptjs/reporter.js")
+};
+
 exports.config = {
   name: "voiceover",
   tests: "tests/**/*.ts",
@@ -44,7 +50,7 @@ exports.config = {
       require: "./codeceptjs/voiceover-helper.ts",
     },
   },
-  mocha: { reporterOptions: { browser, driver: "VoiceOver" } },
+  mocha,
   plugins: {
     screenshotOnFail: {
       enabled: false,
