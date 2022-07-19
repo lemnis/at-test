@@ -31,7 +31,8 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npx @guidepup/setup --ci
-    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:webkit -- "tests/html/{input,optgroup,progress,summary,details,meter,option,textarea}.ts"
+    # Working: details, meter
+    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:webkit -- "tests/html/{input,progress,summary,details,meter,option,textarea}.ts"
     
   chromium:
     name: Chromium with VoiceOver
