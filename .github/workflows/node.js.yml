@@ -31,6 +31,6 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npx @guidepup/setup --ci
-    - run: REPORT=true npx npm-run-all -s -c test:voiceover:webkit
-    - run: REPORT=true npx npm-run-all -s -c test:voiceover:chromium
-    - run: REPORT=true npx npm-run-all -s -c test:voiceover:firefox
+    - run: REPORT=true npm run test:voiceover:webkit
+    - run: REPORT=true npm run test:voiceover:chromium
+    - run: REPORT=true npm run test:voiceover:firefox
