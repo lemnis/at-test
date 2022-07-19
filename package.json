@@ -14,9 +14,8 @@
         "test:voiceover:chromium": "cd output/voiceover-chromium && BROWSER=chromium npx codeceptjs run --config ../../codecept.voiceover.conf.js",
         "test:voiceover:webkit": "cd output/voiceover-webkit && BROWSER=webkit npx codeceptjs run --config ../../codecept.voiceover.conf.js",
         "test:voiceover:firefox": "cd output/voiceover-firefox && BROWSER=firefox npx codeceptjs run --config ../../codecept.voiceover.conf.js",
-        "test:voiceover": "npm-run-all -c \"test:voiceover:*\"",
         "codeceptjs:all": "npm-run-all -c test:*",
-        "report": "npm-run-all -c \"test:* -- --reporter ../../codeceptjs/reporter.js\"",
+        "report": "npm-run-all -c \"test:**\"",
         "report:update": "SNAPSHOT_UPDATE=1 npm-run-all -c \"test:* -- --reporter ../../codeceptjs/reporter.js\""
     },
     "author": "",

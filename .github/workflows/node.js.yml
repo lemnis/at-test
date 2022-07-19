@@ -29,3 +29,4 @@ jobs:
     - run: npm install
     - run: npx @guidepup/setup --ci
     - run: npm run report
+    - run: npm run test:voiceover:webkit --reporter ../codeceptjs/reporter.js
