@@ -14,7 +14,25 @@ on:
     branches: [ "master" ]
 
 jobs:
-  VoiceOver:
+  WebkitwithVoiceOver:
+
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
+    - run: npx @guidepup/setup --ci
+    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:webkit
+  ChromiumWithVoiceOver:
 
     runs-on: macos-latest
 
@@ -32,8 +50,6 @@ jobs:
     - run: npm install
     - run: npx @guidepup/setup --ci
     - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:chromium
-    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:webkit
-    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:firefox
   Firefox:
 
     runs-on: macos-latest
