@@ -26,7 +26,7 @@ Scenario.skip("Should be targetable", async ({ I }) => {
   snapshot((await I.grabATOutput("#test2")) as any);
 }).tag("targetable");
 
-Scenario.skip("Should have role", async ({ I }) => {
+Scenario("Should have role", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
@@ -41,7 +41,7 @@ Scenario.skip("Should have role", async ({ I }) => {
   ]);
 }).tag("role");
 
-Scenario.skip("Should have accessible name", async ({ I }) => {
+Scenario("Should have accessible name", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
