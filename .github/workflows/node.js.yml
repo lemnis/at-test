@@ -51,6 +51,10 @@ jobs:
     - run: npm install
     - run: npx @guidepup/setup --ci
     - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:chromium || true
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Playwright on MacOs
+        path: output/voiceover-chromium/darwin-chromium-latest.json # or path/to/artifact    
   
   firefox:
     name: Firefox with VoiceOver
@@ -71,6 +75,10 @@ jobs:
     - run: npm install
     - run: npx @guidepup/setup --ci
     - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:firefox || true
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Playwright on MacOs
+        path: output/voiceover-firefox/darwin-firefox-latest.json # or path/to/artifact    
 
   PlaywrightMacOs:
     runs-on: macos-latest
@@ -88,6 +96,10 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Playwright on MacOs
+        path: output/playwright-*/darwin-*-latest.json # or path/to/artifact
   
   PlaywrightWindows:
     runs-on: ubuntu-latest
