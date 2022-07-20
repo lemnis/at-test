@@ -10,7 +10,7 @@ interface ScreenReaderHelper {
   performDefaultAction(): void;
 }
 
-const voiceOver = new VoiceOver();
+const voiceOver = new VoiceOver({log: true});
 
 class VoiceOverHelper extends Helper implements ScreenReaderHelper {
   private lastPhrase = async () => {
@@ -21,7 +21,7 @@ class VoiceOverHelper extends Helper implements ScreenReaderHelper {
     return new Promise((resolve, reject) => {
       voiceOver.launch().then(resolve)
       setTimeout(() => reject('Failed to start'), 5000);
-      voiceOver.record({ file: 'recording.mov' });
+      // voiceOver.record({ file: 'recording.mov' });
     })
   }
 
