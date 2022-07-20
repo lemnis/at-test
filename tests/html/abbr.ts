@@ -10,7 +10,7 @@ const html = /*html*/ `
   <abbr id="test" title="Cascading Style Sheets">CSS</abbr>
 `;
 
-Scenario.skip("Should be targetable", async ({ I }) => {
+Scenario("Should be targetable", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
@@ -23,7 +23,7 @@ Scenario.skip("Should be targetable", async ({ I }) => {
   expect(ax).to.not.empty;
 }).tag("targetable");
 
-Scenario.skip("Should be full name", async ({ I }) => {
+Scenario("Should be full name", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
