@@ -1,8 +1,6 @@
 /// <reference path="../../codeceptjs/steps.d.ts" />
-
-import { equal, ok } from "assert";
-import snapshot from "snap-shot-it";
 import { expect } from "chai";
+import snapshot from "snap-shot-it";
 
 Feature("Abbr").tag("html/abbr");
 
@@ -12,7 +10,7 @@ const html = /*html*/ `
   <abbr id="test" title="Cascading Style Sheets">CSS</abbr>
 `;
 
-Scenario.skip("Should be targetable", async ({ I }) => {
+Scenario("Should be targetable", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
@@ -22,7 +20,7 @@ Scenario.skip("Should be targetable", async ({ I }) => {
   }
 
   const ax = await I.grabATOutput("#test");
-  ok(ax);
+  expect(ax).to.not.empty;
 }).tag("targetable");
 
 Scenario("Should be full name", async ({ I }) => {
@@ -37,7 +35,7 @@ Scenario("Should be full name", async ({ I }) => {
   const ax = await I.grabATOutput();
   snapshot(ax as any);
   snapshot((await I.grabATOutput(undefined, true)) as any);
-  equal(ax?.children?.[0]?.name, "Cascading Style Sheets");
+  expect(await I.grabATOutput("#test")).to.have.name("Cascading Style Sheets");
 }).tag("name");
 
 Scenario("Should have role", async function (this: any, { I }) {
