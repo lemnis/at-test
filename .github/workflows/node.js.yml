@@ -32,11 +32,6 @@ jobs:
     - run: npm install
     - run: npx @guidepup/setup --ci
     - run: REPORT=true SNAPSHOT_UPDATE=1 npm run test:voiceover:webkit || true
-    - uses: actions/upload-artifact@v3
-      with:
-        name: my-artifact
-        path: recording.mov
-
     
   chromium:
     name: Chromium with VoiceOver
@@ -94,9 +89,9 @@ jobs:
     - run: npm install
     - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
   
-  PlaywrightUbuntu:
+  PlaywrightWindows:
     runs-on: ubuntu-latest
-    name: Playwright on Ubuntu
+    name: Playwright on Windows
     strategy:
       matrix:
         node-version: [14.x]
@@ -113,9 +108,10 @@ jobs:
     - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
 
   Results:
-    needs: [PlaywrightMacOs, PlaywrightUbuntu, webkit, chromium, firefox]
+    needs: [PlaywrightMacOs, PlaywrightWindows]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/upload-artifact@v3
         with:
           name: output
