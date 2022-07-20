@@ -3,6 +3,7 @@ import { VoiceOver, moveRight } from "@accesslint/voiceover";
 import { ElementHandle, Page } from "playwright";
 import { exec } from "child_process";
 import { promisify } from "util";
+import activeWindow from "active-win";
 
 type AccessibilityNode = Awaited<ReturnType<Page["accessibility"]["snapshot"]>>;
 interface ScreenReaderHelper {
@@ -23,14 +24,13 @@ const logCheck = setInterval(() => {
     }
 
     if (Date.now() - lastTimestamp > 15000) {
-      console.log("Stuck on phrase", phrase);
-      // voiceOver
-      //   .execute({
-      //     name: "Escape",
-      //     keyCode: 53,
-      //     modifiers: [],
-      //   })
-      Promise.resolve()
+      activeWindow().then((i) => console.log("Stuck on phrase", phrase, i));
+      voiceOver
+        .execute({
+          name: "Escape",
+          keyCode: 53,
+          modifiers: [],
+        })
         .then(() =>
           voiceOver.execute({
             name: "Move Up",
@@ -48,15 +48,19 @@ const logCheck = setInterval(() => {
         .then(
           (newPhrase) => {
             if (newPhrase === phrase) {
-              console.log("got stuck, exiting");
-              process.exit(1);
+              activeWindow().then((i) => {
+                console.log("got stuck, exiting", i);
+                process.exit(1);
+              });
             } else {
               console.log("Got unstuck");
             }
           },
           () => {
-            console.log("got stuck, error!");
-            process.exit(1);
+            activeWindow().then((i) => {
+              console.log("got stuck, error!", i);
+              process.exit(1);
+            });
           }
         );
     }
