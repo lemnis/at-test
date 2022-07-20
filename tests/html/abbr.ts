@@ -10,7 +10,7 @@ const html = /*html*/ `
   <abbr id="test" title="Cascading Style Sheets">CSS</abbr>
 `;
 
-Scenario("Should be targetable", async ({ I }) => {
+Scenario.skip("Should be targetable", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
