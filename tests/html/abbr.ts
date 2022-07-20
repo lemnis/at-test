@@ -25,7 +25,7 @@ Scenario.skip("Should be targetable", async ({ I }) => {
   ok(ax);
 }).tag("targetable");
 
-Scenario.skip("Should be full name", async ({ I }) => {
+Scenario("Should be full name", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
@@ -40,7 +40,7 @@ Scenario.skip("Should be full name", async ({ I }) => {
   equal(ax?.children?.[0]?.name, "Cascading Style Sheets");
 }).tag("name");
 
-Scenario.skip("Should have role", async function (this: any, { I }) {
+Scenario("Should have role", async function (this: any, { I }) {
   if (helpers.VoiceOverHelper) {
     this.skip();
   }
