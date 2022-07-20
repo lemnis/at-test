@@ -29,19 +29,19 @@ const logCheck = setInterval(() => {
           keyCode: 53,
           modifiers: [],
         })
-        .then(
-          () => voiceOver.execute({
-            name: "Move Up",
-            description: "VO+up arrow",
-            keyCode: 126,
-            modifiers: ['control down', 'option down']
-        })
-        )
-        .then(() =>
-          promisify(exec)(
-            `osascript ${__dirname}/voiceover/dismiss-notification.js`
-          ).catch(() => {})
-        )
+        // .then(
+        //   () => voiceOver.execute({
+        //     name: "Move Up",
+        //     description: "VO+up arrow",
+        //     keyCode: 126,
+        //     modifiers: ['control down', 'option down']
+        // })
+        // )
+        // .then(() =>
+        //   promisify(exec)(
+        //     `osascript ${__dirname}/voiceover/dismiss-notification.js`
+        //   ).catch(() => {})
+        // )
         .then(() => voiceOver.lastPhrase())
         .then(
           (newPhrase) => {
