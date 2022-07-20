@@ -12,7 +12,7 @@ const html = /*html*/ `
   <abbr id="test" title="Cascading Style Sheets">CSS</abbr>
 `;
 
-Scenario("Should be targetable", async ({ I }) => {
+Scenario.skip("Should be targetable", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
@@ -25,7 +25,7 @@ Scenario("Should be targetable", async ({ I }) => {
   ok(ax);
 }).tag("targetable");
 
-Scenario("Should be full name", async ({ I }) => {
+Scenario.skip("Should be full name", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
@@ -40,7 +40,7 @@ Scenario("Should be full name", async ({ I }) => {
   equal(ax?.children?.[0]?.name, "Cascading Style Sheets");
 }).tag("name");
 
-Scenario("Should have role", async function (this: any, { I }) {
+Scenario.skip("Should have role", async function (this: any, { I }) {
   if (helpers.VoiceOverHelper) {
     this.skip();
   }
