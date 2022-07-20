@@ -36,6 +36,7 @@ jobs:
       with:
         name: my-artifact
         path: recording.mov
+
     
   chromium:
     name: Chromium with VoiceOver
@@ -110,3 +111,12 @@ jobs:
     - run: npx playwright install-deps
     - run: npm install
     - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
+
+  Results:
+    needs: [PlaywrightMacOs, PlaywrightUbuntu, webkit, chromium, firefox]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/upload-artifact@v3
+        with:
+          name: output
+          path: output # or path/to/artifact
