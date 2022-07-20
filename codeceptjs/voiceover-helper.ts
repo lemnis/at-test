@@ -1,7 +1,8 @@
 /// <reference path="./steps.d.ts" />
 import { VoiceOver, moveRight } from "@accesslint/voiceover";
 import { ElementHandle, Page } from "playwright";
-import { exec } from 'child_process';
+import { exec } from "child_process";
+import { promisify } from "util";
 
 type AccessibilityNode = Awaited<ReturnType<Page["accessibility"]["snapshot"]>>;
 interface ScreenReaderHelper {
@@ -10,9 +11,42 @@ interface ScreenReaderHelper {
   performDefaultAction(): void;
 }
 
+let lastTimestamp = Date.now();
+let previousPrase: string;
+
 const voiceOver = new VoiceOver({ log: true });
 const logCheck = setInterval(() => {
   voiceOver.lastPhrase().then((phrase) => {
+    if (phrase != previousPrase) {
+      lastTimestamp = Date.now();
+      previousPrase = phrase;
+    }
+    if (Date.now() - lastTimestamp > 10000) {
+      voiceOver
+        .execute({
+          name: "Escape",
+          keyCode: 53,
+          modifiers: [],
+        })
+        .then(() =>
+          promisify(exec)(
+            `osascript ${__dirname}/voiceover/dismiss-notification.js`
+          ).catch(() => {})
+        )
+        .then(() => voiceOver.lastPhrase())
+        .then(
+          (newPhrase) => {
+            if (newPhrase === phrase) {
+              console.log("got stuck, exiting");
+              process.exitCode = 1;
+            }
+          },
+          () => {
+            console.log("got stuck, error!");
+            process.exitCode = 1;
+          }
+        );
+    }
     if (phrase.includes("Notification")) {
       console.log("Trying to close a notification");
       exec(`osascript ${__dirname}/voiceover/dismiss-notification.js`);
