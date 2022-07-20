@@ -53,4 +53,4 @@ Scenario.skip("Should have accessible name", async ({ I }) => {
   expect(await I.grabATOutput("#test", true)).to.have.name("Label");
 }).tag("name");
 
-Scenario.skip.todo("Shoud convey low range").tag("value");
+Scenario.todo("Shoud convey low range").tag("value");

@@ -34,6 +34,8 @@ const mocha = {
     ATVersion: plist.parse(fs.readFileSync('/System/Library/CoreServices/VoiceOver.app/Contents/version.plist', 'utf-8'))?.CFBundleVersion,
     ATName: 'VoiceOver'
   },
+  allowUncaught: true,
+  timeout: 4000,
   ...(process.env.REPORT === "true"
     ? { reporter: require("./codeceptjs/reporter.js") }
     : {}),
@@ -62,6 +64,6 @@ exports.config = {
   plugins: {
     screenshotOnFail: {
       enabled: false,
-    },
+    }
   },
 };
