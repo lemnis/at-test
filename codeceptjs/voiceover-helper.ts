@@ -21,23 +21,24 @@ const logCheck = setInterval(() => {
       lastTimestamp = Date.now();
       previousPrase = phrase;
     }
-    
+
     if (Date.now() - lastTimestamp > 15000) {
       console.log("Stuck on phrase", phrase);
-      voiceOver
-        .execute({
-          name: "Escape",
-          keyCode: 53,
-          modifiers: [],
-        })
-        // .then(() =>
-        //   voiceOver.execute({
-        //     name: "Move Up",
-        //     description: "VO+up arrow",
-        //     keyCode: 126,
-        //     modifiers: ["control down", "option down"],
-        //   })
-        // )
+      // voiceOver
+      //   .execute({
+      //     name: "Escape",
+      //     keyCode: 53,
+      //     modifiers: [],
+      //   })
+      Promise.resolve()
+        .then(() =>
+          voiceOver.execute({
+            name: "Move Up",
+            description: "VO+up arrow",
+            keyCode: 126,
+            modifiers: ["control down", "option down"],
+          })
+        )
         .then(() =>
           promisify(exec)(
             `osascript ${__dirname}/voiceover/dismiss-notification.js`
