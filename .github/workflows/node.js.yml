@@ -54,7 +54,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Playwright on MacOs
-        path: output/voiceover-chromium/*-latest.json # or path/to/artifact    
+        path: output/voiceover-chromium/*-latest.json    
   
   firefox:
     name: Firefox with VoiceOver
@@ -78,7 +78,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Playwright on MacOs
-        path: output/voiceover-firefox/*-latest.json # or path/to/artifact    
+        path: output/voiceover-firefox/*-latest.json    
 
   PlaywrightMacOs:
     runs-on: macos-latest
@@ -99,7 +99,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Playwright on MacOs
-        path: output/playwright-*/darwin-*-latest.json # or path/to/artifact
+        path: output/playwright-*/darwin-*-latest.json
   
   PlaywrightWindows:
     runs-on: ubuntu-latest
@@ -121,4 +121,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Playwright on Windows
-          path: output/playwright-*/windows-*-latest.json # or path/to/artifact
+          path: output/playwright-*

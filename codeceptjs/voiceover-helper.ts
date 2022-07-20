@@ -29,19 +29,19 @@ const logCheck = setInterval(() => {
           keyCode: 53,
           modifiers: [],
         })
-        // .then(
-        //   () => voiceOver.execute({
-        //     name: "Move Up",
-        //     description: "VO+up arrow",
-        //     keyCode: 126,
-        //     modifiers: ['control down', 'option down']
-        // })
-        // )
-        // .then(() =>
-        //   promisify(exec)(
-        //     `osascript ${__dirname}/voiceover/dismiss-notification.js`
-        //   ).catch(() => {})
-        // )
+        .then(
+          () => voiceOver.execute({
+            name: "Move Up",
+            description: "VO+up arrow",
+            keyCode: 126,
+            modifiers: ['control down', 'option down']
+        })
+        )
+        .then(() =>
+          promisify(exec)(
+            `osascript ${__dirname}/voiceover/dismiss-notification.js`
+          ).catch(() => {})
+        )
         .then(() => voiceOver.lastPhrase())
         .then(
           (newPhrase) => {
@@ -56,14 +56,14 @@ const logCheck = setInterval(() => {
           }
         );
     }
-    if (phrase.includes("Notification")) {
-      console.log("Trying to close a notification");
-      exec(`osascript ${__dirname}/voiceover/dismiss-notification.js`);
-    }
   });
 }, 500);
 
 class VoiceOverHelper extends Helper implements ScreenReaderHelper {
+  protected _beforeStep(step: CodeceptJS.Step): void {
+    console.log(`Started ${step.name} !!`.toUpperCase());
+  }
+
   private lastPhrase = async () => {
     return voiceOver.lastPhrase();
   };
