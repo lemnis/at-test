@@ -33,7 +33,7 @@ jobs:
     - run: npx @guidepup/setup --ci
     # Working: details, progress, meter
     # Possible failures: abbr, figcaption, input optgroup, summary, figure, option, select, textarea, 
-    - run: REPORT=true SNAPSHOT_UPDATE=1 npm run test:voiceover:webkit -- "tests/html/{details,textarea,select,input}.ts" || true
+    - run: REPORT=true SNAPSHOT_UPDATE=1 npm run test:voiceover:webkit -- "tests/html/{details,textarea,select,input,abbr}.ts" || true
     
   # chromium:
   #   name: Chromium with VoiceOver
