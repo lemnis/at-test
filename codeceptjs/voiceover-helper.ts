@@ -38,12 +38,12 @@ const logCheck = setInterval(() => {
           (newPhrase) => {
             if (newPhrase === phrase) {
               console.log("got stuck, exiting");
-              process.exitCode = 1;
+              process.exit(1);
             }
           },
           () => {
             console.log("got stuck, error!");
-            process.exitCode = 1;
+            process.exit(1);
           }
         );
     }
