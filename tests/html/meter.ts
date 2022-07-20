@@ -11,7 +11,7 @@ const html =
 const htmlWithLabel = 
   /*html*/ `<button id="start" aria-label="start">start</button><meter id="test"></meter><label for="test">Label</label>`;
 
-Scenario("Should be targetable", async ({ I }) => {
+Scenario.skip("Should be targetable", async ({ I }) => {
   I.setContent(/*html*/ `
     ${html}
   `);
@@ -26,7 +26,7 @@ Scenario("Should be targetable", async ({ I }) => {
   snapshot((await I.grabATOutput("#test2")) as any);
 }).tag("targetable");
 
-Scenario("Should have role", async ({ I }) => {
+Scenario.skip("Should have role", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
@@ -41,7 +41,7 @@ Scenario("Should have role", async ({ I }) => {
   ]);
 }).tag("role");
 
-Scenario("Should have accessible name", async ({ I }) => {
+Scenario.skip("Should have accessible name", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
