@@ -30,7 +30,7 @@ Scenario("Should be expandable", async ({ I }) => {
   expect(await I.grabATOutput("#test")).to.be.collapsed;
   I.click("#test");
   expect(await I.grabATOutput("#test")).to.be.expanded;
-  I.pressEscape();
+  // I.pressEscape();
 }).tag("expandable");
 
 Scenario("Should have value", async ({ I }) => {
