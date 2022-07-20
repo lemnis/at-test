@@ -21,6 +21,7 @@ const logCheck = setInterval(() => {
       lastTimestamp = Date.now();
       previousPrase = phrase;
     }
+    console.log(Date.now() - lastTimestamp, phrase);
     if (Date.now() - lastTimestamp > 15000 && !phrase.includes('inside of web content')) {
       voiceOver
         .execute({
