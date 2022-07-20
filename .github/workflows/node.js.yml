@@ -54,7 +54,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Playwright on MacOs
-        path: output/voiceover-chromium/darwin-chromium-latest.json # or path/to/artifact    
+        path: output/voiceover-chromium/*-latest.json # or path/to/artifact    
   
   firefox:
     name: Firefox with VoiceOver
@@ -78,7 +78,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Playwright on MacOs
-        path: output/voiceover-firefox/darwin-firefox-latest.json # or path/to/artifact    
+        path: output/voiceover-firefox/*-latest.json # or path/to/artifact    
 
   PlaywrightMacOs:
     runs-on: macos-latest
@@ -118,11 +118,7 @@ jobs:
           cache: 'npm'
       - run: npx playwright install-deps
       - run: npm install
-      - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
-        id: result
-
-  Results:
-    needs: [PlaywrightWindows]
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{needs.PlaywrightWindows.outputs.result}}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Playwright on Windows
+          path: output/playwright-*/windows-*-latest.json # or path/to/artifact
