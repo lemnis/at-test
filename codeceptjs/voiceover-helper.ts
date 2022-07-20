@@ -29,13 +29,13 @@ const logCheck = setInterval(() => {
           keyCode: 53,
           modifiers: [],
         })
-        .then(
-          () => voiceOver.execute({
+        .then(() =>
+          voiceOver.execute({
             name: "Move Up",
             description: "VO+up arrow",
             keyCode: 126,
-            modifiers: ['control down', 'option down']
-        })
+            modifiers: ["control down", "option down"],
+          })
         )
         .then(() =>
           promisify(exec)(
@@ -60,8 +60,11 @@ const logCheck = setInterval(() => {
 }, 500);
 
 class VoiceOverHelper extends Helper implements ScreenReaderHelper {
+  protected _beforeSuite(suite: Mocha.Suite): void {
+    console.log(`Suite: I.${suite.tags}`);
+  }
   protected _beforeStep(step: CodeceptJS.Step): void {
-    console.log(`Started ${step.name} !!`.toUpperCase());
+    console.log(`Step: I.${step.name}`);
   }
 
   private lastPhrase = async () => {
