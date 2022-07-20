@@ -1,7 +1,7 @@
 /// <reference path="./steps.d.ts" />
 import { VoiceOver, moveRight } from "@accesslint/voiceover";
-
 import { ElementHandle, Page } from "playwright";
+import { exec } from 'child_process';
 
 type AccessibilityNode = Awaited<ReturnType<Page["accessibility"]["snapshot"]>>;
 interface ScreenReaderHelper {
@@ -10,7 +10,15 @@ interface ScreenReaderHelper {
   performDefaultAction(): void;
 }
 
-const voiceOver = new VoiceOver({log: true});
+const voiceOver = new VoiceOver({ log: true });
+const logCheck = setInterval(() => {
+  voiceOver.lastPhrase().then((phrase) => {
+    if (phrase.includes("Notification")) {
+      console.log("Trying to close a notification");
+      exec(`osascript ${__dirname}/voiceover/dismiss-notification.js`);
+    }
+  });
+}, 500);
 
 class VoiceOverHelper extends Helper implements ScreenReaderHelper {
   private lastPhrase = async () => {
@@ -19,17 +27,18 @@ class VoiceOverHelper extends Helper implements ScreenReaderHelper {
 
   protected async _init() {
     return new Promise((resolve, reject) => {
-      voiceOver.launch().then(resolve)
-      setTimeout(() => reject('Failed to start'), 5000);
+      voiceOver.launch().then(resolve);
+      setTimeout(() => reject("Failed to start"), 5000);
       // voiceOver.record({ file: 'recording.mov' });
-    })
+    });
   }
 
   protected async _finishTest() {
     return new Promise((resolve, reject) => {
-      voiceOver.quit().then(resolve)
-      setTimeout(() => reject('Failed to start'), 5000);
-    })
+      voiceOver.quit().then(resolve);
+      clearInterval(logCheck);
+      setTimeout(() => reject("Failed to start"), 5000);
+    });
   }
 
   async grabATOutput(locator: CodeceptJS.LocatorOrString) {
@@ -66,8 +75,8 @@ class VoiceOverHelper extends Helper implements ScreenReaderHelper {
     await voiceOver.execute({
       name: "Escape",
       keyCode: 53,
-      modifiers: []
-  });
+      modifiers: [],
+    });
   }
 
   async previousItem() {
