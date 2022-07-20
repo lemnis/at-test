@@ -21,8 +21,9 @@ const logCheck = setInterval(() => {
       lastTimestamp = Date.now();
       previousPrase = phrase;
     }
-    console.log(Date.now() - lastTimestamp, phrase);
+    
     if (Date.now() - lastTimestamp > 15000) {
+      console.log("Stuck on phrase", phrase);
       voiceOver
         .execute({
           name: "Escape",
@@ -48,6 +49,8 @@ const logCheck = setInterval(() => {
             if (newPhrase === phrase) {
               console.log("got stuck, exiting");
               process.exit(1);
+            } else {
+              console.log("Got unstuck");
             }
           },
           () => {
