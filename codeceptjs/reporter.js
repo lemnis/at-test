@@ -52,24 +52,24 @@ class MyReporter {
         };
       })
       .on(EVENT_TEST_BEGIN, (test) => {
-        console.log(test.tags, 'start');
+        container.helpers('VoiceOverHelper')?.grabATOutput().then(i => console.log(test.tags, 'start', i));
       })
       .on(EVENT_SUITE_BEGIN, (test) => {
-        console.log(test.title, 'suite start');
+        container.helpers('VoiceOverHelper')?.grabATOutput().then(i => console.log(test.tags, 'suite start', i));
       })
       .on(EVENT_TEST_PASS, (test) => {
         json.results.push({
           id: test.tags.map((i) => i.replace(/@/g, "")).join("/"),
           pass: true,
         });
-        console.log(test.tags, true);
+        container.helpers('VoiceOverHelper')?.grabATOutput().then(i => console.log(test.tags, true, i));
       })
       .on(EVENT_TEST_FAIL, (test, err) => {
         json.results.push({
           id: test.tags.map((i) => i.replace(/@/g, "")).join("/"),
           pass: false,
         });
-        console.log(test.tags, false);
+        container.helpers('VoiceOverHelper')?.grabATOutput().then(i => console.log(test.tags, false, i));
       })
       .once(EVENT_RUN_END, () => {
         const folder = path.join(
