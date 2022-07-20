@@ -32,6 +32,10 @@ jobs:
     - run: npm install
     - run: npx @guidepup/setup --ci
     - run: REPORT=true SNAPSHOT_UPDATE=1 npm run test:voiceover:webkit || true
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: recording.mov
     
   chromium:
     name: Chromium with VoiceOver

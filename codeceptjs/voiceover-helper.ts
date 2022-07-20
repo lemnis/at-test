@@ -21,6 +21,7 @@ class VoiceOverHelper extends Helper implements ScreenReaderHelper {
     return new Promise((resolve, reject) => {
       voiceOver.launch().then(resolve)
       setTimeout(() => reject('Failed to start'), 5000);
+      voiceOver.record({ file: 'recording.mov' });
     })
   }
 
