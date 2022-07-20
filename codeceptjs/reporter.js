@@ -74,7 +74,7 @@ class MyReporter {
           folder,
           `${os.platform()}-${browser}-latest.json`.toLowerCase()
         );
-        console.log(json);
+        console.log(`Saved at ${p}`);
         const o = path.join(
           folder,
           `${os.platform()}-${browser}-${browserVersion}.json`.toLowerCase()
