@@ -23,7 +23,9 @@ const logCheck = setInterval(() => {
     }
 
     if (Date.now() - lastTimestamp > 15000) {
-      promisify(exec)(`osascript voiceover/active-window.scpt`).then((i) => console.log("Stuck on phrase", phrase, i));
+      promisify(exec)(`osascript  ${__dirname}/voiceover/active-window.scpt
+      
+      `).then((i) => console.log("Stuck on phrase", phrase, i));
       voiceOver
         .execute({
           name: "Escape",
@@ -47,7 +49,9 @@ const logCheck = setInterval(() => {
         .then(
           (newPhrase) => {
             if (newPhrase === phrase) {
-              promisify(exec)(`osascript voiceover/active-window.scpt`).then((i) => {
+              promisify(exec)(`osascript  ${__dirname}/voiceover/active-window.scpt
+              
+              `).then((i) => {
                 console.log("got stuck, exiting", i);
                 process.exit(1);
               });
@@ -56,7 +60,9 @@ const logCheck = setInterval(() => {
             }
           },
           () => {
-            promisify(exec)(`osascript voiceover/active-window.scpt`).then((i) => {
+            promisify(exec)(`osascript  ${__dirname}/voiceover/active-window.scpt
+            
+            `).then((i) => {
               console.log("got stuck, error!", i);
               process.exit(1);
             });
