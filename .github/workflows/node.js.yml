@@ -119,6 +119,7 @@ jobs:
       - run: npx playwright install-deps
       - run: npm install
       - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
+        shell: bash
       - uses: actions/upload-artifact@v3
         with:
           name: Playwright on Windows
@@ -145,4 +146,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Playwright on Ubuntu
-          path: output/playwright-*
+          path: output/playwright-*/linux-*-latest.json
