@@ -122,7 +122,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Playwright on Windows
-          path: output/playwright-*/windows-*-latest.json
+          path: output/playwright-*
   
   PlaywrightUbuntu:
     runs-on: ubuntu-latest
@@ -145,4 +145,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Playwright on Ubuntu
-          path: output/playwright-*/ubuntu-*-latest.json
+          path: output/playwright-*
