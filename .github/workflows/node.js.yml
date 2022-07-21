@@ -123,7 +123,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Playwright on Windows
-          path: output/playwright-*
+          path: output/playwright-*/win32-*-latest.json
   
   PlaywrightUbuntu:
     runs-on: ubuntu-latest
