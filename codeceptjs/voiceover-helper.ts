@@ -23,9 +23,14 @@ const logCheck = setInterval(() => {
     }
 
     if (Date.now() - lastTimestamp > 15000) {
-      promisify(exec)(`osascript  ${__dirname}/voiceover/active-window.scpt`).then((i) => console.log("Stuck on phrase", phrase, i), () => {
-        console.log("got stuck", phrase);
-      });
+      promisify(exec)(
+        `osascript  ${__dirname}/voiceover/active-window.scpt`
+      ).then(
+        (window) => console.log("Stuck on phrase", { phrase, window }),
+        () => {
+          console.log("got stuck", { phrase });
+        }
+      );
       voiceOver
         .execute({
           name: "Escape",
@@ -49,25 +54,35 @@ const logCheck = setInterval(() => {
         .then(
           (newPhrase) => {
             if (newPhrase === phrase) {
-              promisify(exec)(`osascript  ${__dirname}/voiceover/active-window.scpt              `).then((i) => {
-                console.log("got stuck, exiting", i);
-                process.exit(1);
-              }, () => {
-                console.log("got stuck, exiting");
-                process.exit(1);
-              });
+              promisify(exec)(
+                `osascript  ${__dirname}/voiceover/active-window.scpt`
+              ).then(
+                (window) => {
+                  console.log("got stuck, exiting", { window });
+                  process.exit(1);
+                },
+                () => {
+                  console.log("got stuck, exiting");
+                  process.exit(1);
+                }
+              );
             } else {
               console.log("Got unstuck");
             }
           },
           () => {
-            promisify(exec)(`osascript  ${__dirname}/voiceover/active-window.scpt`).then((i) => {
-              console.log("got stuck, error!", i);
-              process.exit(1);
-            }, () => {
-              console.log("got stuck, error!");
-              process.exit(1);
-            });
+            promisify(exec)(
+              `osascript  ${__dirname}/voiceover/active-window.scpt`
+            ).then(
+              (window) => {
+                console.log("got stuck, error!", { window });
+                process.exit(1);
+              },
+              () => {
+                console.log("got stuck, error!");
+                process.exit(1);
+              }
+            );
           }
         );
     }

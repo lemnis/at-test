@@ -118,7 +118,31 @@ jobs:
           cache: 'npm'
       - run: npx playwright install-deps
       - run: npm install
+      - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
       - uses: actions/upload-artifact@v3
         with:
           name: Playwright on Windows
-          path: output/playwright-*
+          path: output/playwright-*/windows-*-latest.json
+  
+  PlaywrightUbuntu:
+    runs-on: ubuntu-latest
+    name: Playwright on Ubuntu
+    strategy:
+      matrix:
+        node-version: [14.x]
+    outputs:
+      result: ${{ steps.result.outputs.test }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npx playwright install-deps
+      - run: npm install
+      - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Playwright on Ubuntu
+          path: output/playwright-*/ubuntu-*-latest.json
