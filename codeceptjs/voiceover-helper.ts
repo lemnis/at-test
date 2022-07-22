@@ -23,68 +23,69 @@ const logCheck = setInterval(() => {
     }
 
     if (Date.now() - lastTimestamp > 15000) {
-      promisify(exec)(
-        `osascript  ${__dirname}/voiceover/active-window.scpt`
-      ).then(
-        (window) => console.log("Stuck on phrase", { phrase, window }),
-        () => {
-          console.log("got stuck", { phrase });
-        }
-      );
-      voiceOver
-        .execute({
-          name: "Escape",
-          keyCode: 53,
-          modifiers: [],
-        })
-        .then(() =>
-          voiceOver.execute({
-            name: "Move Up",
-            description: "VO+up arrow",
-            keyCode: 126,
-            modifiers: ["control down", "option down"],
-          })
-        )
-        .then(() =>
-          promisify(exec)(
-            `osascript ${__dirname}/voiceover/dismiss-notification.js`
-          ).catch(() => {})
-        )
-        .then(() => voiceOver.lastPhrase())
-        .then(
-          (newPhrase) => {
-            if (newPhrase === phrase) {
-              promisify(exec)(
-                `osascript  ${__dirname}/voiceover/active-window.scpt`
-              ).then(
-                (window) => {
-                  console.log("got stuck, exiting", { window });
-                  process.exit(1);
-                },
-                () => {
-                  console.log("got stuck, exiting");
-                  process.exit(1);
-                }
-              );
-            } else {
-              console.log("Got unstuck");
-            }
-          },
-          () => {
-            promisify(exec)(
-              `osascript  ${__dirname}/voiceover/active-window.scpt`
-            ).then(
-              (window) => {
-                console.log("got stuck, error!", { window });
-                process.exit(1);
-              },
-              () => {
-                console.log("got stuck, error!");
-                process.exit(1);
-              }
-            );
-          }
-        );
+      exec('screencapture ${__dirname}/../output/voiceover-webkit/fail-${new Date(Date.now())}.png`)
+//       promisify(exec)(
+//         `osascript  ${__dirname}/voiceover/active-window.scpt`
+//       ).then(
+//         (window) => console.log("Stuck on phrase", { phrase, window }),
+//         () => {
+//           console.log("got stuck", { phrase });
+//         }
+//       );
+//       voiceOver
+//         .execute({
+//           name: "Escape",
+//           keyCode: 53,
+//           modifiers: [],
+//         })
+//         .then(() =>
+//           voiceOver.execute({
+//             name: "Move Up",
+//             description: "VO+up arrow",
+//             keyCode: 126,
+//             modifiers: ["control down", "option down"],
+//           })
+//         )
+//         .then(() =>
+//           promisify(exec)(
+//             `osascript ${__dirname}/voiceover/dismiss-notification.js`
+//           ).catch(() => {})
+//         )
+//         .then(() => voiceOver.lastPhrase())
+//         .then(
+//           (newPhrase) => {
+//             if (newPhrase === phrase) {
+//               promisify(exec)(
+//                 `osascript  ${__dirname}/voiceover/active-window.scpt`
+//               ).then(
+//                 (window) => {
+//                   console.log("got stuck, exiting", { window });
+//                   process.exit(1);
+//                 },
+//                 () => {
+//                   console.log("got stuck, exiting");
+//                   process.exit(1);
+//                 }
+//               );
+//             } else {
+//               console.log("Got unstuck");
+//             }
+//           },
+//           () => {
+//             promisify(exec)(
+//               `osascript  ${__dirname}/voiceover/active-window.scpt`
+//             ).then(
+//               (window) => {
+//                 console.log("got stuck, error!", { window });
+//                 process.exit(1);
+//               },
+//               () => {
+//                 console.log("got stuck, error!");
+//                 process.exit(1);
+//               }
+//             );
+//           }
+//         );
     }
   });
 }, 500);
