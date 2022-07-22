@@ -23,7 +23,7 @@ const logCheck = setInterval(() => {
     }
 
     if (Date.now() - lastTimestamp > 15000) {
-      exec('screencapture ${__dirname}/../output/voiceover-webkit/fail-${new Date(Date.now())}.png`)
+      exec( screencapture ${__dirname}/../output/voiceover-webkit/fail-${new Date(Date.now())}.png`);
 //       promisify(exec)(
 //         `osascript  ${__dirname}/voiceover/active-window.scpt`
 //       ).then(
