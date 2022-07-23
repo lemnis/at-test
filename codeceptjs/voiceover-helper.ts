@@ -2,6 +2,7 @@
 import { VoiceOver, moveRight } from "@accesslint/voiceover";
 import { exec } from "child_process";
 import { promisify } from "util";
+import { join } from "path";
 import { ATHelper } from "./helpers/base";
 import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
 import { KEY_CODES } from "./helpers/voiceover/voiceover.constants";
@@ -10,12 +11,14 @@ import {
   performDefaultAction,
 } from "./helpers/browser-actions/keyboard";
 
+const output = codeceptjs.config.get("output");
+
 let lastTimestamp = Date.now();
 let resetTimestamp = true;
 let previousPrase: string;
 
 const voiceOver = new VoiceOver({ log: true });
-const logCheck = setInterval(() => {
+let logCheck = setInterval(() => {
   voiceOver.lastPhrase().then((phrase) => {
     if (phrase != previousPrase) {
       lastTimestamp = Date.now();
@@ -23,14 +26,14 @@ const logCheck = setInterval(() => {
     }
 
     if (Date.now() - lastTimestamp > 15000) {
-      if(resetTimestamp) {
+      if (resetTimestamp) {
         const now = Date.now();
         console.log(
           "Took a screenshot at ",
-          `${__dirname}/../output/voiceover-webkit/fail-${now}.png`
+          join(__dirname, "/../", output, `fail-${now}.png`)
         );
         exec(
-          `screencapture ${__dirname}/../output/voiceover-webkit/fail-${now}.png`
+          `screencapture ${join(__dirname, "/../", output, `fail-${now}.png`)}`
         );
         process.exit();
       }

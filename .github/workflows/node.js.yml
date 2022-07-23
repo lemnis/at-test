@@ -35,7 +35,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Webkit with VoiceOver
-        path: output/voiceover-webkit
+        path: output
     
     
   chromium:
