@@ -125,7 +125,7 @@ export const startWindowManagement = (voiceOver: VoiceOver) => {
             `fail-${Date.now()}.png`
           );
           console.log("Took a screenshot at ", file);
-          await promisify(exec)(`screencapture ${file}`);
+          await promisify(exec)(`screencapture ${file}`).then(console.log, console.log)
         }
         resetTimestamp = false;
 
