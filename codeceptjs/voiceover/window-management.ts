@@ -34,6 +34,7 @@ const navigateBackToBrowser = async (
       process.exit(1);
     }
   } else {
+    console.log("got stuck, error!");
     process.exit(1);
   }
   
@@ -104,7 +105,7 @@ export const startWindowManagement = (voiceOver: VoiceOver) => {
   // } catch (error) {}
 
   interval = setInterval(() => {
-    voiceOver.lastPhrase().then((currentPhrase) => {
+    voiceOver.lastPhrase().then(async (currentPhrase) => {
       if (currentPhrase != newestPrase) {
         // Reset timer on new phrase
         lastTimestamp = Date.now();
@@ -124,7 +125,7 @@ export const startWindowManagement = (voiceOver: VoiceOver) => {
             `fail-${Date.now()}.png`
           );
           console.log("Took a screenshot at ", file);
-          exec(`screencapture ${file}`);
+          await promisify(exec)(`screencapture ${file}`);
         }
         resetTimestamp = false;
 
