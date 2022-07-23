@@ -1,28 +1,28 @@
-/// <reference path="./steps.d.ts" />
+/// <reference path="../steps.d.ts" />
 
 import {
   BrowserContext,
   ConsoleMessage,
-  ElementHandle,
   Page,
 } from "playwright";
+import { ATHelper } from "./base";
+import { focus } from "./browser-actions/focus";
+import { nextFocusableItem, performDefaultAction, previousFocusableItem } from "./browser-actions/keyboard";
 
-interface ScreenReaderHelper {
-  nextItem(): void;
-  previousItem(): void;
-  performDefaultAction(): void;
-  // sayDescription?(): void;
-  // nextControl(): void;
-  // nextGraphic(): void;
-  // nextHeading(): void;
-  // nextLink(): void;
-  // nextList(): void;
-  // nextTable(): void;
-  // nextVisitedLink(): void;
-  // nextLandmark(): void;
-}
+// id : kgejglhpjiefppelpmljglcjbhoiplfn
+// const params = new URLSearchParams('');
+// params.append('response', 'redirect');
+// params.append('os', this.platformInfo_.os);
+// params.append('arch', this.platformInfo_.arch);
+// params.append('nacl_arch', this.platformInfo_.nacl_arch);
+// params.append('prod', 'chromiumcrx');
+// params.append('prodchannel', 'unknown');
+// params.append('prodversion', this.browserVersion_);
+// params.append('acceptformat', 'crx2,crx3');
+// params.append('x', `id=${id}&uc`);
+// `https://clients2.google.com/service/update2/crx?${params}`
 
-class ChromeVoxHelper extends Helper implements ScreenReaderHelper {
+class ChromeVoxHelper extends Helper implements ATHelper {
   private speakOutput: any[][] = [];
   private lastPhrase = () => {
     const lastOutputArray = this.speakOutput[this.speakOutput.length - 1];
@@ -68,10 +68,7 @@ class ChromeVoxHelper extends Helper implements ScreenReaderHelper {
   }
 
   async focus(locator: CodeceptJS.LocatorOrString) {
-    const elements: ElementHandle[] = await this.helpers.Playwright._locate(
-      locator
-    );
-    return elements[0].focus();
+    return focus(locator, this.helpers.Playwright);
   }
 
   async nextItem() {
@@ -89,19 +86,16 @@ class ChromeVoxHelper extends Helper implements ScreenReaderHelper {
   }
 
   async performDefaultAction() {
-    const page: Page = this.helpers.Playwright.page;
-    await page.keyboard.press("Enter");
+    return performDefaultAction(this.helpers);
   }
 
-  // async nextFocusableItem() {
-  //   await this.page.keyboard.press("Tab");
-  // }
+  async nextFocusableItem() {
+    return nextFocusableItem(this.helpers);
+  }
 
-  // async previousFocusableItem() {
-  //   await this.page.keyboard.down("Shift");
-  //   await this.page.keyboard.press("Tab");
-  //   await this.page.keyboard.up("Shift");
-  // }
+  async previousFocusableItem() {
+    return previousFocusableItem(this.helpers);
+  }
 
   // async moveRight() {
   //   await this.downChromeVoxModifier();
@@ -139,12 +133,15 @@ class ChromeVoxHelper extends Helper implements ScreenReaderHelper {
   //   await this.page.keyboard.press("E");
   //   await this.upChromeVoxModifier();
   // }
-  // async nextControl() {
-  //   await this.downChromeVoxModifier();
-  //   await this.page.keyboard.press("N");
-  //   await this.page.keyboard.press("F");
-  //   await this.upChromeVoxModifier();
-  // }
+
+  async nextControlItem() {
+    const page: Page = this.helpers.Playwright.page;
+    await this.downChromeVoxModifier();
+    await page.keyboard.press("N");
+    await page.keyboard.press("F");
+    await this.upChromeVoxModifier();
+  }
+
   // async nextGraphic() {
   //   await this.downChromeVoxModifier();
   //   await this.page.keyboard.press("N");

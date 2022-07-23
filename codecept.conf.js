@@ -49,8 +49,8 @@ exports.config = {
     BaseExtend: {
       require: "./codeceptjs/base-extend-helper.ts",
     },
-    Accessibility: {
-      require: "./codeceptjs/a11y-helper.ts",
+    InternalBrowser: {
+      require: "./codeceptjs/internal-browser-helper",
     },
   },
   mocha,

@@ -2,8 +2,8 @@
 
 // import { Capabilities } from "@wdio/types/build/Capabilities";
 import { Browser, CDPSession, ElementHandle, Page } from "playwright";
-
-type AccessibilityNode = Awaited<ReturnType<Page["accessibility"]["snapshot"]>>;
+import { AccessibilityNode, ATHelper } from "./helpers/base";
+import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
 
 function btoa(str: string) {
   return Buffer.from(str, "binary").toString("base64");
@@ -110,7 +110,7 @@ const getAOM = async () => {
   return result;
 };
 
-class Accessibility extends Helper {
+class Accessibility extends Helper implements ATHelper {
   async grabAXNode(
     locator?: CodeceptJS.LocatorOrString,
     includeIgnored = false
@@ -126,7 +126,7 @@ class Accessibility extends Helper {
       return await page.accessibility.snapshot({
         interestingOnly: !includeIgnored,
         root: elements[0] || undefined,
-      });
+      }) || undefined;
     } else {
       throw new Error("grabAXNode: No helper founded that is supported");
     }
@@ -139,72 +139,13 @@ class Accessibility extends Helper {
     return this.grabAXNode(locator, includeIgnored);
   }
 
-  async grabFocusedElement() {}
+  async grabFocusedElement() {
+    return getFocusedElement(this.helpers);
+  }
   async pressEscape() {}
 
-  async amFocusable(locator?: CodeceptJS.LocatorOrString, ignored = true) {
-    if (this.helpers.Playwright) {
-      const elements: ElementHandle[] = locator
-        ? await this.helpers.Playwright._locate(locator)
-        : [];
-
-      const focusable = await Promise.all(
-        elements.map((el) =>
-          el.evaluate(async (el) => {
-            if (!el) return;
-
-            const result: Partial<AccessibilityNode & Record<string, any>> = {};
-
-            if ((window as any).getComputedAccessibleNode) {
-              // Chrome
-              const ax = await (window as any).getComputedAccessibleNode(el);
-              return ax.focuse;
-            } else if ((el as any).accessibleNode) {
-              // Firefox
-              const ax = (el as any).accessibleNode;
-              return ax.states;
-            } else {
-              return (el as any).ariaFocused;
-            }
-          })
-        )
-      );
-
-      if (focusable?.length) return focusable;
-      throw new Error("amFocusable: No helper founded that is supported");
-    } else {
-      throw new Error("amFocusable: No helper founded that is supported");
-    }
-  }
-
-  async grabA11yName(locator?: CodeceptJS.LocatorOrString) {
-    if (this.helpers.Playwright) {
-      const elements: ElementHandle[] = locator
-        ? await this.helpers.Playwright._locate(locator)
-        : [];
-      const computedName = await elements[0].evaluate(
-        (node) => (node as any).computedName
-      );
-
-      const AXNode = await this.grabAXNode(locator);
-
-      // if (typeof computedName === "string" && computedName !== AXNode?.name) {
-      //   console.log({ computedName, AXNode: AXNode?.name });
-      //   return computedName;
-      // }
-      return AXNode?.name;
-    } else {
-      throw new Error("grabA11yName: No helper founded that is supported");
-    }
-  }
-
-  async grabA11yRole(locator?: CodeceptJS.LocatorOrString) {
-    if (this.helpers.Playwright) {
-      const AXNode = await this.grabAXNode(locator);
-      return AXNode?.role;
-    } else {
-      throw new Error("grabA11yRole: No helper founded that is supported");
-    }
+  async focus(locator: CodeceptJS.LocatorOrString) {
+    return focus(locator, this.helpers);
   }
 }
 
