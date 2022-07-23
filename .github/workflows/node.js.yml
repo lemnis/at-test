@@ -34,7 +34,7 @@ jobs:
     - run: REPORT=true SNAPSHOT_UPDATE=1 npm run test:voiceover:webkit || true
     - uses: actions/upload-artifact@v3
       with:
-        name: Playwright on MacOs
+        name: Webkit with VoiceOver
         path: output/voiceover-webkit
     
     
@@ -58,7 +58,7 @@ jobs:
     - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:chromium || true
     - uses: actions/upload-artifact@v3
       with:
-        name: Playwright on MacOs
+        name: Chromium with VoiceOver
         path: output/voiceover-chromium/*-latest.json    
   
   firefox:
@@ -82,8 +82,8 @@ jobs:
     - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:firefox || true
     - uses: actions/upload-artifact@v3
       with:
-        name: Playwright on MacOs
-        path: output/voiceover-firefox/*-latest.json    
+        name: Firefox with VoiceOver
+        path: output/voiceover-firefox
 
   PlaywrightMacOs:
     runs-on: macos-latest
