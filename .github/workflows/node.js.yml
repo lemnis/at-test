@@ -35,7 +35,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Webkit with VoiceOver
-        path: output/voiceover-webkit
+        path: output
     
   chromium:
     name: Chromium with VoiceOver
@@ -58,7 +58,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Chromium with VoiceOver
-        path: output/voiceover-chromium
+        path: output
   
   firefox:
     name: Firefox with VoiceOver
@@ -82,7 +82,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Firefox with VoiceOver
-        path: output/voiceover-firefox
+        path: output
 
   PlaywrightMacOs:
     runs-on: macos-latest

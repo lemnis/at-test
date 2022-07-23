@@ -96,12 +96,12 @@ const navigateBackToBrowser = async (
 };
 
 export const startWindowManagement = (voiceOver: VoiceOver) => {
-  // Start screen recording
-  try {
-    voiceOver.record({
-      file: join(__dirname, "/../", output, `recording.mov`).toString(),
-    });
-  } catch (error) {}
+  // // Start screen recording
+  // try {
+  //   voiceOver.record({
+  //     file: join(__dirname, "/../", output, `recording.mov`).toString(),
+  //   });
+  // } catch (error) {}
 
   interval = setInterval(() => {
     voiceOver.lastPhrase().then((currentPhrase) => {
