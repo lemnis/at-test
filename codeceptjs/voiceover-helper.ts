@@ -32,6 +32,7 @@ const logCheck = setInterval(() => {
         exec(
           `screencapture ${__dirname}/../output/voiceover-webkit/fail-${now}.png`
         );
+        process.exit();
       }
       resetTimestamp = false;
       // promisify(exec)(
