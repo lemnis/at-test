@@ -1,17 +1,17 @@
 /// <reference path="./steps.d.ts" />
 import { VoiceOver, moveRight } from "@accesslint/voiceover";
-import { ElementHandle, Page } from "playwright";
 import { exec } from "child_process";
 import { promisify } from "util";
-
-type AccessibilityNode = Awaited<ReturnType<Page["accessibility"]["snapshot"]>>;
-interface ScreenReaderHelper {
-  nextItem(): void;
-  previousItem(): void;
-  performDefaultAction(): void;
-}
+import { ATHelper } from "./helpers/base";
+import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
+import { KEY_CODES } from "./helpers/voiceover/voiceover.constants";
+import {
+  nextFocusableItem,
+  performDefaultAction,
+} from "./helpers/browser-actions/keyboard";
 
 let lastTimestamp = Date.now();
+let resetTimestamp = true;
 let previousPrase: string;
 
 const voiceOver = new VoiceOver({ log: true });
@@ -23,80 +23,91 @@ const logCheck = setInterval(() => {
     }
 
     if (Date.now() - lastTimestamp > 15000) {
-      exec( screencapture ${__dirname}/../output/voiceover-webkit/fail-${new Date(Date.now())}.png`);
-//       promisify(exec)(
-//         `osascript  ${__dirname}/voiceover/active-window.scpt`
-//       ).then(
-//         (window) => console.log("Stuck on phrase", { phrase, window }),
-//         () => {
-//           console.log("got stuck", { phrase });
-//         }
-//       );
-//       voiceOver
-//         .execute({
-//           name: "Escape",
-//           keyCode: 53,
-//           modifiers: [],
-//         })
-//         .then(() =>
-//           voiceOver.execute({
-//             name: "Move Up",
-//             description: "VO+up arrow",
-//             keyCode: 126,
-//             modifiers: ["control down", "option down"],
-//           })
-//         )
-//         .then(() =>
-//           promisify(exec)(
-//             `osascript ${__dirname}/voiceover/dismiss-notification.js`
-//           ).catch(() => {})
-//         )
-//         .then(() => voiceOver.lastPhrase())
-//         .then(
-//           (newPhrase) => {
-//             if (newPhrase === phrase) {
-//               promisify(exec)(
-//                 `osascript  ${__dirname}/voiceover/active-window.scpt`
-//               ).then(
-//                 (window) => {
-//                   console.log("got stuck, exiting", { window });
-//                   process.exit(1);
-//                 },
-//                 () => {
-//                   console.log("got stuck, exiting");
-//                   process.exit(1);
-//                 }
-//               );
-//             } else {
-//               console.log("Got unstuck");
-//             }
-//           },
-//           () => {
-//             promisify(exec)(
-//               `osascript  ${__dirname}/voiceover/active-window.scpt`
-//             ).then(
-//               (window) => {
-//                 console.log("got stuck, error!", { window });
-//                 process.exit(1);
-//               },
-//               () => {
-//                 console.log("got stuck, error!");
-//                 process.exit(1);
-//               }
-//             );
-//           }
-//         );
+      if(resetTimestamp) {
+        const now = Date.now();
+        console.log(
+          "Took a screenshot at ",
+          `${__dirname}/../output/voiceover-webkit/fail-${now}.png`
+        );
+        exec(
+          `screencapture ${__dirname}/../output/voiceover-webkit/fail-${now}.png`
+        );
+      }
+      resetTimestamp = false;
+      promisify(exec)(
+        `osascript  ${__dirname}/voiceover/active-window.scpt`
+      ).then(
+        (window) => console.log("Stuck on phrase", { phrase, window }),
+        () => {
+          console.log("got stuck", { phrase });
+        }
+      );
+      voiceOver
+        .execute({
+          name: "Escape",
+          keyCode: 53,
+          modifiers: [],
+        })
+        .then(() =>
+          voiceOver.execute({
+            name: "Move Up",
+            description: "VO+up arrow",
+            keyCode: 126,
+            modifiers: ["control down", "option down"],
+          })
+        )
+        .then(() =>
+          promisify(exec)(
+            `osascript ${__dirname}/voiceover/dismiss-notification.js`
+          ).catch(() => {})
+        )
+        .then(() => voiceOver.lastPhrase())
+        .then(
+          (newPhrase) => {
+            if (newPhrase === phrase) {
+              promisify(exec)(
+                `osascript  ${__dirname}/voiceover/active-window.scpt`
+              ).then(
+                (window) => {
+                  console.log("got stuck, exiting", { window });
+                  process.exit(1);
+                },
+                () => {
+                  console.log("got stuck, exiting");
+                  process.exit(1);
+                }
+              );
+            } else {
+              console.log("Got unstuck");
+              resetTimestamp = true;
+            }
+          },
+          () => {
+            promisify(exec)(
+              `osascript  ${__dirname}/voiceover/active-window.scpt`
+            ).then(
+              (window) => {
+                console.log("got stuck, error!", { window });
+                process.exit(1);
+              },
+              () => {
+                console.log("got stuck, error!");
+                process.exit(1);
+              }
+            );
+          }
+        );
     }
   });
 }, 500);
 
-class VoiceOverHelper extends Helper implements ScreenReaderHelper {
-  protected _beforeSuite(suite: Mocha.Suite): void {
-    console.log(`Suite: I.${suite.tags}`);
-  }
-  protected _beforeStep(step: CodeceptJS.Step): void {
-    console.log(`Step: I.${step.name}`);
-  }
+class VoiceOverHelper extends Helper implements ATHelper {
+  // protected _beforeSuite(suite: Mocha.Suite): void {
+  //   console.log(`Suite: I.${suite.tags}`);
+  // }
+  // protected _beforeStep(step: CodeceptJS.Step): void {
+  //   console.log(`Step: I.${step.name}`);
+  // }
 
   private lastPhrase = async () => {
     return voiceOver.lastPhrase();
@@ -122,36 +133,44 @@ class VoiceOverHelper extends Helper implements ScreenReaderHelper {
     return { spoken: await this.lastPhrase() };
   }
 
-  private findFocusedNode(node: AccessibilityNode): AccessibilityNode {
-    if (node?.focused) return node;
-    for (const child of node?.children || []) {
-      const foundNode = this.findFocusedNode(child);
-      if (foundNode) return foundNode;
-    }
-    return null;
+  getDescription() {
+    // Wait a x of amount of time, till the description is been read
+    return new Promise((a) => setTimeout(a, 4000));
   }
 
   async grabFocusedElement() {
-    const page: Page = this.helpers.Playwright.page;
-    const snapshot = await page.accessibility.snapshot();
-    return this.findFocusedNode(snapshot);
+    return getFocusedElement(this.helpers);
   }
 
   async focus(locator: CodeceptJS.LocatorOrString) {
-    const elements: ElementHandle[] = await this.helpers.Playwright._locate(
-      locator
-    );
-    return elements[0]?.focus();
+    return focus(locator, this.helpers);
   }
 
   async nextItem() {
     await voiceOver.execute(moveRight);
   }
 
+  async nextFocusableItem() {
+    return nextFocusableItem(this.helpers);
+  }
+
+  async nextControlItem() {
+    await voiceOver.execute({
+      name: "Move to next form contrl",
+      description: "VO+CMD+J",
+      keyCode: KEY_CODES.J,
+      modifiers: ["control down", "option down", "command"],
+    });
+  }
+
+  async rotor(...args: Parameters<typeof voiceOver["rotor"]>) {
+    await voiceOver.rotor(...args);
+  }
+
   async pressEscape() {
     await voiceOver.execute({
       name: "Escape",
-      keyCode: 53,
+      keyCode: KEY_CODES.ESCAPE,
       modifiers: [],
     });
   }
@@ -161,8 +180,7 @@ class VoiceOverHelper extends Helper implements ScreenReaderHelper {
   }
 
   async performDefaultAction() {
-    const page: Page = this.helpers.Playwright.page;
-    await page.keyboard.press("Enter");
+    return performDefaultAction(this.helpers);
   }
 }
 
