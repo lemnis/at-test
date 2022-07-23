@@ -18,10 +18,7 @@ let interval: any;
 
 export const stopWindowManagment = () => clearInterval(interval);
 
-const navigateBackToBrowser = async (
-  voiceOver: VoiceOver,
-  phrase: string
-) => {
+const navigateBackToBrowser = async (voiceOver: VoiceOver, phrase: string) => {
   if (phrase === NATIVE_WINDOWS.DICTATION) {
     await voiceOver.advance({ target: { text: "Not Now" }, steps: 10 });
     await voiceOver.execute({
@@ -30,14 +27,20 @@ const navigateBackToBrowser = async (
       keyCode: KEY_CODES.RETURN,
       modifiers: [],
     });
-    if(await voiceOver.lastPhrase() !== phrase) {
+    if ((await voiceOver.lastPhrase()) !== phrase) {
+      process.exit(1);
+    }
+  } else if (phrase.includes("Notification")) {
+    await promisify(exec)(
+      `osascript ${__dirname}/dismiss-notification.js`
+    ).catch(() => {});
+    if ((await voiceOver.lastPhrase()) !== phrase) {
       process.exit(1);
     }
   } else {
     console.log("got stuck, error!");
     process.exit(1);
   }
-  
 
   // voiceOver
   //         .execute({
@@ -125,7 +128,10 @@ export const startWindowManagement = (voiceOver: VoiceOver) => {
             `fail-${Date.now()}.png`
           );
           console.log("Took a screenshot at ", file);
-          await promisify(exec)(`screencapture ${file}`).then(console.log, console.log)
+          await promisify(exec)(`screencapture ${file}`).then(
+            console.log,
+            console.log
+          );
         }
         resetTimestamp = false;
 
