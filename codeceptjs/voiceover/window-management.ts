@@ -4,9 +4,6 @@ import { promisify } from "util";
 import { join } from "path";
 import { NATIVE_WINDOWS } from "./voiceover.constants";
 import { KEY_CODES } from "../helpers/voiceover/voiceover.constants";
-// import { ATHelper } from "./helpers/base";
-// import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
-// import { KEY_CODES } from "./helpers/voiceover/voiceover.constants";
 
 const output = codeceptjs.config.get("output");
 
@@ -41,62 +38,6 @@ const navigateBackToBrowser = async (voiceOver: VoiceOver, phrase: string) => {
     console.log("got stuck, error!");
     process.exit(1);
   }
-
-  // voiceOver
-  //         .execute({
-  //           name: "Escape",
-  //           keyCode: KEY_CODES.ESCAPE,
-  //           modifiers: [],
-  //         })
-  //         //   .then(() =>
-  //         //     voiceOver.execute({
-  //         //       name: "Move Up",
-  //         //       description: "VO+up arrow",
-  //         //       keyCode: 126,
-  //         //       modifiers: ["control down", "option down"],
-  //         //     })
-  //         //   )
-  //         //   .then(() =>
-  //         //     promisify(exec)(
-  //         //       `osascript ${__dirname}/voiceover/dismiss-notification.js`
-  //         //     ).catch(() => {})
-  //         //   )
-  //         .then(() => voiceOver.lastPhrase())
-  //         .then(
-  //           (newPhrase) => {
-  //             if (newPhrase === phrase) {
-  //               promisify(exec)(
-  //                 `osascript  ${__dirname}/voiceover/active-window.scpt`
-  //               ).then(
-  //                 (window) => {
-  //                   console.log("got stuck, exiting", { window });
-  //                   process.exit(1);
-  //                 },
-  //                 () => {
-  //                   console.log("got stuck, exiting");
-  //                   process.exit(1);
-  //                 }
-  //               );
-  //             } else {
-  //               console.log("Got unstuck");
-  //               resetTimestamp = true;
-  //             }
-  //           },
-  //           () => {
-  //             promisify(exec)(
-  //               `osascript  ${__dirname}/voiceover/active-window.scpt`
-  //             ).then(
-  //               (window) => {
-  //                 console.log("got stuck, error!", { window });
-  //                 process.exit(1);
-  //               },
-  //               () => {
-  //                 console.log("got stuck, error!");
-  //                 process.exit(1);
-  //               }
-  //             );
-  //           }
-  //         );
 };
 
 export const startWindowManagement = (voiceOver: VoiceOver) => {
