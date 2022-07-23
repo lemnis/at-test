@@ -23,14 +23,20 @@ const navigateBackToBrowser = async (
   phrase: string
 ) => {
   if (phrase === NATIVE_WINDOWS.DICTATION) {
-    voiceOver.advance({ target: { text: "Not Now" }, steps: 10 });
-    voiceOver.execute({
+    await voiceOver.advance({ target: { text: "Not Now" }, steps: 10 });
+    await voiceOver.execute({
       name: "Activate",
       description: "Enter",
       keyCode: KEY_CODES.RETURN,
       modifiers: [],
     });
+    if(await voiceOver.lastPhrase() !== phrase) {
+      process.exit(1);
+    }
+  } else {
+    process.exit(1);
   }
+  
 
   // voiceOver
   //         .execute({
