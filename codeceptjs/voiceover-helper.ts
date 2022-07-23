@@ -1,8 +1,5 @@
 /// <reference path="./steps.d.ts" />
 import { VoiceOver, moveRight } from "@accesslint/voiceover";
-import { exec } from "child_process";
-import { promisify } from "util";
-import { join } from "path";
 import { ATHelper } from "./helpers/base";
 import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
 import { KEY_CODES } from "./helpers/voiceover/voiceover.constants";
@@ -10,101 +7,9 @@ import {
   nextFocusableItem,
   performDefaultAction,
 } from "./helpers/browser-actions/keyboard";
-
-const output = codeceptjs.config.get("output");
-
-let lastTimestamp = Date.now();
-let resetTimestamp = true;
-let previousPrase: string;
+import { stopWindowManagment, startWindowManagement } from "./voiceover/window-management";
 
 const voiceOver = new VoiceOver({ log: true });
-let logCheck = setInterval(() => {
-  voiceOver.lastPhrase().then((phrase) => {
-    if (phrase != previousPrase) {
-      lastTimestamp = Date.now();
-      previousPrase = phrase;
-    }
-
-    if (Date.now() - lastTimestamp > 15000) {
-      if (resetTimestamp) {
-        const now = Date.now();
-        console.log(
-          "Took a screenshot at ",
-          join(__dirname, "/../", output, `fail-${now}.png`)
-        );
-        exec(
-          `screencapture ${join(__dirname, "/../", output, `fail-${now}.png`)}`
-        );
-        process.exit();
-      }
-      resetTimestamp = false;
-      // promisify(exec)(
-      //   `osascript  ${__dirname}/voiceover/active-window.scpt`
-      // ).then(
-      //   (window) => console.log("Stuck on phrase", { phrase, window }),
-      //   () => {
-      //     console.log("got stuck", { phrase });
-      //   }
-      // );
-      voiceOver
-        .execute({
-          name: "Escape",
-          keyCode: KEY_CODES.ESCAPE,
-          modifiers: [],
-        })
-        //   .then(() =>
-        //     voiceOver.execute({
-        //       name: "Move Up",
-        //       description: "VO+up arrow",
-        //       keyCode: 126,
-        //       modifiers: ["control down", "option down"],
-        //     })
-        //   )
-        //   .then(() =>
-        //     promisify(exec)(
-        //       `osascript ${__dirname}/voiceover/dismiss-notification.js`
-        //     ).catch(() => {})
-        //   )
-        .then(() => voiceOver.lastPhrase())
-        .then(
-          (newPhrase) => {
-            if (newPhrase === phrase) {
-              promisify(exec)(
-                `osascript  ${__dirname}/voiceover/active-window.scpt`
-              ).then(
-                (window) => {
-                  console.log("got stuck, exiting", { window });
-                  process.exit(1);
-                },
-                () => {
-                  console.log("got stuck, exiting");
-                  process.exit(1);
-                }
-              );
-            } else {
-              console.log("Got unstuck");
-              resetTimestamp = true;
-            }
-          },
-          () => {
-            promisify(exec)(
-              `osascript  ${__dirname}/voiceover/active-window.scpt`
-            ).then(
-              (window) => {
-                console.log("got stuck, error!", { window });
-                process.exit(1);
-              },
-              () => {
-                console.log("got stuck, error!");
-                process.exit(1);
-              }
-            );
-          }
-        );
-    }
-  });
-}, 500);
-
 class VoiceOverHelper extends Helper implements ATHelper {
   // protected _beforeSuite(suite: Mocha.Suite): void {
   //   console.log(`Suite: I.${suite.tags}`);
@@ -120,6 +25,7 @@ class VoiceOverHelper extends Helper implements ATHelper {
   protected async _init() {
     return new Promise((resolve, reject) => {
       voiceOver.launch().then(resolve);
+      startWindowManagement(voiceOver);
       setTimeout(() => reject("Failed to start"), 5000);
       // voiceOver.record({ file: 'recording.mov' });
     });
@@ -128,7 +34,7 @@ class VoiceOverHelper extends Helper implements ATHelper {
   protected async _finishTest() {
     return new Promise((resolve, reject) => {
       voiceOver.quit().then(resolve);
-      clearInterval(logCheck);
+      stopWindowManagment();
       setTimeout(() => reject("Failed to start"), 5000);
     });
   }

@@ -35,8 +35,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Webkit with VoiceOver
-        path: output
-    
+        path: output/voiceover-webkit
     
   chromium:
     name: Chromium with VoiceOver
@@ -59,7 +58,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Chromium with VoiceOver
-        path: output/voiceover-chromium/*-latest.json    
+        path: output/voiceover-chromium
   
   firefox:
     name: Firefox with VoiceOver
