@@ -9,6 +9,8 @@ declare global {
       multiline(): Assertion;
       expanded(): Assertion;
       collapsed(): Assertion;
+      invalid(): Assertion;
+      selected(): Assertion;
     }
   }
 }
@@ -77,7 +79,7 @@ util.addChainableMethod(
       if (obj && "name" in obj) {
         new Assertion(obj.name).to.be.oneOf(str);
       } else if (obj && "spoken" in obj) {
-        new Assertion(obj.spoken.toLowerCase()).to.contain.oneOf(str);
+        new Assertion(obj.spoken).to.contain.oneOf(str);
       } else {
         new Assertion(obj).to.have.any.keys("name", "spoken");
       }
@@ -94,52 +96,70 @@ util.addChainableMethod(
   }
 );
 
-util.addChainableMethod(
-  Assertion.prototype,
-  "multiline",
-  function (this: any) {
-    var obj = util.flag(this, "object");
-    
-    if (obj && "multiline" in obj) {
-      new Assertion(obj.multiline).to.be.true;
-    } else if (obj && "spoken" in obj) {
-      new Assertion(obj, 'Multiline is optional in output').to.be.ok
-    } else {
-      new Assertion(obj).to.have.any.keys("multiline", "spoken");
-    }
-  }
-);
+util.addChainableMethod(Assertion.prototype, "multiline", function (this: any) {
+  var obj = util.flag(this, "object");
 
-util.addChainableMethod(
-  Assertion.prototype,
-  "expanded",
-  function (this: any) {
-    var obj = util.flag(this, "object");
-    
-    if (obj && "expanded" in obj) {
-      new Assertion(obj.expanded).to.be.true;
-    } else if (obj && "spoken" in obj) {
-      new Assertion(obj.spoken).to.contain('expanded');
-    } else {
-      new Assertion(obj).to.have.any.keys("expanded", "spoken");
-    }
+  if (obj && "multiline" in obj) {
+    new Assertion(obj.multiline).to.be.true;
+  } else if (obj && "spoken" in obj) {
+    new Assertion(obj, "Multiline is optional in output").to.be.ok;
+  } else {
+    new Assertion(obj).to.have.any.keys("multiline", "spoken");
   }
-);
+});
 
-util.addChainableMethod(
-  Assertion.prototype,
-  "collapsed",
-  function (this: any) {
-    var obj = util.flag(this, "object");
-    
-    if (obj && "expanded" in obj) {
-      new Assertion(obj.expanded).to.be.false;
-    } else if (obj && "spoken" in obj) {
-      new Assertion(obj.spoken).to.contain('collapsed');
-    } else {
-      new Assertion(obj).to.have.any.keys("expanded", "spoken");
-    }
+util.addChainableMethod(Assertion.prototype, "expanded", function (this: any) {
+  var obj = util.flag(this, "object");
+
+  if (obj && "expanded" in obj) {
+    new Assertion(obj.expanded).to.be.true;
+  } else if (obj && "spoken" in obj) {
+    new Assertion(obj.spoken).to.contain("expanded");
+  } else {
+    new Assertion(obj).to.have.any.keys("expanded", "spoken");
   }
-);
+});
+
+util.addChainableMethod(Assertion.prototype, "collapsed", function (this: any) {
+  var obj = util.flag(this, "object");
+
+  if (obj && "expanded" in obj) {
+    new Assertion(obj.expanded).to.be.false;
+  } else if (obj && "spoken" in obj) {
+    new Assertion(obj.spoken).to.contain("collapsed");
+  } else {
+    new Assertion(obj).to.have.any.keys("expanded", "spoken");
+  }
+});
+
+util.addChainableMethod(Assertion.prototype, "invalid", function (this: any) {
+  var obj = util.flag(this, "object");
+
+  if (obj && "expanded" in obj) {
+    new Assertion(obj.invalid).to.be.true;
+  } else if (obj && "spoken" in obj) {
+    new Assertion(obj.spoken).to.contain("invalid data");
+  } else {
+    new Assertion(obj).to.have.any.keys("expanded", "spoken");
+  }
+});
+
+util.addChainableMethod(Assertion.prototype, "selected", function (this: any) {
+  var obj = util.flag(this, "object");
+
+  if (util.flag(this, "negate")) {
+    if (obj && "expanded" in obj) {
+      new Assertion(obj.selected).to.be.false;
+    } else if (obj && "spoken" in obj) {
+      new Assertion(obj.spoken).to.not.contain("✓");
+    }
+  } else if (obj && "expanded" in obj) {
+    new Assertion(obj.selected).to.be.true;
+  } else if (obj && "spoken" in obj) {
+    new Assertion(obj.spoken).to.contain("✓");
+  } else {
+    new Assertion(obj).to.have.any.keys("expanded", "spoken");
+  }
+});
 
 export { expect };
