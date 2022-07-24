@@ -30,12 +30,16 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
+    - name: Turn on Do Not Disturb
+      run: |
+        npm install --global do-not-disturb-cli
+        do-not-disturb on
     - run: npx @guidepup/setup --ci
     - run: REPORT=true SNAPSHOT_UPDATE=1 npm run test:voiceover:webkit || true
     - uses: actions/upload-artifact@v3
       with:
         name: Webkit with VoiceOver
-        path: output
+        path: output/voiceover-webkit
     
   chromium:
     name: Chromium with VoiceOver
@@ -53,12 +57,16 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
+    - name: Turn on Do Not Disturb
+      run: |
+        npm install --global do-not-disturb-cli
+        do-not-disturb on
     - run: npx @guidepup/setup --ci
     - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:chromium || true
     - uses: actions/upload-artifact@v3
       with:
         name: Chromium with VoiceOver
-        path: output
+        path: output/voiceover-chromium
   
   firefox:
     name: Firefox with VoiceOver
@@ -77,12 +85,16 @@ jobs:
         cache: 'npm'
     - run: npx playwright install firefox
     - run: npm install
+    - name: Turn on Do Not Disturb
+      run: |
+        npm install --global do-not-disturb-cli
+        do-not-disturb on
     - run: npx @guidepup/setup --ci
     - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:firefox || true
     - uses: actions/upload-artifact@v3
       with:
         name: Firefox with VoiceOver
-        path: output
+        path: output/voiceover-firefox
 
   PlaywrightMacOs:
     runs-on: macos-latest
