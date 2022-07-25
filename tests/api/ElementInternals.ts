@@ -41,7 +41,7 @@ Scenario(
   }
 ).tag("showAndFocus");
 
-Feature("setCustomValidity()").tag("js/setCustomValidity");
+xFeature("setCustomValidity()").tag("js/setCustomValidity");
 
 const customValidityHtml = /*html*/ `<form>
   <label>Name <input type="text"></label>
