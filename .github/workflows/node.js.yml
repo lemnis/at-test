@@ -58,7 +58,7 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npx @guidepup/setup --ci
-    - run: sudo safaridriver--enable
+    - run: sudo safaridriver --enable
     - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:safari || true
     - uses: actions/upload-artifact@v3
       with:
