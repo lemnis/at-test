@@ -46,7 +46,11 @@ export const startWindowManagement = (voiceOver: VoiceOver) => {
   // Start screen recording
   try {
     voiceOver.record({
-      file: join(__dirname, "/../../", output, `recording.mov`).toString(),
+      file: join(
+        __dirname.replace(output, "").replace("codeceptjs/voiceover", ""),
+        output,
+        `recording.mov`
+      ).toString(),
     });
   } catch (error) {}
 
@@ -65,8 +69,7 @@ export const startWindowManagement = (voiceOver: VoiceOver) => {
         // Extra screen logging
         if (resetTimestamp) {
           const file = join(
-            __dirname,
-            "/../../",
+            __dirname.replace(output, "").replace("codeceptjs/voiceover", ""),
             output,
             `fail-${Date.now()}.png`
           );
