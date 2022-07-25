@@ -6,10 +6,9 @@ Me fooling around with testing automated accessibility testing in multiple envir
 
 - [x] Chromium with VoiceOver
 - [x] Firefox with VoiceOver
-- [ ] ~~Webkit with VoiceOver~~
+- [x] Webkit with VoiceOver (Should eventually move to Safari with WebDriver)
 - [ ] ~~Chromium with NVDA~~ 
 - [ ] ~~Firefox with NVDA~~ 
-- [ ] ~~Webkit with NVDA~~ 
 - [ ] ~~Chromium with ChromeVox~~ 
 - [ ] ~~Webkit with VoiceOver (iOS)~~
 - [ ] ~~Chromium with TalkBack (Android)~~ 
@@ -21,3 +20,5 @@ Me fooling around with testing automated accessibility testing in multiple envir
 - [x] Chromium with Playwright (Internal browser testing)
 - [x] Firefox with Playwright (Internal browser testing)
 - [x] Webkit with Playwright (Internal browser testing)
+
+Feel free to suggest more combinations (e.g. AXAPI testing)
