@@ -5,6 +5,8 @@ import { join } from "path";
 import { NATIVE_WINDOWS } from "./voiceover.constants";
 import { KEY_CODES } from "../helpers/voiceover/voiceover.constants";
 
+const VOICEOVER_TIMEOUT = 60000;
+
 const output = codeceptjs.config.get("output");
 
 let lastTimestamp = Date.now();
@@ -59,7 +61,7 @@ export const startWindowManagement = (voiceOver: VoiceOver) => {
         newestPrase = currentPhrase;
       }
 
-      if (Date.now() - lastTimestamp > 10000) {
+      if (Date.now() - lastTimestamp > VOICEOVER_TIMEOUT) {
         // Extra screen logging
         if (resetTimestamp) {
           const file = join(
