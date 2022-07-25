@@ -1,23 +1,12 @@
 name: Screencapture
 
-defaults:
-  run:
-    working-directory: .
-
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
-  webkit:
-    name: Webkit with VoiceOver
+  latest:
     runs-on: macos-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x]
 
     steps:
     - run: screencapture -T0 -V 10 foo.mov
@@ -26,3 +15,21 @@ jobs:
         name: Screencapture
         path: foo.mov
   
+  previous:
+    runs-on: macos-10.15	
+
+    steps:
+    - run: screencapture -T0 -V 10 foo.mov
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Screencapture
+        path: foo.mov
+  next:
+    runs-on: macos-12
+
+    steps:
+    - run: screencapture -T0 -V 10 foo.mov
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Screencapture
+        path: foo.mov
