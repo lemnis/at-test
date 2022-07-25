@@ -15,6 +15,8 @@ let previousPhrase: string;
 let newestPrase: string;
 let interval: any;
 
+console.log({ __dirname, __filename, output });
+
 export const stopWindowManagment = () => clearInterval(interval);
 
 const navigateBackToBrowser = async (voiceOver: VoiceOver, phrase: string) => {
