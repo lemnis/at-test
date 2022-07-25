@@ -16,7 +16,7 @@ on:
 jobs:
   webkit:
     name: Webkit with VoiceOver
-    runs-on: macos-latest
+    runs-on: macos-12
 
     strategy:
       matrix:
@@ -43,7 +43,7 @@ jobs:
     
   chromium:
     name: Chromium with VoiceOver
-    runs-on: macos-latest
+    runs-on: macos-12
 
     strategy:
       matrix:
@@ -70,7 +70,7 @@ jobs:
   
   firefox:
     name: Firefox with VoiceOver
-    runs-on: macos-latest
+    runs-on: macos-12
 
     strategy:
       matrix:
