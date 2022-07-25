@@ -8,7 +8,8 @@ setCommonPlugins();
 
 const port = parseInt(process.env.PORT) || 4444;
 const browser = process.env.BROWSER || "chrome";
-const output = `../../output/voiceover-${browser}`;
+const output = `./output/voiceover-${browser}`;
+
 const ATVersion = plist.parse(fs.readFileSync('/System/Library/CoreServices/VoiceOver.app/Contents/version.plist', 'utf-8'))?.CFBundleVersion;
 
 const webdriverConfig = {

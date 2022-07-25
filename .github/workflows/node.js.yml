@@ -58,6 +58,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
+    - run: npm install webdriverio
     - run: npx @guidepup/setup --ci
     - run: |
         sudo safaridriver --enable
@@ -138,6 +139,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: npx playwright install
     - run: npm install
     - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
     - uses: actions/upload-artifact@v3
@@ -160,7 +162,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: npx playwright install-deps
+      - run: npx playwright install
       - run: npm install
       - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:chromium || true
         shell: bash
@@ -184,7 +186,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: npx playwright install-deps
+      - run: npx playwright install
       - run: npm install
       - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
       - uses: actions/upload-artifact@v3
