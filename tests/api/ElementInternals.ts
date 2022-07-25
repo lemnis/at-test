@@ -3,7 +3,7 @@
 import { expect } from "../utils/expect";
 const snapshot = require("snap-shot-it");
 
-Feature("reportValidity()").tag("js/reportvalidity");
+xFeature("reportValidity()").tag("js/reportvalidity");
 
 const helpers = codeceptjs.config.get("helpers");
 const html = /*html*/ `<form>
