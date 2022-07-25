@@ -6,7 +6,7 @@ import snapshot from "snap-shot-it";
 
 const helpers = codeceptjs.config.get("helpers");
 const currentEngine: "webkit" | "firefox" | "chromium" =
-  codeceptjs.config.get("helpers").Playwright.browser;
+  (helpers.Playwright || helpers.WebDriver).browser;
 
 Feature("Color").tag("html/input/color");
 
