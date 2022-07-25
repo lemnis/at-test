@@ -1,0 +1,21 @@
+{
+  "results": [
+    {
+      "pass": false
+    }
+  ],
+  "environment": {
+    "os": {
+      "name": "darwin",
+      "version": "20.6.0"
+    },
+    "at": {
+      "name": "VoiceOver",
+      "version": "767.29"
+    },
+    "browser": {
+      "name": "safari",
+      "driver": "VoiceOver"
+    }
+  }
+}

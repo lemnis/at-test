@@ -8,8 +8,13 @@ const fs = require("fs");
 const path = require("path");
 const container = require("codeceptjs").container;
 
-const { EVENT_RUN_END, EVENT_TEST_FAIL, EVENT_TEST_BEGIN, EVENT_TEST_PASS, EVENT_SUITE_BEGIN } =
-  Mocha.Runner.constants;
+const {
+  EVENT_RUN_END,
+  EVENT_TEST_FAIL,
+  EVENT_TEST_BEGIN,
+  EVENT_TEST_PASS,
+  EVENT_SUITE_BEGIN,
+} = Mocha.Runner.constants;
 
 // this reporter outputs test results, indenting two spaces per suite
 class MyReporter {
@@ -28,7 +33,7 @@ class MyReporter {
       results: [],
       environment: {
         os: { name: os.platform(), version: os.release() },
-        at: { name: ATName, version: ATVersion }
+        at: { name: ATName, version: ATVersion },
       },
     };
 
@@ -48,7 +53,7 @@ class MyReporter {
           driver,
           version: (browserVersion = container
             .helpers("Playwright")
-            .browser.version()),
+            ?.browser.version()),
         };
       })
       .on(EVENT_TEST_PASS, (test) => {
@@ -59,7 +64,7 @@ class MyReporter {
       })
       .on(EVENT_TEST_FAIL, (test, err) => {
         json.results.push({
-          id: test.tags.map((i) => i.replace(/@/g, "")).join("/"),
+          id: test.tags?.map((i) => i.replace(/@/g, "")).join("/"),
           pass: false,
         });
       })

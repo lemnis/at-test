@@ -1,5 +1,5 @@
 /// <reference path="./steps.d.ts" />
-import { VoiceOver, moveRight } from "@accesslint/voiceover";
+import { VoiceOver, moveRight, activate } from "@accesslint/voiceover";
 import { ATHelper } from "./helpers/base";
 import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
 import { KEY_CODES } from "./helpers/voiceover/voiceover.constants";
@@ -83,6 +83,26 @@ class VoiceOverHelper extends Helper implements ATHelper {
       keyCode: KEY_CODES.ESCAPE,
       modifiers: [],
     });
+  }
+
+  async pressArrowDown() {
+    await voiceOver.execute({
+      name: "Escape",
+      keyCode: KEY_CODES.ARROW_DOWN,
+      modifiers: [],
+    });
+  }
+
+  async pressArrowUp() {
+    await voiceOver.execute({
+      name: "Escape",
+      keyCode: KEY_CODES.ARROW_UP,
+      modifiers: [],
+    });
+  }
+
+  async clickNext() {
+    await voiceOver.execute(activate);
   }
 
   async previousItem() {

@@ -16,7 +16,7 @@ class BaseExtendHelper extends Helper {
       const browser: any = this.helpers.WebDriver.browser;
       return await browser.url(`data:text/html;base64,${btoa(html)}`);
     } else {
-      throw new Error("setConetent: No helper founded that is supported");
+      throw new Error("setContent: No helper founded that is supported");
     }
   }
 

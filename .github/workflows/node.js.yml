@@ -41,6 +41,30 @@ jobs:
         name: Webkit with VoiceOver
         path: output/voiceover-webkit
     
+  safari:
+    name: Safari with VoiceOver
+    runs-on: macos-12
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
+    - run: npx @guidepup/setup --ci
+    - run: sudo safaridriver--enable
+    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:safari || true
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Safari with VoiceOver
+        path: output/voiceover-safari
+    
   chromium:
     name: Chromium with VoiceOver
     runs-on: macos-12
