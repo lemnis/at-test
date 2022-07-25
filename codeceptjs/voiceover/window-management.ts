@@ -20,7 +20,8 @@ console.log({ __dirname, __filename, output });
 export const stopWindowManagment = () => clearInterval(interval);
 
 const navigateBackToBrowser = async (voiceOver: VoiceOver, phrase: string) => {
-  if (phrase === NATIVE_WINDOWS.DICTATION) {
+  if (phrase.includes(NATIVE_WINDOWS.DICTATION)) {
+    console.log('Warning: Dictaction modal detected, trying to close.');
     await voiceOver.advance({ target: { text: "Not Now" }, steps: 10 });
     await voiceOver.execute({
       name: "Activate",
