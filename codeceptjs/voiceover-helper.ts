@@ -1,5 +1,5 @@
 /// <reference path="./steps.d.ts" />
-import { VoiceOver, moveRight, activate } from "@accesslint/voiceover";
+import { VoiceOver as VO, moveRight, activate } from "@accesslint/voiceover";
 import { ATHelper } from "./helpers/base";
 import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
 import { KEY_CODES } from "./helpers/voiceover/voiceover.constants";
@@ -11,11 +11,12 @@ import {
   stopWindowManagment,
   startWindowManagement,
 } from "./voiceover/window-management";
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { exec } from "child_process";
+import { promisify } from "util";
+import { NATIVE_WINDOWS } from "./voiceover/voiceover.constants";
 
-const voiceOver = new VoiceOver({ log: true });
-class VoiceOverHelper extends Helper implements ATHelper {
+const voiceOver = new VO({ log: true });
+class VoiceOver extends Helper implements ATHelper {
   // _before - before a test
   // _after - after a test
   // _beforeStep - before each step
@@ -24,6 +25,35 @@ class VoiceOverHelper extends Helper implements ATHelper {
   // _afterSuite - after each suite
   // _passed - after a test passed
   // _failed - after a test failed
+
+  async _beforeStep() {
+    const phrase = await voiceOver.lastPhrase();
+    if (
+      phrase.includes(NATIVE_WINDOWS.DICTATION) ||
+      phrase.includes(
+        "You can configure your microphone in Dictation preferences."
+      )
+    ) {
+      console.log("Warning: Dictaction modal detected, trying to close.");
+      await voiceOver.advance({ target: { text: "Not Now" }, steps: 10 });
+      await voiceOver.execute({
+        name: "Activate",
+        description: "Enter",
+        keyCode: KEY_CODES.RETURN,
+        modifiers: [],
+      });
+      if ((await voiceOver.lastPhrase()) !== phrase) {
+        throw new Error("Got stuck on dictaction");
+      }
+    } else if (phrase.includes("Notification")) {
+      await promisify(exec)(
+        `osascript ${__dirname}/voiceover/dismiss-notification.js`
+      ).catch(() => {});
+      if ((await voiceOver.lastPhrase()) !== phrase) {
+        throw new Error("Got stuck on notification");
+      }
+    }
+  }
 
   protected async _init() {
     return new Promise((resolve, reject) => {
@@ -41,7 +71,6 @@ class VoiceOverHelper extends Helper implements ATHelper {
   private lastPhrase = async () => {
     return voiceOver.lastPhrase();
   };
-
 
   async grabATOutput(locator: CodeceptJS.LocatorOrString) {
     return { spoken: await this.lastPhrase() };
@@ -118,10 +147,11 @@ class VoiceOverHelper extends Helper implements ATHelper {
   }
 
   async saveScreenshot(fileName: string, fullPage: boolean) {
-    if(fullPage) return this.helpers.Playwright.saveScreenshot(fileName, fullPage);
-    
+    if (fullPage)
+      return this.helpers.Playwright.saveScreenshot(fileName, fullPage);
+
     return await promisify(exec)(`screencapture ${fileName}`);
   }
 }
 
-export = VoiceOverHelper;
+export = VoiceOver;

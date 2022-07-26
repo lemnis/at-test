@@ -1,6 +1,7 @@
 require("ts-node/register");
 
 const { setHeadlessWhen, setCommonPlugins } = require("@codeceptjs/configure");
+const { config, helpers, plugins, mocha: baseMocha  } = require("./base.js");
 
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
@@ -26,37 +27,31 @@ let playwrightConfig = {
   webkit: {},
 };
 
+exports.Playwright = {
+  url: "http://localhost",
+  browser,
+  show: false,
+  restart: false,
+  ...playwrightConfig,
+};
+
 /** @type {import("mocha").MochaOptions} */
 const mocha = {
+  ...baseMocha,
   reporterOptions: { browser },
-  ...(process.env.REPORT === "true"
-    ? { reporter: require("./codeceptjs/reporter.js") }
-    : {}),
 };
 
 exports.config = {
   name: "playwright",
-  tests: "tests/**/*.ts",
+  tests: config.tests,
   output,
   helpers: {
-    Playwright: {
-      url: "http://localhost",
-      browser,
-      show: false,
-      restart: false,
-      ...playwrightConfig,
-    },
-    BaseExtend: {
-      require: "./codeceptjs/base-extend-helper.ts",
-    },
+    Playwright: exports.Playwright,
+    BaseExtend: helpers.BaseExtend,
     InternalBrowser: {
-      require: "./codeceptjs/internal-browser-helper",
+      require: "../internal-browser-helper",
     },
   },
   mocha,
-  plugins: {
-    screenshotOnFail: {
-      enabled: false,
-    },
-  },
+  plugins,
 };

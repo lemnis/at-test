@@ -23,7 +23,7 @@ const htmlMissingCaption = /*html*/ `
 Scenario("Should be targetable", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(1);
     I.focus("#start");
     I.nextItem();
@@ -37,7 +37,7 @@ Scenario("Should be targetable", async ({ I }) => {
 Scenario("Should have role", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(1);
     I.focus("#start");
     I.nextItem();
@@ -50,7 +50,7 @@ Scenario("Should have role", async ({ I }) => {
 Scenario("Should have name", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(1);
     I.focus("#start");
     I.nextItem();
@@ -64,7 +64,7 @@ Scenario("Should have name", async ({ I }) => {
 Scenario.skip("Should have empty name when missing caption", async ({ I }) => {
   I.setContent(htmlMissingCaption);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#start");
     I.nextItem();

@@ -9,10 +9,17 @@ Feature("Textarea").tag("html/textarea");
 const helpers = codeceptjs.config.get("helpers");
 const html = /*html*/ `<textarea id="test"></textarea>`;
 
+const VoiceOverMacOsActions = [
+  'nextItem',
+  'nextFocusableItem',
+  'nextFormControl',
+  'rotor({ menu: "Form Controls" })',
+];
+
 Scenario("Should be targetable", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
   }
   
@@ -30,7 +37,7 @@ Scenario("Should be focusable", async ({ I }) => {
 Scenario("Should have role", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
   }
 
@@ -49,7 +56,7 @@ Scenario("Should have role", async ({ I }) => {
 Scenario("Should be multiline", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
   }
 

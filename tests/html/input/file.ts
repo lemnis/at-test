@@ -13,7 +13,7 @@ const htmlWithLabel = /*html*/ `<input id="test" type="file" /><label for="test"
 Scenario("Should be targetable", async function (this: any, { I }) {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#test");
   }
@@ -29,7 +29,7 @@ Scenario(
     I.setContent(html);
     I.attachFile("#test", "data/image.svg");
 
-    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    if (helpers.ChromevoxHelper || helpers.VoiceOver) {
       I.wait(2);
       I.focus("#test");
     }
@@ -44,7 +44,7 @@ Scenario(
 Scenario("Should have role", async function (this: any, { I }) {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#test");
   }
@@ -59,7 +59,7 @@ Scenario(
   async function (this: any, { I }) {
     I.setContent(html);
 
-    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    if (helpers.ChromevoxHelper || helpers.VoiceOver) {
       I.wait(2);
       I.focus("#test");
     }
@@ -80,7 +80,7 @@ Scenario(
   async function (this: any, { I }) {
     I.setContent(html);
 
-    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    if (helpers.ChromevoxHelper || helpers.VoiceOver) {
       I.wait(2);
       I.focus("#test");
     }
@@ -98,7 +98,7 @@ Scenario(
 Scenario("Should convey label", async function (this: any, { I }) {
   I.setContent(htmlWithLabel);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#test");
   }

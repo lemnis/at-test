@@ -8,7 +8,7 @@ const newFile = `const standardActingHelpers = [
   'TestCafe',
   'Protractor',
   'Nightmare',
-  'VoiceOverHelper'
+  'VoiceOver'
 ];
 
 module.exports = standardActingHelpers;`;

@@ -5,6 +5,7 @@ import { expect } from "../utils/expect";
 
 Feature("Select").tag("html/select");
 
+const helpers = codeceptjs.config.get("helpers");
 const html = (label?: string) => /*html*/ `<select
   id="test"
   ${label ? `aria-label="${label}"` : ""}
@@ -26,6 +27,11 @@ Scenario("Should be focusable", async ({ I }) => {
 
 Scenario("Should be expandable", async ({ I }) => {
   I.setContent(html());
+
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
+    I.wait(1);
+  }
+
   I.focus('#test');
   expect(await I.grabATOutput("#test")).to.be.collapsed;
   I.click("#test");

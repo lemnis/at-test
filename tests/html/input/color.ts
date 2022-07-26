@@ -20,7 +20,7 @@ Scenario(
   async function (this: any, { I }) {
     I.setContent(html);
 
-    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    if (helpers.ChromevoxHelper || helpers.VoiceOver) {
       I.wait(2);
       I.focus("#start");
       I.nextItem();
@@ -38,7 +38,7 @@ Scenario(
 Scenario("Should have role", async function (this: any, { I }) {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#start");
     I.nextItem();
@@ -53,7 +53,7 @@ Scenario("Should have role", async function (this: any, { I }) {
 Scenario("Should have accessible name", async function (this: any, { I }) {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#start");
     I.nextItem();

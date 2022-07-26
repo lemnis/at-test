@@ -1,14 +1,14 @@
-/// <reference path="../../../codeceptjs/steps.d.ts" />
+/// <reference path="../../codeceptjs/steps.d.ts" />
 
-import { expect } from "../../utils/expect";
+import { expect } from "../utils/expect";
 import snapshot from "snap-shot-it";
-import { ASSISTIVE_TECHNOLOGY, getAT } from "../../utils/setup";
+import { ASSISTIVE_TECHNOLOGY, getAT } from "../utils/setup";
 
-Feature("Time").tag("aria/role/time");
+Feature("Time").tag("html/time");
 
 const html = /*html*/ `
   <button id="start">start</button>
-  <div id="test" role="time">Today</div>
+  <time datetime="2007-08-29T13:58Z">Yesterday</time>
   <button id="end">end</button>
 `;
 
@@ -20,7 +20,7 @@ Scenario("Should support role", async ({ I }) => {
       getAT()
     )
   ) {
-    I.wait(2);
+    I.wait(4);
     await I.focus("#start");
     await I.nextItem();
   }
@@ -35,6 +35,6 @@ Scenario("Should support role", async ({ I }) => {
     )
   ) {
     await I.nextItem();
-    expect(await I.grabFocusedItem()).to.have.name("end");
+    expect(await I.grabFocusedElement()).to.have.name("end");
   }
 }).tag("role");

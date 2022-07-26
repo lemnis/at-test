@@ -15,7 +15,7 @@ Scenario(
   async ({ I }) => {
     I.setContent(html);
 
-    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    if (helpers.ChromevoxHelper || helpers.VoiceOver) {
       I.wait(1);
       I.focus('input');
     }
@@ -24,7 +24,7 @@ Scenario(
     expect(input).to.be.invalid;
     // ok(input?.focused);
 
-    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    if (helpers.ChromevoxHelper || helpers.VoiceOver) {
       I.wait(4);
     }
 
@@ -56,7 +56,7 @@ Scenario(
       document.querySelector("input")!.setCustomValidity("Custom Error");
     });
 
-    if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+    if (helpers.ChromevoxHelper || helpers.VoiceOver) {
       I.wait(1);
       I.focus('input');
     }

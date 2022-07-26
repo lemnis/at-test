@@ -13,7 +13,7 @@ const html = /*html*/ `
 Scenario.skip("Should be targetable", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#start");
     I.nextItem();
@@ -26,7 +26,7 @@ Scenario.skip("Should be targetable", async ({ I }) => {
 Scenario.skip("Should be full name", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#start");
     I.nextItem();
@@ -39,13 +39,13 @@ Scenario.skip("Should be full name", async ({ I }) => {
 }).tag("name");
 
 Scenario("Should have role", async function (this: any, { I }) {
-  if (helpers.VoiceOverHelper) {
+  if (helpers.VoiceOver) {
     this.skip();
   }
 
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#start");
     I.nextItem();

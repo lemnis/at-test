@@ -16,7 +16,7 @@ Scenario.skip("Should be targetable", async ({ I }) => {
     ${html}
   `);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#start");
     I.nextItem();
@@ -29,7 +29,7 @@ Scenario.skip("Should be targetable", async ({ I }) => {
 Scenario("Should have role", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#start");
     I.nextItem();
@@ -44,7 +44,7 @@ Scenario("Should have role", async ({ I }) => {
 Scenario("Should have accessible name", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOverHelper) {
+  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.wait(2);
     I.focus("#start");
     I.nextItem();
