@@ -59,6 +59,14 @@ exports.config = {
   plugins: {
     screenshotOnFail: {
       enabled: false,
-    }
+    },
+    stepByStepReport: {
+      enabled: true,
+      deleteSuccessful: false,
+    },
+    stepTimeout: {
+      enabled: true,
+      timeout: 10,
+    },
   },
 };

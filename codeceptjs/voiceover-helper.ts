@@ -7,37 +7,41 @@ import {
   nextFocusableItem,
   performDefaultAction,
 } from "./helpers/browser-actions/keyboard";
-import { stopWindowManagment, startWindowManagement } from "./voiceover/window-management";
+import {
+  stopWindowManagment,
+  startWindowManagement,
+} from "./voiceover/window-management";
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
 const voiceOver = new VoiceOver({ log: true });
 class VoiceOverHelper extends Helper implements ATHelper {
-  // protected _beforeSuite(suite: Mocha.Suite): void {
-  //   console.log(`Suite: I.${suite.tags}`);
-  // }
-  // protected _beforeStep(step: CodeceptJS.Step): void {
-  //   console.log(`Step: I.${step.name}`);
-  // }
+  // _before - before a test
+  // _after - after a test
+  // _beforeStep - before each step
+  // _afterStep - after each step
+  // _beforeSuite - before each suite
+  // _afterSuite - after each suite
+  // _passed - after a test passed
+  // _failed - after a test failed
+
+  protected async _init() {
+    return new Promise((resolve, reject) => {
+      // startWindowManagement(voiceOver);
+      voiceOver.launch().then(resolve);
+      setTimeout(() => reject("Failed to start"), 5000);
+    });
+  }
+
+  protected async _finishTest() {
+    // stopWindowManagment();
+    await voiceOver.quit();
+  }
 
   private lastPhrase = async () => {
     return voiceOver.lastPhrase();
   };
 
-  protected async _init() {
-    return new Promise((resolve, reject) => {
-      voiceOver.launch().then(resolve);
-      startWindowManagement(voiceOver);
-      setTimeout(() => reject("Failed to start"), 5000);
-      // voiceOver.record({ file: 'recording.mov' });
-    });
-  }
-
-  protected async _finishTest() {
-    return new Promise((resolve, reject) => {
-      voiceOver.quit().then(resolve);
-      stopWindowManagment();
-      setTimeout(() => reject("Failed to start"), 5000);
-    });
-  }
 
   async grabATOutput(locator: CodeceptJS.LocatorOrString) {
     return { spoken: await this.lastPhrase() };
@@ -111,6 +115,12 @@ class VoiceOverHelper extends Helper implements ATHelper {
 
   async performDefaultAction() {
     return performDefaultAction(this.helpers);
+  }
+
+  async saveScreenshot(fileName: string, fullPage: boolean) {
+    if(fullPage) return this.helpers.Playwright.saveScreenshot(fileName, fullPage);
+    
+    return await promisify(exec)(`screencapture ${fileName}`);
   }
 }
 
