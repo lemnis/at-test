@@ -7,7 +7,6 @@ const { WebDriver } = require("./webdriver.cjs");
 
 setCommonPlugins();
 
-const port = parseInt(process.env.PORT) || 4444;
 const browser = process.env.BROWSER || "chrome";
 const output = `./output/voiceover-${browser}`;
 

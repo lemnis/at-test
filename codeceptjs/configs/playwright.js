@@ -3,11 +3,7 @@ require("ts-node/register");
 const { setHeadlessWhen, setCommonPlugins } = require("@codeceptjs/configure");
 const { config, helpers, plugins, mocha: baseMocha  } = require("./base.js");
 
-// turn on headless mode when running with HEADLESS=true environment variable
-// export HEADLESS=true && npx codeceptjs run
 setHeadlessWhen(process.env.HEADLESS);
-
-// enable all common plugins https://github.com/codeceptjs/configure#setcommonplugins
 setCommonPlugins();
 
 const browser = process.env.BROWSER || "chromium";

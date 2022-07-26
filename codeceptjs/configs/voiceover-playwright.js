@@ -5,11 +5,7 @@ const { mocha: baseMocha, plugins, helpers, config } = require("./base");
 const { Playwright } = require("./playwright");
 const { ATVersion, ATName, VoiceOver } = require('./voiceover.cjs');
 
-// turn on headless mode when running with HEADLESS=true environment variable
-// export HEADLESS=true && npx codeceptjs run
 setHeadlessWhen(process.env.HEADLESS);
-
-// enable all common plugins https://github.com/codeceptjs/configure#setcommonplugins
 setCommonPlugins();
 
 const browser = process.env.BROWSER || "chromium";
