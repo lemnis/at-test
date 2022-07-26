@@ -15,11 +15,11 @@ exports.helpers = {
 
 exports.plugins = {
   screenshotOnFail: {
-    enabled: false,
+    enabled: true,
   },
   stepByStepReport: {
     enabled: true,
-    deleteSuccessful: false,
+    deleteSuccessful: true,
   },
   stepTimeout: {
     enabled: true,
