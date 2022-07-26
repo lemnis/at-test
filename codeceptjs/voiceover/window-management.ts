@@ -47,15 +47,15 @@ const navigateBackToBrowser = async (voiceOver: VoiceOver, phrase: string) => {
 
 export const startWindowManagement = (voiceOver: VoiceOver) => {
   // Start screen recording
-  try {
-    voiceOver.record({
-      file: join(
-        __dirname.replace(output, "").replace("codeceptjs/voiceover", ""),
-        output,
-        `recording.mov`
-      ).toString(),
-    });
-  } catch (error) {}
+  // try {
+  //   voiceOver.record({
+  //     file: join(
+  //       __dirname.replace(output, "").replace("codeceptjs/voiceover", ""),
+  //       output,
+  //       `recording.mov`
+  //     ).toString(),
+  //   });
+  // } catch (error) {}
 
   interval = setInterval(() => {
     voiceOver.lastPhrase().then(async (currentPhrase) => {

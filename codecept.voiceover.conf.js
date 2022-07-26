@@ -31,8 +31,13 @@ let playwrightConfig = {
 const mocha = {
   reporterOptions: {
     browser,
-    ATVersion: plist.parse(fs.readFileSync('/System/Library/CoreServices/VoiceOver.app/Contents/version.plist', 'utf-8'))?.CFBundleVersion,
-    ATName: 'VoiceOver'
+    ATVersion: plist.parse(
+      fs.readFileSync(
+        "/System/Library/CoreServices/VoiceOver.app/Contents/version.plist",
+        "utf-8"
+      )
+    )?.CFBundleVersion,
+    ATName: "VoiceOver",
   },
   allowUncaught: true,
   timeout: 4000,
@@ -64,6 +69,14 @@ exports.config = {
   plugins: {
     screenshotOnFail: {
       enabled: false,
-    }
+    },
+    stepByStepReport: {
+      enabled: true,
+      deleteSuccessful: false,
+    },
+    stepTimeout: {
+      enabled: true,
+      timeout: 10,
+    },
   },
 };
