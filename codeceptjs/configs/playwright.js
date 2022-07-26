@@ -7,7 +7,7 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 const browser = process.env.BROWSER || "chromium";
-const output = `./output/playwright-${browser}`;
+const output = `../../output/playwright-${browser}`;
 
 /** @type {import("playwright").LaunchOptions} */
 let playwrightConfig = {

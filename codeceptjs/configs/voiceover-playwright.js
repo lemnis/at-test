@@ -9,7 +9,7 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 const browser = process.env.BROWSER || "chromium";
-const output = `./output/voiceover-${browser}`;
+const output = `../../output/voiceover-${browser}`;
 
 /** @type {import("mocha").MochaOptions} */
 const mocha = {

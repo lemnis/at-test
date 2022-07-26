@@ -20,8 +20,13 @@ console.log({ __dirname, __filename, output });
 export const stopWindowManagment = () => clearInterval(interval);
 
 const navigateBackToBrowser = async (voiceOver: VoiceOver, phrase: string) => {
-  if (phrase.includes(NATIVE_WINDOWS.DICTATION)) {
-    console.log('Warning: Dictaction modal detected, trying to close.');
+  if (
+    phrase.includes(NATIVE_WINDOWS.DICTATION) ||
+    phrase.includes(
+      "You can configure your microphone in Dictation preferences."
+    )
+  ) {
+    console.log("Warning: Dictaction modal detected, trying to close.");
     await voiceOver.advance({ target: { text: "Not Now" }, steps: 10 });
     await voiceOver.execute({
       name: "Activate",
@@ -30,18 +35,17 @@ const navigateBackToBrowser = async (voiceOver: VoiceOver, phrase: string) => {
       modifiers: [],
     });
     if ((await voiceOver.lastPhrase()) !== phrase) {
-      process.exit(1);
+      throw new Error("Got stuck on dictaction");
     }
   } else if (phrase.includes("Notification")) {
     await promisify(exec)(
       `osascript ${__dirname}/dismiss-notification.js`
     ).catch(() => {});
     if ((await voiceOver.lastPhrase()) !== phrase) {
-      process.exit(1);
+      throw new Error("Got stuck on notification");
     }
   } else {
-    console.log("got stuck, error!");
-    process.exit(1);
+    throw new Error("Got stuck");
   }
 };
 

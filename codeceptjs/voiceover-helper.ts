@@ -14,6 +14,7 @@ import {
 import { exec } from "child_process";
 import { promisify } from "util";
 import { NATIVE_WINDOWS } from "./voiceover/voiceover.constants";
+const { screenshotOutputFolder } = require('codeceptjs/lib/utils.js');
 
 const voiceOver = new VO({ log: true });
 class VoiceOver extends Helper implements ATHelper {
@@ -150,7 +151,9 @@ class VoiceOver extends Helper implements ATHelper {
     if (fullPage)
       return this.helpers.Playwright.saveScreenshot(fileName, fullPage);
 
-    return await promisify(exec)(`screencapture ${fileName}`);
+    const outputFile = screenshotOutputFolder(fileName);
+    console.log(`screencapture ${outputFile}`)
+    return await promisify(exec)(`screencapture ${outputFile}`); 
   }
 }
 
