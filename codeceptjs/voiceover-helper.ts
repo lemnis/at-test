@@ -41,7 +41,7 @@ class VoiceOver extends Helper implements ATHelper {
     ) {
       console.log("Warning: Dictaction modal detected, trying to close.");
       await voiceOver.seek({ text: "Not Now", tries: 10 });
-      await voiceOver.pressKey('Return');
+      await voiceOver.pressKey("Return");
 
       if ((await voiceOver.lastPhrase()) !== phrase) {
         throw new Error("Got stuck on dictaction");
@@ -94,7 +94,7 @@ class VoiceOver extends Helper implements ATHelper {
 
     return {
       spoken: await this.lastPhrase(),
-      output: await voiceOver.latestOutput()
+      output: await voiceOver.latestOutput(),
     };
   }
 
@@ -132,13 +132,16 @@ class VoiceOver extends Helper implements ATHelper {
     });
   }
 
+  async nextGraphicItem() {
+    await voiceOver.pressKey(5, ["control down", "option down", "command down"]);
+  }
+
   async rotor(...args: Parameters<typeof voiceOver["rotor"]>) {
     await voiceOver.rotor(...args);
   }
 
   async pressEscape() {
     await voiceOver.execute({
-      name: "Escape",
       keyCode: KEY_CODES.Escape,
       modifiers: [],
     });
@@ -146,7 +149,6 @@ class VoiceOver extends Helper implements ATHelper {
 
   async pressArrowDown() {
     await voiceOver.execute({
-      name: "Escape",
       keyCode: KEY_CODES.ArrowDown,
       modifiers: [],
     });
@@ -154,7 +156,6 @@ class VoiceOver extends Helper implements ATHelper {
 
   async pressArrowUp() {
     await voiceOver.execute({
-      name: "Escape",
       keyCode: KEY_CODES.ArrowUp,
       modifiers: [],
     });

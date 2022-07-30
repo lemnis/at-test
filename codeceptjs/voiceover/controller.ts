@@ -88,7 +88,6 @@ export class VoiceOverController {
     this.timer();
 
     try {
-      console.log('voice start');
       await exec(
         "/System/Library/CoreServices/VoiceOver.app/Contents/MacOS/VoiceOverStarter"
       );
@@ -102,7 +101,6 @@ export class VoiceOverController {
     if (!this.started && !this.timer) return;
 
     try {
-      console.log('quit');
       await jxaRun(() => {
         const voiceOver = Application("VoiceOver");
         voiceOver.quit();
@@ -112,7 +110,6 @@ export class VoiceOverController {
     } catch (error) {
       console.error(error);
     }
-    console.log('foo');
   }
 
   public async latestOutput(): Promise<{

@@ -1,9 +1,8 @@
 /// <reference path="./steps.d.ts" />
-
-// import { Capabilities } from "@wdio/types/build/Capabilities";
-import { Browser, CDPSession, ElementHandle, Page } from "playwright";
+import { ElementHandle, Page } from "playwright";
 import { AccessibilityNode, ATHelper } from "./helpers/base";
 import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
+import { nextFocusableItem, previousFocusableItem } from "./helpers/browser-actions/keyboard";
 
 function btoa(str: string) {
   return Buffer.from(str, "binary").toString("base64");
@@ -148,6 +147,14 @@ class Accessibility extends Helper implements ATHelper {
 
   async focus(locator: CodeceptJS.LocatorOrString) {
     return focus(locator, this.helpers);
+  }
+
+  async nextFocusableItem(): Promise<void> {
+    return nextFocusableItem(this.helpers);
+  }
+
+  async previousFocusableItem(): Promise<void> {
+    return previousFocusableItem(this.helpers);
   }
 }
 

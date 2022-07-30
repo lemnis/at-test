@@ -42,7 +42,8 @@ export class ATHelper {
 
   performDefaultAction?(): Promise<void>;
 
-  // nextGraphic(): void;
+  nextGraphicItem?(): void;
+  
   // nextHeading(): void;
   // nextLink(): void;
   // nextList(): void;

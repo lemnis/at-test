@@ -33,5 +33,3 @@ exports.config = {
   mocha,
   plugins
 };
-
-console.log(exports.config);
