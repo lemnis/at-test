@@ -1,2 +1,5 @@
 node_modules/
 .DS_Store
+record_*/
+output/*/records.html
+output/*/*.png
