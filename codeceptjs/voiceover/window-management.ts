@@ -31,7 +31,7 @@ const navigateBackToBrowser = async (voiceOver: VoiceOver, phrase: string) => {
     await voiceOver.execute({
       name: "Activate",
       description: "Enter",
-      keyCode: KEY_CODES.RETURN,
+      keyCode: KEY_CODES.Return,
       modifiers: [],
     });
     if ((await voiceOver.lastPhrase()) !== phrase) {

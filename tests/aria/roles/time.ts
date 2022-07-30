@@ -1,5 +1,3 @@
-/// <reference path="../../../codeceptjs/steps.d.ts" />
-
 import { expect } from "../../utils/expect";
 import snapshot from "snap-shot-it";
 import { ASSISTIVE_TECHNOLOGY, getAT } from "../../utils/setup";
@@ -20,9 +18,8 @@ Scenario("Should support role", async ({ I }) => {
       getAT()
     )
   ) {
-    I.wait(2);
     await I.focus("#start");
-    await I.nextItem();
+    await I.nextItem?.();
   }
 
   const ax = await I.grabATOutput("#test");
@@ -34,7 +31,7 @@ Scenario("Should support role", async ({ I }) => {
       getAT()
     )
   ) {
-    await I.nextItem();
+    await I.nextItem?.();
     expect(await I.grabFocusedItem()).to.have.name("end");
   }
 }).tag("role");

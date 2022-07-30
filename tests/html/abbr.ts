@@ -1,4 +1,3 @@
-/// <reference path="../../codeceptjs/steps.d.ts" />
 import { expect } from "chai";
 import snapshot from "snap-shot-it";
 
@@ -14,9 +13,8 @@ Scenario.skip("Should be targetable", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
   const ax = await I.grabATOutput("#test");
@@ -27,14 +25,13 @@ Scenario.skip("Should be full name", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
   const ax = await I.grabATOutput();
   snapshot(ax as any);
-  snapshot((await I.grabATOutput(undefined, true)) as any);
+  snapshot((await I.grabATOutput(undefined, { includeIgnored: true })) as any);
   expect(await I.grabATOutput("#test")).to.have.name("Cascading Style Sheets");
 }).tag("name");
 
@@ -46,9 +43,8 @@ Scenario("Should have role", async function (this: any, { I }) {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
   expect(await I.grabATOutput("#test")).to.have.role([

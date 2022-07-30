@@ -75,23 +75,44 @@ util.addChainableMethod(
   function (this: any, str: string) {
     var obj = util.flag(this, "object");
 
-    if (Array.isArray(str)) {
+    if (util.flag(this, "negate")) {
+      if (Array.isArray(str)) {
+        if (obj && "name" in obj) {
+          new Assertion(obj.name).to.not.be.oneOf(str);
+        } else if (obj && "spoken" in obj) {
+          new Assertion(obj.spoken).to.not.contain.oneOf(str);
+        } else {
+          new Assertion(obj).to.not.have.any.keys("name", "spoken");
+        }
+        return;
+      }
+
       if (obj && "name" in obj) {
-        new Assertion(obj.name).to.be.oneOf(str);
+        new Assertion(obj.name).to.not.be.equal(str);
       } else if (obj && "spoken" in obj) {
-        new Assertion(obj.spoken).to.contain.oneOf(str);
+        new Assertion(obj.spoken).to.not.contain(str);
+      } else {
+        new Assertion(obj).to.not.have.any.keys("name", "spoken");
+      }
+    } else {
+      if (Array.isArray(str)) {
+        if (obj && "name" in obj) {
+          new Assertion(obj.name).to.be.oneOf(str);
+        } else if (obj && "spoken" in obj) {
+          new Assertion(obj.spoken).to.contain.oneOf(str);
+        } else {
+          new Assertion(obj).to.have.any.keys("name", "spoken");
+        }
+        return;
+      }
+
+      if (obj && "name" in obj) {
+        new Assertion(obj.name).to.be.equal(str);
+      } else if (obj && "spoken" in obj) {
+        new Assertion(obj.spoken).to.contain(str);
       } else {
         new Assertion(obj).to.have.any.keys("name", "spoken");
       }
-      return;
-    }
-
-    if (obj && "name" in obj) {
-      new Assertion(obj.name).to.be.equal(str);
-    } else if (obj && "spoken" in obj) {
-      new Assertion(obj.spoken).to.contain(str);
-    } else {
-      new Assertion(obj).to.have.any.keys("name", "spoken");
     }
   }
 );

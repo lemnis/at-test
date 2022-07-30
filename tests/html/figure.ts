@@ -1,6 +1,3 @@
-/// <reference path="../../codeceptjs/steps.d.ts" />
-
-import { equal, ok } from "assert";
 import { expect } from "../utils/expect";
 import snapshot from "snap-shot-it";
 
@@ -20,57 +17,43 @@ const htmlMissingCaption = /*html*/ `
   <img src="https://placekitten.com/100/100" alt="Kitten">
 </figure>`;
 
-Scenario("Should be targetable", async ({ I }) => {
-  I.setContent(html);
-
-  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(1);
-    I.focus("#start");
-    I.nextItem();
-  }
-
-  const ax = await I.grabATOutput("#test", true);
-  snapshot(ax as any);
-  ok(ax);
-}).tag("targetable");
-
 Scenario("Should have role", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(1);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
-  const ax = await I.grabATOutput("#test", true);
-  equal(ax?.role, "figure");
+  const ax = await I.grabATOutput("#test", { includeIgnored: true });
+  expect(ax).to.have.role("figure");
+  snapshot(ax as any);
 }).tag("role");
 
 Scenario("Should have name", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(1);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
-  expect(await I.grabATOutput("#test", true)).to.have.name(
+  const ax = await I.grabATOutput("#test", { includeIgnored: true });
+  expect(ax).to.have.name(
     "Some caption about the kitten"
   );
+  snapshot(ax as any);
 }).tag("name");
 
 Scenario.skip("Should have empty name when missing caption", async ({ I }) => {
   I.setContent(htmlMissingCaption);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
-  const ax = await I.grabATOutput("#test", true);
-  snapshot(ax as any);
+  const ax = await I.grabATOutput("#test", { includeIgnored: true });
   expect(ax).to.have.name("");
+  snapshot(ax as any);
 }).tag("nameMissingFigcaption");

@@ -5,6 +5,7 @@ import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
 import { KEY_CODES } from "./helpers/voiceover/voiceover.constants";
 import {
   nextFocusableItem,
+  previousFocusableItem,
   performDefaultAction,
 } from "./helpers/browser-actions/keyboard";
 import {
@@ -14,9 +15,12 @@ import {
 import { exec } from "child_process";
 import { promisify } from "util";
 import { NATIVE_WINDOWS } from "./voiceover/voiceover.constants";
-const { screenshotOutputFolder } = require('codeceptjs/lib/utils.js');
+import { ElementHandle, Page } from "playwright";
+import { domCursor, matchCursors, voCursor } from "./voiceover/cursors";
+import { VoiceOverController } from "./voiceover/controller";
+const { screenshotOutputFolder } = require("codeceptjs/lib/utils.js");
 
-const voiceOver = new VO({ log: true });
+const voiceOver = new VoiceOverController({ log: false });
 class VoiceOver extends Helper implements ATHelper {
   // _before - before a test
   // _after - after a test
@@ -36,13 +40,9 @@ class VoiceOver extends Helper implements ATHelper {
       )
     ) {
       console.log("Warning: Dictaction modal detected, trying to close.");
-      await voiceOver.advance({ target: { text: "Not Now" }, steps: 10 });
-      await voiceOver.execute({
-        name: "Activate",
-        description: "Enter",
-        keyCode: KEY_CODES.RETURN,
-        modifiers: [],
-      });
+      await voiceOver.seek({ text: "Not Now", tries: 10 });
+      await voiceOver.pressKey('Return');
+
       if ((await voiceOver.lastPhrase()) !== phrase) {
         throw new Error("Got stuck on dictaction");
       }
@@ -73,8 +73,29 @@ class VoiceOver extends Helper implements ATHelper {
     return voiceOver.lastPhrase();
   };
 
-  async grabATOutput(locator: CodeceptJS.LocatorOrString) {
-    return { spoken: await this.lastPhrase() };
+  async grabATOutput(
+    locator?: CodeceptJS.LocatorOrString,
+    { checkCursor = true, includeIgnored = false } = {}
+  ) {
+    if (
+      checkCursor &&
+      locator &&
+      !(await matchCursors(this.helpers, locator))
+    ) {
+      const playwright: Omit<CodeceptJS.Playwright, "_locate"> &
+        Record<string, any> = this.helpers.Playwright;
+      const page: Page = playwright.page;
+      const elements: ElementHandle[] = await playwright._locate(locator);
+      console.log(locator);
+      console.log(await domCursor(page, elements?.[0]!));
+      console.log(await voCursor());
+      throw new Error("Unexpected VoiceOver cursor");
+    }
+
+    return {
+      spoken: await this.lastPhrase(),
+      output: await voiceOver.latestOutput()
+    };
   }
 
   getDescription() {
@@ -94,6 +115,10 @@ class VoiceOver extends Helper implements ATHelper {
     await voiceOver.execute(moveRight);
   }
 
+  async previousFocusableItem() {
+    return previousFocusableItem(this.helpers);
+  }
+
   async nextFocusableItem() {
     return nextFocusableItem(this.helpers);
   }
@@ -102,7 +127,7 @@ class VoiceOver extends Helper implements ATHelper {
     await voiceOver.execute({
       name: "Move to next form contrl",
       description: "VO+CMD+J",
-      keyCode: KEY_CODES.J,
+      keyCode: 38,
       modifiers: ["control down", "option down", "command"],
     });
   }
@@ -114,7 +139,7 @@ class VoiceOver extends Helper implements ATHelper {
   async pressEscape() {
     await voiceOver.execute({
       name: "Escape",
-      keyCode: KEY_CODES.ESCAPE,
+      keyCode: KEY_CODES.Escape,
       modifiers: [],
     });
   }
@@ -122,7 +147,7 @@ class VoiceOver extends Helper implements ATHelper {
   async pressArrowDown() {
     await voiceOver.execute({
       name: "Escape",
-      keyCode: KEY_CODES.ARROW_DOWN,
+      keyCode: KEY_CODES.ArrowDown,
       modifiers: [],
     });
   }
@@ -130,7 +155,7 @@ class VoiceOver extends Helper implements ATHelper {
   async pressArrowUp() {
     await voiceOver.execute({
       name: "Escape",
-      keyCode: KEY_CODES.ARROW_UP,
+      keyCode: KEY_CODES.ArrowUp,
       modifiers: [],
     });
   }
@@ -152,8 +177,7 @@ class VoiceOver extends Helper implements ATHelper {
       return this.helpers.Playwright.saveScreenshot(fileName, fullPage);
 
     const outputFile = screenshotOutputFolder(fileName);
-    console.log(`screencapture ${outputFile}`)
-    return await promisify(exec)(`screencapture ${outputFile}`); 
+    return await promisify(exec)(`screencapture ${outputFile}`);
   }
 }
 

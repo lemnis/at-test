@@ -1,5 +1,5 @@
-/// <reference path="../../codeceptjs/steps.d.ts" />
 import { expect } from "../utils/expect";
+import { ASSISTIVE_TECHNOLOGY, getAT } from "../utils/setup";
 
 Feature("Option").tag("html/option");
 
@@ -12,7 +12,12 @@ Scenario("Should have role", async ({ I }) => {
   I.setContent(html());
   I.focus("#parent");
   I.clickNext();
-  expect(await I.grabATOutput("#test")).to.have.role([
+  if ([ASSISTIVE_TECHNOLOGY.VOICEOVER].includes(getAT())) {
+    await I.pressArrowDown();
+    await I.pressArrowUp();
+    await I.getDescription();
+  }
+  expect(await I.grabATOutput("#test", { checkCursor: false })).to.have.role([
     "menuitem",
     "MenuListOption",
     "combobox option",
@@ -25,24 +30,32 @@ Scenario("Should have accessible name", async ({ I }) => {
   I.setContent(html());
   I.focus("#parent");
   I.clickNext();
+  if ([ASSISTIVE_TECHNOLOGY.VOICEOVER].includes(getAT())) {
+    await I.pressArrowDown();
+    await I.pressArrowUp();
+  }
 
-  await I.pressArrowDown();
-  await I.pressArrowUp();
-  expect(await I.grabATOutput("#test")).to.have.name("apple");
+  expect(await I.grabATOutput("#test", { checkCursor: false })).to.have.name("apple");
+  I.pressEscape();
 }).tag("name");
 
 Scenario("Should show selected", async ({ I }) => {
   I.setContent(html());
   I.click("#parent");
-  await I.pressArrowDown();
-  await I.pressArrowUp();
+  if ([ASSISTIVE_TECHNOLOGY.VOICEOVER].includes(getAT())) {
+    await I.pressArrowDown();
+    await I.pressArrowUp();
+  }
 
-  const test = await I.grabATOutput("#test");
+  const test = await I.grabATOutput("#test", { checkCursor: false });
   expect(test).to.have.name("apple");
   expect(test).to.be.selected();
 
   await I.pressArrowDown();
-  const second = await I.grabATOutput("#second");
+  const second = await I.grabATOutput("#second", { checkCursor: false });
   expect(second).to.have.name("banana");
   expect(second).to.not.be.selected();
+  I.pressEscape();
 }).tag("selected");
+
+Scenario.todo('[size] / multiple test');

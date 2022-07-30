@@ -21,9 +21,8 @@ Scenario(
     I.setContent(html);
 
     if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-      I.wait(2);
       I.focus("#start");
-      I.nextItem();
+      I.nextItem?.();
     }
 
     const ax = await I.grabATOutput("#test");
@@ -39,9 +38,8 @@ Scenario("Should have role", async function (this: any, { I }) {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
   expect(await I.grabATOutput("#test")).to.have.role([
@@ -54,9 +52,8 @@ Scenario("Should have accessible name", async function (this: any, { I }) {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
   expect(await I.grabATOutput("#test")).to.have.name("Label");

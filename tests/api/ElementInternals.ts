@@ -1,5 +1,3 @@
-/// <reference path="../../codeceptjs/steps.d.ts" />
-
 import { expect } from "../utils/expect";
 const snapshot = require("snap-shot-it");
 
@@ -16,23 +14,18 @@ Scenario(
     I.setContent(html);
 
     if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-      I.wait(1);
       I.focus('input');
     }
 
-    const input = await I.grabATOutput("input", true);
+    const input = await I.grabATOutput("input", { includeIgnored: true });
     expect(input).to.be.invalid;
     // ok(input?.focused);
-
-    if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-      I.wait(4);
-    }
 
     I.executeScript(() => {
       document.querySelector("form")!.reportValidity();
     });
 
-    const node = await I.grabATOutput(undefined, true);
+    const node = await I.grabATOutput(undefined, { includeIgnored: true });
     // snapshot(node as any);
     expect(node?.children?.[0] || node).to.have.name([
       "Please include an '@' in the email address. 'foo' is missing an '@'.",
@@ -57,12 +50,10 @@ Scenario(
     });
 
     if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-      I.wait(1);
       I.focus('input');
     }
 
-
-    const input = await I.grabATOutput("input", true);
+    const input = await I.grabATOutput("input", { includeIgnored: true });
     expect(input).to.be.invalid;
     // ok(input?.focused);
     
@@ -70,7 +61,7 @@ Scenario(
       document.querySelector("form")!.reportValidity();
     });
 
-    const node = await I.grabATOutput(undefined, true);
+    const node = await I.grabATOutput(undefined, { includeIgnored: true });
     // snapshot(node as any);
     expect(node?.children?.[0] || node).to.have.name("Custom Error");
   }

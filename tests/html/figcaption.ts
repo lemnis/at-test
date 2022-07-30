@@ -1,6 +1,3 @@
-/// <reference path="../../codeceptjs/steps.d.ts" />
-
-import { ok } from "assert";
 import { expect } from "chai";
 import snapshot from "snap-shot-it";
 
@@ -15,44 +12,34 @@ const html = /*html*/ `
   <figcaption id="test">Some kitten</figcaption>
 </figure>`;
 
-Scenario("Should be targetable", async ({ I }) => {
-  I.setContent(html);
-
-  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
-    I.focus("#start");
-    I.nextItem();
-    I.wait(4)
-  }
-
-  const ax = await I.grabATOutput("#test", true);
-  snapshot(ax as any);
-  ok(ax);
-}).tag("targetable");
-
 Scenario("Should have role", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
-    I.wait(2);
+    I.nextItem?.();
+    I.nextItem?.();
+    I.nextItem?.();
+    I.nextItem?.();
   }
 
-  const ax = await I.grabATOutput("#test", true);
-  expect(ax).to.have.role(['caption', 'Figcaption'])
+  const ax = await I.grabATOutput("#test", { includeIgnored: true });
+  expect(ax).to.have.role(["caption", "Figcaption"]);
+  snapshot(ax as any);
 }).tag("role");
 
 Scenario("Should have name", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
+    I.nextItem?.();
+    I.nextItem?.();
+    I.nextItem?.();
   }
 
-  const ax = await I.grabATOutput("#test", true);
-  expect(ax?.children?.[0] || ax).to.have.name('Some kitten');
+  const ax = await I.grabATOutput("#test", { includeIgnored: true });
+  expect(ax?.children?.[0] || ax).to.have.name("Some kitten");
+  snapshot(ax as any);
 }).tag("name");

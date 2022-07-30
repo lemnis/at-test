@@ -1,6 +1,3 @@
-/// <reference path="../../codeceptjs/steps.d.ts" />
-
-import { equal, ok } from "assert";
 const snapshot = require('snap-shot-it')
 
 Feature("Document").tag("api/Document");

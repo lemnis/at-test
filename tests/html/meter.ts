@@ -1,5 +1,3 @@
-/// <reference path="../../codeceptjs/steps.d.ts" />
-
 import snapshot from "snap-shot-it";
 import { expect } from "../utils/expect";
 
@@ -17,9 +15,8 @@ Scenario.skip("Should be targetable", async ({ I }) => {
   `);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
   expect(await I.grabATOutput("#test2")).to.exist;
@@ -30,12 +27,11 @@ Scenario("Should have role", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
-  expect(await I.grabATOutput("#test", true)).to.have.role([
+  expect(await I.grabATOutput("#test", { includeIgnored: true })).to.have.role([
     "meter",
     "level indicator",
   ]);
@@ -45,12 +41,11 @@ Scenario("Should have accessible name", async ({ I }) => {
   I.setContent(htmlWithLabel);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
-  expect(await I.grabATOutput("#test", true)).to.have.name("Label");
+  expect(await I.grabATOutput("#test", { includeIgnored: true })).to.have.name("Label");
 }).tag("name");
 
 Scenario.todo("Shoud convey low range").tag("value");

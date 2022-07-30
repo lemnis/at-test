@@ -1,7 +1,3 @@
-/// <reference path="../../codeceptjs/steps.d.ts" />
-
-import { equal, ok } from "assert";
-import snapshot from "snap-shot-it";
 import { expect } from "../utils/expect";
 
 Feature("Summary").tag("html/summary");
@@ -17,33 +13,19 @@ const html = /*html*/ `
   </details>
 `;
 
-Scenario("Should be targetable", async ({ I }) => {
-  I.setContent(html);
-
-  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
-    I.focus("#start");
-    I.nextItem();
-  }
-
-  const ax = await I.grabATOutput("#test");
-  ok(ax);
-  snapshot(ax);
-}).tag("targetable");
-
 Scenario("Should be focusable", async ({ I }) => {
   I.setContent(html);
-  I.pressKey("Tab");
-  ok((await I.grabATOutput("#test"))?.focused);
+  I.focus('#start');
+  I.nextFocusableItem?.();
+  expect((await I.grabFocusedElement())).to.have.property('role', 'summary');
 }).tag("focusable");
 
 Scenario("Should be expandable", async ({ I }) => {
   I.setContent(html);
   
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
   expect(await I.grabATOutput("#test")).to.be.collapsed();
@@ -57,9 +39,8 @@ Scenario("Should have role", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
   expect(await I.grabATOutput("#test")).to.have.role([
@@ -73,9 +54,8 @@ Scenario("Should have accessible name", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.wait(2);
     I.focus("#start");
-    I.nextItem();
+    I.nextItem?.();
   }
 
   expect(await I.grabATOutput("#test")).to.have.name("Title");

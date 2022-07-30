@@ -123,10 +123,12 @@ class Accessibility extends Helper implements ATHelper {
       if (locator && !elements.length) return undefined;
 
       const page: Page = this.helpers.Playwright.page;
-      return await page.accessibility.snapshot({
-        interestingOnly: !includeIgnored,
-        root: elements[0] || undefined,
-      }) || undefined;
+      return (
+        (await page.accessibility.snapshot({
+          interestingOnly: !includeIgnored,
+          root: elements[0] || undefined,
+        })) || undefined
+      );
     } else {
       throw new Error("grabAXNode: No helper founded that is supported");
     }
@@ -134,7 +136,7 @@ class Accessibility extends Helper implements ATHelper {
 
   async grabATOutput(
     locator?: CodeceptJS.LocatorOrString,
-    includeIgnored = false
+    { includeIgnored = false } = {}
   ) {
     return this.grabAXNode(locator, includeIgnored);
   }
