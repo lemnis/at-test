@@ -25,4 +25,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          sudo apt-get install sox -y
+          sudo apt-get install speech-dispatcher -y
+          sudo apt-get install espeak -y
+          sudo apt-get install gnome-orca -y
       - run: orca --version
