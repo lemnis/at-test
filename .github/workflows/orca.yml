@@ -25,13 +25,4 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: FedericoCarboni/setup-ffmpeg@v1
-        id: setup-ffmpeg
-      - run: |
-            ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0+0,0 -c:v libx264rgb -crf 0 -preset ultrafast sample.mkv
-            sleep 6
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: chromium
-          path: sample.mkv
+      - run: orca --version
