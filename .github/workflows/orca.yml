@@ -30,4 +30,4 @@ jobs:
           sudo apt-get install speech-dispatcher -y
           sudo apt-get install espeak -y
           sudo apt-get install gnome-orca -y
-      - run: orca --version
+      - run: orca --help
