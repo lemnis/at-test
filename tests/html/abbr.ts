@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect } from "../utils/expect";
 import snapshot from "snap-shot-it";
 
 Feature("Abbr").tag("html/abbr");
@@ -9,22 +9,10 @@ const html = /*html*/ `
   <abbr id="test" title="Cascading Style Sheets">CSS</abbr>
 `;
 
-Scenario.skip("Should be targetable", async ({ I }) => {
-  I.setContent(html);
-
-  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.focus("#start");
-    I.nextItem?.();
-  }
-
-  const ax = await I.grabATOutput("#test");
-  expect(ax).to.not.empty;
-}).tag("targetable");
-
 Scenario.skip("Should be full name", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
+  if (helpers.Chromevox || helpers.VoiceOver) {
     I.focus("#start");
     I.nextItem?.();
   }
@@ -36,13 +24,13 @@ Scenario.skip("Should be full name", async ({ I }) => {
 }).tag("name");
 
 Scenario("Should have role", async function (this: any, { I }) {
-  if (helpers.VoiceOver) {
-    this.skip();
-  }
+  // if (helpers.VoiceOver) {
+  //   this.skip();
+  // }
 
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
+  if (helpers.Chromevox || helpers.VoiceOver) {
     I.focus("#start");
     I.nextItem?.();
   }

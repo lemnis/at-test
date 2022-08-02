@@ -8,13 +8,28 @@ function btoa(str: string) {
 }
 
 class BaseExtendHelper extends Helper {
+  currentTestTitle?: string;
+
+  protected _before(): void {
+    const [test]: [Mocha.Test] = arguments as any;
+    this.currentTestTitle = test.title;
+  }
+
+  protected _after(): void {
+    this.currentTestTitle = undefined;
+  }
+
   async setContent(html: string) {
     if (this.helpers.Playwright) {
       const page: Page = this.helpers.Playwright.page;
       return await page?.setContent(html);
     } else if (this.helpers.WebDriver) {
       const browser: any = this.helpers.WebDriver.browser;
-      return await browser.url(`data:text/html;base64,${btoa(html)}`);
+      return await browser.url(
+        `data:text/html;base64,${btoa(
+          `<title>${this.currentTestTitle || "setContent"}</title>${html}`
+        )}`
+      );
     } else {
       throw new Error("setContent: No helper founded that is supported");
     }

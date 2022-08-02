@@ -10,8 +10,100 @@ declare global {
       expanded(): Assertion;
       collapsed(): Assertion;
       invalid(): Assertion;
-      selected(): Assertion;
+      level(level: number): Assertion;
+      selected: Assertion;
+      disabled: Assertion;
     }
+  }
+}
+
+function toInclude(property: string, str: string | string[], value: any) {
+  if (!(property in value && "spoken" in value)) {
+    new Assertion(value).to.have.any.keys(property, "spoken");
+  }
+
+  if (Array.isArray(str)) {
+    if (property in value) {
+      new Assertion(value[property]).to.be.oneOf(str);
+    } else if (value.output?.phrases?.length) {
+      new Assertion(value.output.phrases.join()).to.contain.oneOf(
+        str
+      );
+    } else {
+      new Assertion(value.spoken).to.contain.oneOf(str);
+    }
+  } else if (property in value) {
+    new Assertion(value[property]).to.be.equal(str);
+  } else if (value.output?.phrases?.length) {
+    new Assertion(value.output.phrases.join()).to.contain(str);
+  } else {
+    new Assertion(value.spoken).to.contain(str);
+  }
+}
+
+function toIncludeBoolean(property: string, str: string | string[], value: any) {
+  if (!(property in value && "spoken" in value)) {
+    new Assertion(value).to.have.any.keys(property, "spoken");
+  }
+
+  if (property in value) {
+    new Assertion(value[property]).to.be.true;
+  } else if (Array.isArray(str)) {
+    if (value.output?.phrases?.length) {
+      new Assertion(value.output.phrases.join()).to.contain.oneOf(
+        str
+      );
+    } else {
+      new Assertion(value.spoken).to.contain.oneOf(str);
+    }
+  } else {
+    new Assertion(value.spoken).to.contain(str);
+  }
+}
+
+function toNotIncludeBoolean(property: string, str: string | string[], value: any) {
+  if (!(property in value && "spoken" in value)) {
+    new Assertion(value).to.have.any.keys(property, "spoken");
+  }
+
+  if (property in value) {
+    new Assertion(value[property]).to.be.false;
+  } else if (Array.isArray(str)) {
+    if (value.output?.phrases?.length) {
+      new Assertion(value.output.phrases.join()).to.not.contain.oneOf(
+        str
+      );
+    } else {
+      new Assertion(value.spoken).to.not.contain.oneOf(str);
+    }
+  } else {
+    new Assertion(value.spoken).to.not.contain(str);
+  }
+}
+
+function toNotInclude(property: string, str: string | string[], value: any) {
+  if (property in value && "spoken" in value) {
+    new Assertion(value).to.have.any.keys(property, "spoken");
+  }
+
+  if (Array.isArray(str)) {
+    if (property in value) {
+      new Assertion(value.role).to.not.be.oneOf(str);
+    } else if (value.output?.phrases?.length) {
+      new Assertion(
+        value.output.phrases.join()
+      ).to.not.contain.oneOf(str);
+    } else {
+      new Assertion(value.spoken).to.not.contain.oneOf(str);
+    }
+  } else if (property in value) {
+    new Assertion(value.role).to.not.be.equal(str);
+  } else if (value.output?.phrases?.length) {
+    new Assertion(value.output.phrases.join()).to.not.contain(
+      str
+    );
+  } else {
+    new Assertion(value.spoken).to.not.contain(str);
   }
 }
 
@@ -19,25 +111,11 @@ util.addChainableMethod(
   Assertion.prototype,
   "role",
   function (this: any, str: string | string[]) {
-    var obj = util.flag(this, "object");
-
-    if (Array.isArray(str)) {
-      if (obj && "role" in obj) {
-        new Assertion(obj.role).to.be.oneOf(str);
-      } else if (obj && "spoken" in obj) {
-        new Assertion(obj.spoken.toLowerCase()).to.contain.oneOf(str);
-      } else {
-        new Assertion(obj).to.have.any.keys("role", "spoken");
-      }
-      return;
-    }
-
-    if (obj && "role" in obj) {
-      new Assertion(obj.role).to.be.equal(str);
-    } else if (obj && "spoken" in obj) {
-      new Assertion(obj.spoken.toLowerCase()).to.contain(str);
+    const obj = util.flag(this, "object");
+    if (util.flag(this, "negate")) {
+      toNotInclude("role", str, obj);
     } else {
-      new Assertion(obj).to.have.any.keys("role", "spoken");
+      toInclude("role", str, obj);
     }
   }
 );
@@ -46,25 +124,11 @@ util.addChainableMethod(
   Assertion.prototype,
   "value",
   function (this: any, str: string | string[]) {
-    var obj = util.flag(this, "object");
-
-    if (Array.isArray(str)) {
-      if (obj && "value" in obj) {
-        new Assertion(obj.value).to.be.oneOf(str);
-      } else if (obj && "spoken" in obj) {
-        new Assertion(obj.spoken.toLowerCase()).to.contain.oneOf(str);
-      } else {
-        new Assertion(obj).to.have.any.keys("value", "spoken");
-      }
-      return;
-    }
-
-    if (obj && "value" in obj) {
-      new Assertion(obj.value).to.be.equal(str);
-    } else if (obj && "spoken" in obj) {
-      new Assertion(obj.spoken.toLowerCase()).to.contain(str);
+    const obj = util.flag(this, "object");
+    if (util.flag(this, "negate")) {
+      toNotInclude("value", str, obj);
     } else {
-      new Assertion(obj).to.have.any.keys("value", "spoken");
+      toInclude("value", str, obj);
     }
   }
 );
@@ -73,52 +137,17 @@ util.addChainableMethod(
   Assertion.prototype,
   "name",
   function (this: any, str: string) {
-    var obj = util.flag(this, "object");
-
+    const obj = util.flag(this, "object");
     if (util.flag(this, "negate")) {
-      if (Array.isArray(str)) {
-        if (obj && "name" in obj) {
-          new Assertion(obj.name).to.not.be.oneOf(str);
-        } else if (obj && "spoken" in obj) {
-          new Assertion(obj.spoken).to.not.contain.oneOf(str);
-        } else {
-          new Assertion(obj).to.not.have.any.keys("name", "spoken");
-        }
-        return;
-      }
-
-      if (obj && "name" in obj) {
-        new Assertion(obj.name).to.not.be.equal(str);
-      } else if (obj && "spoken" in obj) {
-        new Assertion(obj.spoken).to.not.contain(str);
-      } else {
-        new Assertion(obj).to.not.have.any.keys("name", "spoken");
-      }
+      toNotInclude("name", str, obj);
     } else {
-      if (Array.isArray(str)) {
-        if (obj && "name" in obj) {
-          new Assertion(obj.name).to.be.oneOf(str);
-        } else if (obj && "spoken" in obj) {
-          new Assertion(obj.spoken).to.contain.oneOf(str);
-        } else {
-          new Assertion(obj).to.have.any.keys("name", "spoken");
-        }
-        return;
-      }
-
-      if (obj && "name" in obj) {
-        new Assertion(obj.name).to.be.equal(str);
-      } else if (obj && "spoken" in obj) {
-        new Assertion(obj.spoken).to.contain(str);
-      } else {
-        new Assertion(obj).to.have.any.keys("name", "spoken");
-      }
+      toInclude("name", str, obj);
     }
   }
 );
 
 util.addChainableMethod(Assertion.prototype, "multiline", function (this: any) {
-  var obj = util.flag(this, "object");
+  const obj = util.flag(this, "object");
 
   if (obj && "multiline" in obj) {
     new Assertion(obj.multiline).to.be.true;
@@ -130,19 +159,17 @@ util.addChainableMethod(Assertion.prototype, "multiline", function (this: any) {
 });
 
 util.addChainableMethod(Assertion.prototype, "expanded", function (this: any) {
-  var obj = util.flag(this, "object");
+  const obj = util.flag(this, "object");
 
-  if (obj && "expanded" in obj) {
-    new Assertion(obj.expanded).to.be.true;
-  } else if (obj && "spoken" in obj) {
-    new Assertion(obj.spoken).to.contain("expanded");
+  if (util.flag(this, "negate")) {
+    toNotIncludeBoolean('expanded', "expanded", obj);
   } else {
-    new Assertion(obj).to.have.any.keys("expanded", "spoken");
+    toIncludeBoolean('expanded', "expanded", obj);
   }
 });
 
 util.addChainableMethod(Assertion.prototype, "collapsed", function (this: any) {
-  var obj = util.flag(this, "object");
+  const obj = util.flag(this, "object");
 
   if (obj && "expanded" in obj) {
     new Assertion(obj.expanded).to.be.false;
@@ -153,33 +180,46 @@ util.addChainableMethod(Assertion.prototype, "collapsed", function (this: any) {
   }
 });
 
-util.addChainableMethod(Assertion.prototype, "invalid", function (this: any) {
-  var obj = util.flag(this, "object");
+util.addChainableMethod(Assertion.prototype, "level", function (this: any, level: number) {
+  const obj = util.flag(this, "object");
 
-  if (obj && "expanded" in obj) {
-    new Assertion(obj.invalid).to.be.true;
+  if (obj && "level" in obj) {
+    new Assertion(obj.level).to.equal(level);
   } else if (obj && "spoken" in obj) {
-    new Assertion(obj.spoken).to.contain("invalid data");
+    const text = obj?.output?.phrases?.join?.() || obj.spoken;
+    new Assertion(text).to.contain("level " + level);
   } else {
-    new Assertion(obj).to.have.any.keys("expanded", "spoken");
+    new Assertion(obj).to.have.any.keys("level", "spoken");
   }
 });
 
-util.addChainableMethod(Assertion.prototype, "selected", function (this: any) {
-  var obj = util.flag(this, "object");
+util.addChainableMethod(Assertion.prototype, "invalid", function (this: any) {
+  const obj = util.flag(this, "object");
 
   if (util.flag(this, "negate")) {
-    if (obj && "expanded" in obj) {
-      new Assertion(obj.selected).to.be.false;
-    } else if (obj && "spoken" in obj) {
-      new Assertion(obj.spoken).to.not.contain("✓");
-    }
-  } else if (obj && "expanded" in obj) {
-    new Assertion(obj.selected).to.be.true;
-  } else if (obj && "spoken" in obj) {
-    new Assertion(obj.spoken).to.contain("✓");
+    toNotIncludeBoolean('invalid', "invalid data", obj);
   } else {
-    new Assertion(obj).to.have.any.keys("expanded", "spoken");
+    toIncludeBoolean('invalid', "invalid data", obj);
+  }
+});
+
+util.addProperty(Assertion.prototype, "selected", function (this: any) {
+  const obj = util.flag(this, "object");
+
+  if (util.flag(this, "negate")) {
+    toNotIncludeBoolean('selected', "✓", obj);
+  } else {
+    toIncludeBoolean('selected', "✓", obj);
+  }
+});
+
+util.addProperty(Assertion.prototype, "disabled", function (this: any) {
+  const obj = util.flag(this, "object");
+
+  if (util.flag(this, "negate")) {
+    toNotIncludeBoolean('disabled', ["dimmed", "Disabled"], obj);
+  } else {
+    toIncludeBoolean('disabled', ["dimmed", "Disabled"], obj);
   }
 });
 

@@ -143,7 +143,6 @@ class Accessibility extends Helper implements ATHelper {
   async grabFocusedElement() {
     return getFocusedElement(this.helpers);
   }
-  async pressEscape() {}
 
   async focus(locator: CodeceptJS.LocatorOrString) {
     return focus(locator, this.helpers);

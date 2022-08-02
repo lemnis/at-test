@@ -30,7 +30,20 @@ export class ATHelper {
 
   // Browser Actions
   focus(locator: CodeceptJS.LocatorOrString): Promise<void>;
-  grabFocusedElement(): Promise<AccessibilityNode>
+  grabFocusedElement(): Promise<
+  | Partial<
+      {
+        spoken: string;
+        output: {
+          phrase: string,
+          bounds?: { x: number, y: number, width: number, height: number} | undefined,
+          textUnderCursor?: string,
+          phrases?: string[] | undefined
+        }
+      } & AccessibilityNode
+    >
+  | undefined
+>;
 
   // AT Actions
   nextItem?(): Promise<void>;

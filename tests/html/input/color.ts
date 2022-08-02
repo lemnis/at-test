@@ -45,6 +45,7 @@ Scenario("Should have role", async function (this: any, { I }) {
   expect(await I.grabATOutput("#test")).to.have.role([
     "ColorWell",
     "color well",
+    "colour picker"
   ]);
 }).tag("role");
 

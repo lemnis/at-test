@@ -1,12 +1,13 @@
 import { Page, ElementHandle } from "playwright";
 import { run } from "@jxa/run";
+import { Browser, Element } from "webdriverio";
 
 interface Cursor {
   bounds: { width: number; height: number; x: number; y: number };
   text?: string;
 }
 
-export const domCursor = async (
+export const playwrightCursor = async (
   page: Page,
   element?: ElementHandle
 ): Promise<Cursor> => {
@@ -28,6 +29,31 @@ export const domCursor = async (
       ...elementBoundingBox!,
       x: (elementBoundingBox?.x || 0) + windowOffset.x,
       y: (elementBoundingBox?.y || 0) + windowOffset.y,
+    },
+    text,
+  };
+};
+
+export const webdriverCursor = async (
+  browser: Browser<"async">,
+  element?: Element<"async">
+): Promise<Cursor> => {
+  const location = await element?.getLocation();
+  const size = await element?.getSize();
+  const windowOffset = await browser.execute(() => {
+    return {
+      x: window.outerWidth - window.innerWidth + window.screenX,
+      y: window.outerHeight - window.innerHeight + window.screenY,
+    };
+  });
+
+  const text = undefined // await element?.getComputedLabel(); // Only enable for chrome / catch error
+
+  return {
+    bounds: {
+      ...size!,
+      x: (location?.x || 0) + windowOffset.x,
+      y: (location?.y || 0) + windowOffset.y,
     },
     text,
   };
@@ -66,18 +92,38 @@ export const matchCursors = async (
 ) => {
   const playwright: Omit<CodeceptJS.Playwright, "_locate"> &
     Record<string, any> = helpers.Playwright;
-  const page: Page = playwright.page;
+  if (playwright) {
+    const page: Page = playwright.page;
 
-  const [vo, dom] = await Promise.all([
-    voCursor(),
-    playwright
-      ._locate(locator)
-      .then((els: ElementHandle[]) => domCursor(page, els?.[0])),
-  ]);
+    const [vo, dom] = await Promise.all([
+      voCursor(),
+      playwright
+        ._locate(locator)
+        .then((els: ElementHandle[]) => playwrightCursor(page, els?.[0])),
+    ]);
 
-  return (
-    (compareBounds(dom.bounds, vo.bounds) ||
-      compareBounds(vo.bounds, dom.bounds)) &&
-    (!dom.text || !vo.text || vo.text.includes(dom.text))
-  );
+    return (
+      (compareBounds(dom.bounds, vo.bounds) ||
+        compareBounds(vo.bounds, dom.bounds)) &&
+      (!dom.text || !vo.text || vo.text.includes(dom.text))
+    );
+  } else {
+    const WebDriver: Omit<CodeceptJS.WebDriver, "_locate"> & {
+      _locate: (
+        locator: CodeceptJS.LocatorOrString
+      ) => Promise<Element<"async">[]>;
+    } = helpers.WebDriver;
+    const [vo, dom] = await Promise.all([
+      voCursor(),
+      WebDriver._locate(locator).then((els) =>
+        webdriverCursor(helpers.WebDriver.browser, els?.[0])
+      ),
+    ]);
+
+    return (
+      (compareBounds(dom.bounds, vo.bounds) ||
+        compareBounds(vo.bounds, dom.bounds)) &&
+      (!dom.text || !vo.text || vo.text.includes(dom.text))
+    );
+  }
 };

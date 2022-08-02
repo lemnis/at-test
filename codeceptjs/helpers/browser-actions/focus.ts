@@ -1,5 +1,6 @@
 import { ElementHandle, Page } from "playwright";
 import { Browser, Element } from "webdriverio";
+import VoiceOver from "../../voiceover-helper";
 import { AccessibilityNode } from "../base";
 
 export const focus = async (
@@ -11,7 +12,10 @@ export const focus = async (
     return elements[0]?.focus();
   } else if (helpers.WebDriver) {
     const webdriver: CodeceptJS.WebDriver = helpers.WebDriver;
-    return webdriver.executeScript((el) => document.querySelector(el).focus(), locator);
+    return webdriver.executeScript(
+      (el) => document.querySelector(el).focus(),
+      locator
+    );
   } else {
     throw new Error("focus: No helper founded that is supported");
   }
@@ -30,13 +34,11 @@ export const getFocusedElement = async (helpers: any) => {
   if (helpers.Playwright) {
     const page: Page = helpers.Playwright.page;
     const snapshot = await page.accessibility.snapshot();
-    return findFocusedNode(snapshot);
+    return await findFocusedNode(snapshot) || undefined;
     // TODO: Grab AX focused element, not the DOM active element
-    // } else if (helpers.WebDriver) {
-    //   const webdriver: CodeceptJS.WebDriver = helpers.WebDriver;
-    //   return webdriver.executeScript(function() {
-    //     return document.activeElement;
-    //   });
+  } else if (helpers.VoiceOver) {
+    const voiceOver: VoiceOver = helpers.VoiceOver;
+    return await voiceOver.grabATOutput() || undefined;
   } else {
     throw new Error("focus: No helper founded that is supported");
   }

@@ -60,7 +60,6 @@ export class VoiceOverController {
           ) {
             this.current?.phrases.push(output.phrase);
             if (this.current) this.current.latest = output.phrase;
-            console.log(this.current);
           }
         } else {
           this.previous = this.current;
@@ -149,15 +148,26 @@ export class VoiceOverController {
 
   public pressKey(
     name: keyof typeof KEY_CODES | string | number,
-    modifiers?: string[]
+    modifiers: string[] = []
   ): Promise<string> {
     const code = (KEY_CODES as any)[name];
+    if (code || typeof name === 'number') {
+      return jxaRun(
+        (code, modifiers) => {
+          const systemEvents = Application("System Events");
+          systemEvents.keyCode(code, { using: modifiers });
+        },
+        code || name,
+        modifiers
+      );
+    }
+
     return jxaRun(
-      (code, modifiers) => {
+      (name, modifiers) => {
         const systemEvents = Application("System Events");
-        systemEvents.keyCode(code, { using: modifiers });
+        systemEvents.keystroke(name, { using: modifiers });
       },
-      code || name,
+      name,
       modifiers
     );
   }
@@ -238,7 +248,7 @@ export class VoiceOverController {
     const letters = text.split("");
 
     for await (const letter of letters) {
-      await new Promise((r) => setTimeout(() => r(undefined), 50));
+      await new Promise((r) => setTimeout(() => r(undefined), 500));
       await this.pressKey(letter);
     }
 

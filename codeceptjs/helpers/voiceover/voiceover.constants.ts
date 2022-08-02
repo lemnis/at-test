@@ -1,6 +1,7 @@
-// https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
-// https://eastmanreference.com/complete-list-of-applescript-key-codes
-
+/**
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
+ * @see https://eastmanreference.com/complete-list-of-applescript-key-codes
+ */
 export const KEY_CODES = {
   Return: 36,
   Tab: 48,
@@ -61,3 +62,11 @@ export const KEY_CODES = {
   F11: 103,
   F12: 111,
 };
+
+export enum ROTOR_SECTIONS {
+  LINKS = 'Links',
+  HEADINGS = 'Headings',
+  LANDMARKS = 'Landmarks',
+  FORM_CONTROLS = 'Form Controls',
+  ARTICLES = 'Articles',
+}

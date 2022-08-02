@@ -1,17 +1,22 @@
 import snapshot from "snap-shot-it";
 import { expect } from "../utils/expect";
+import { getAT, ASSISTIVE_TECHNOLOGY } from "../utils/setup";
 
 Feature("Textarea").tag("html/textarea");
 
-const helpers = codeceptjs.config.get("helpers");
 const html = /*html*/ `<button id="start" type="button">start</button><textarea id="test"></textarea>`;
+const htmlWithLabel = /*html*/ `<button id="start" type="button">start</button><textarea aria-label="Foo" id="test"></textarea>`;
 
 const VoiceOverMacOsActions = [
   "nextItem",
   "nextFocusableItem",
-  "nextFormControl",
-  'rotor({ menu: "Form Controls" })',
+  "nextControlItem",
 ];
+
+const navigation =
+  getAT() === ASSISTIVE_TECHNOLOGY.VOICEOVER
+    ? VoiceOverMacOsActions
+    : ["nextItem"];
 
 Scenario("Should be focusable", async ({ I }) => {
   I.setContent(html);
@@ -23,7 +28,11 @@ Scenario("Should be focusable", async ({ I }) => {
 Scenario("Should have role", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
+  if (
+    [ASSISTIVE_TECHNOLOGY.VOICEOVER, ASSISTIVE_TECHNOLOGY.CHROMEVOX].includes(
+      getAT()
+    )
+  ) {
     I.focus("#start");
     I.nextItem?.();
   }
@@ -35,10 +44,35 @@ Scenario("Should have role", async ({ I }) => {
   ]);
 }).tag("role");
 
+navigation.forEach((nav) => {
+  Scenario(`Should convey its name - ${nav}`, async ({ I }) => {
+    I.setContent(htmlWithLabel);
+    I.focus("#start");
+    I[nav]?.();
+    expect(await I.grabATOutput("#test")).to.have.name("Foo");
+  }).tag("name");
+});
+
+if (getAT() === ASSISTIVE_TECHNOLOGY.VOICEOVER) {
+  Scenario(`Should convey its name - rotor`, async function (this: any, { I }) {
+    I.setContent(htmlWithLabel);
+    I.focus("#start");
+    (I as any).rotor({
+      menu: "Form Controls",
+      find: "Foo",
+    });
+    expect(await I.grabATOutput("#test")).to.have.name("Foo");
+  }).tag("name");
+}
+
 Scenario("Should be multiline", async ({ I }) => {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
+  if (
+    [ASSISTIVE_TECHNOLOGY.VOICEOVER, ASSISTIVE_TECHNOLOGY.CHROMEVOX].includes(
+      getAT()
+    )
+  ) {
     I.focus("#start");
     I.nextItem?.();
   }

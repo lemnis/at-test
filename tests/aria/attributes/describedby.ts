@@ -35,10 +35,8 @@ const htmlWithAlert = `
 Scenario("contribute to the description", async function (this: any, { I }) {
   I.setContent(html);
 
-  if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-    I.focus("#target");
-    I.getDescription();
-  }
+  I.focus("#target");
+  I.getDescription?.();
 
   const ax = await I.grabATOutput("#target");
   expect(ax).to.have.name("error");
@@ -51,11 +49,11 @@ Scenario(
 
     I.focus("#target");
     I.type("Hello");
-    I.getDescription();
+    I.getDescription?.();
     expect(await I.grabATOutput("#target")).to.have.name("error: 5");
 
     I.type(" World");
-    I.getDescription();
+    I.getDescription?.();
     expect(await I.grabATOutput("#target")).to.have.name("error: 11");
   }
 ).tag("changes");
@@ -65,10 +63,8 @@ Scenario(
   async function (this: any, { I }) {
     I.setContent(htmlWithAlert);
 
-    if (helpers.ChromevoxHelper || helpers.VoiceOver) {
-      I.focus("#target");
-      I.getDescription();
-    }
+    I.focus("#target");
+    I.getDescription?.();
 
     const ax = await I.grabATOutput("#target");
     expect(ax).to.have.name("error");

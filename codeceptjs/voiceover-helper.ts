@@ -16,7 +16,7 @@ import { exec } from "child_process";
 import { promisify } from "util";
 import { NATIVE_WINDOWS } from "./voiceover/voiceover.constants";
 import { ElementHandle, Page } from "playwright";
-import { domCursor, matchCursors, voCursor } from "./voiceover/cursors";
+import { matchCursors, voCursor } from "./voiceover/cursors";
 import { VoiceOverController } from "./voiceover/controller";
 const { screenshotOutputFolder } = require("codeceptjs/lib/utils.js");
 
@@ -82,12 +82,7 @@ class VoiceOver extends Helper implements ATHelper {
       locator &&
       !(await matchCursors(this.helpers, locator))
     ) {
-      const playwright: Omit<CodeceptJS.Playwright, "_locate"> &
-        Record<string, any> = this.helpers.Playwright;
-      const page: Page = playwright.page;
-      const elements: ElementHandle[] = await playwright._locate(locator);
       console.log(locator);
-      console.log(await domCursor(page, elements?.[0]!));
       console.log(await voCursor());
       throw new Error("Unexpected VoiceOver cursor");
     }
@@ -124,12 +119,7 @@ class VoiceOver extends Helper implements ATHelper {
   }
 
   async nextControlItem() {
-    await voiceOver.execute({
-      name: "Move to next form contrl",
-      description: "VO+CMD+J",
-      keyCode: 38,
-      modifiers: ["control down", "option down", "command"],
-    });
+    await voiceOver.pressKey(38, ["control down", "option down", "command down"]);
   }
 
   async nextGraphicItem() {
@@ -140,25 +130,8 @@ class VoiceOver extends Helper implements ATHelper {
     await voiceOver.rotor(...args);
   }
 
-  async pressEscape() {
-    await voiceOver.execute({
-      keyCode: KEY_CODES.Escape,
-      modifiers: [],
-    });
-  }
-
-  async pressArrowDown() {
-    await voiceOver.execute({
-      keyCode: KEY_CODES.ArrowDown,
-      modifiers: [],
-    });
-  }
-
-  async pressArrowUp() {
-    await voiceOver.execute({
-      keyCode: KEY_CODES.ArrowUp,
-      modifiers: [],
-    });
+  async pressKey(key: string) {
+    await voiceOver.pressKey(key);
   }
 
   async clickNext() {

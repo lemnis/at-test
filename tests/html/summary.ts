@@ -15,14 +15,16 @@ const html = /*html*/ `
 
 Scenario("Should be focusable", async ({ I }) => {
   I.setContent(html);
-  I.focus('#start');
+  I.focus("#start");
   I.nextFocusableItem?.();
-  expect((await I.grabFocusedElement())).to.have.property('role', 'summary');
+  expect(await I.grabFocusedElement())
+    .to.have.property("role")
+    .with.oneOf(["Summary", "summary", "DisclosureTriangle"]);
 }).tag("focusable");
 
 Scenario("Should be expandable", async ({ I }) => {
   I.setContent(html);
-  
+
   if (helpers.ChromevoxHelper || helpers.VoiceOver) {
     I.focus("#start");
     I.nextItem?.();
@@ -31,7 +33,7 @@ Scenario("Should be expandable", async ({ I }) => {
   expect(await I.grabATOutput("#test")).to.be.collapsed();
 
   I.click("#test");
-  
+
   expect(await I.grabATOutput("#test")).to.be.expanded();
 }).tag("expandable");
 

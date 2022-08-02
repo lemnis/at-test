@@ -1,13 +1,14 @@
 /// <reference path="../steps.d.ts" />
 
-import {
-  BrowserContext,
-  ConsoleMessage,
-  Page,
-} from "playwright";
+import { platform } from "os";
+import { BrowserContext, ConsoleMessage, Page } from "playwright";
 import { ATHelper } from "./base";
-import { focus } from "./browser-actions/focus";
-import { nextFocusableItem, performDefaultAction, previousFocusableItem } from "./browser-actions/keyboard";
+import { focus, getFocusedElement } from "./browser-actions/focus";
+import {
+  nextFocusableItem,
+  performDefaultAction,
+  previousFocusableItem,
+} from "./browser-actions/keyboard";
 
 // id : kgejglhpjiefppelpmljglcjbhoiplfn
 // const params = new URLSearchParams('');
@@ -22,53 +23,97 @@ import { nextFocusableItem, performDefaultAction, previousFocusableItem } from "
 // params.append('x', `id=${id}&uc`);
 // `https://clients2.google.com/service/update2/crx?${params}`
 
-class ChromeVoxHelper extends Helper implements ATHelper {
+class ChromeVox extends Helper implements ATHelper {
   private speakOutput: any[][] = [];
   private lastPhrase = () => {
     const lastOutputArray = this.speakOutput[this.speakOutput.length - 1];
     return lastOutputArray
-      ?.map((i) => i[0])
+      ?.map((i) => i)
       .filter(Boolean)
       .join(", ");
   };
 
-  private catchPhrases = (msg: ConsoleMessage) => {
-    return Promise.all(msg.args().map((j) => j.jsonValue()))
-      .then((i) => i.flat())
-      .then((i) => {
-        // if (i.length === 2 && i[0].startsWith("Injecting into"))
-        if (i.length === 3 && i[1] === 1 && this.speakOutput.length)
-          this.speakOutput[this.speakOutput.length - 1].push(i);
-        else if (i.length === 3) this.speakOutput.push([i]);
-      });
+  async setContent(html: string) {
+    if (this.helpers.Playwright) {
+      const page: Page = this.helpers.Playwright.page;
+      await page?.setContent(html);
+    } else if (this.helpers.WebDriver) {
+      const browser: any = this.helpers.WebDriver.browser;
+      await browser.url(`data:text/html;base64,${btoa(html)}`);
+    } else {
+      throw new Error("setContent: No helper founded that is supported");
+    }
+
+    return await new Promise((done) => setTimeout(done, 5000));
+  }
+
+  private catchPhrases = async (msg: ConsoleMessage) => {
+    const output = await Promise.all(msg.args().map((j) => j.jsonValue()));
+    const flat = output.flat();
+    const regex = /^Speak \((.)\) category=(\w+) "(.*)"$/;
+    if (flat.length === 1 && flat[0].match(regex)) {
+      const [, type, category, text] = flat[0].match(regex) || [];
+      if (type === "Q" && this.speakOutput.length) {
+        this.speakOutput[this.speakOutput.length - 1].push(text);
+      } else {
+        this.speakOutput.push([text]);
+      }
+    }
   };
 
-  protected _before(): void {
+  async _init() {
+    return new Promise(r => setTimeout(r, 5000));
+  }
+
+  protected async _before() {
     const context: BrowserContext = this.helpers.Playwright.browser;
-    const backgroundPage = context.backgroundPages();
     setTimeout(() => {
       const backgroundPage = context.backgroundPages();
       backgroundPage[0]?.on("console", this.catchPhrases);
     }, 1000);
   }
 
+  protected _beforeSuite(suite: Mocha.Suite): void {
+    this.speakOutput = [];
+  }
+
   async grabATOutput(locator: CodeceptJS.LocatorOrString) {
-    return { spoken: this.lastPhrase() };
+    return {
+      spoken: this.lastPhrase(),
+      output: {
+        phrase: this.lastPhrase(),
+        phrases: this.speakOutput[this.speakOutput.length - 1],
+      },
+    };
   }
 
   private async downChromeVoxModifier() {
     const page: Page = this.helpers.Playwright.page;
-    await page.keyboard.down("Shift");
-    await page.keyboard.down("Alt");
+    if (platform() === "darwin") {
+      await page.keyboard.down("Meta");
+      await page.keyboard.down("Control");
+    } else {
+      await page.keyboard.down("Shift");
+      await page.keyboard.down("Alt");
+    }
   }
   private async upChromeVoxModifier() {
     const page: Page = this.helpers.Playwright.page;
-    await page.keyboard.up("Shift");
-    await page.keyboard.up("Alt");
+    if (platform() === "darwin") {
+      await page.keyboard.up("Meta");
+      await page.keyboard.up("Control");
+    } else {
+      await page.keyboard.up("Shift");
+      await page.keyboard.up("Alt");
+    }
   }
 
   async focus(locator: CodeceptJS.LocatorOrString) {
-    return focus(locator, this.helpers.Playwright);
+    return focus(locator, this.helpers);
+  }
+
+  async grabFocusedElement() {
+    return getFocusedElement(this.helpers);
   }
 
   async nextItem() {
@@ -213,4 +258,4 @@ class ChromeVoxHelper extends Helper implements ATHelper {
   // }
 }
 
-export = ChromeVoxHelper;
+export = ChromeVox;

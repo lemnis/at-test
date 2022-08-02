@@ -16,7 +16,7 @@ export const helpers: {
   Playwright?: CodeceptJS.Playwright & Record<string, any>,
   WebDriver?: CodeceptJS.WebDriver & Record<string, any>,
   VoiceOver?: Record<string, any>,
-  ChromeVoxHelper?: Record<string, any>,
+  ChromeVox?: Record<string, any>,
 } = codeceptjs.config.get("helpers");
 
 export const getDriver = () => {
@@ -29,6 +29,6 @@ export const getBrowserName = (): BROWSERS => {
 
 export const getAT = (): ASSISTIVE_TECHNOLOGY => {
   if(helpers.VoiceOver) return ASSISTIVE_TECHNOLOGY.VOICEOVER;
-  if(helpers.ChromeVoxHelper) return ASSISTIVE_TECHNOLOGY.CHROMEVOX
+  if(helpers.ChromeVox) return ASSISTIVE_TECHNOLOGY.CHROMEVOX
   return ASSISTIVE_TECHNOLOGY.NONE;
 }

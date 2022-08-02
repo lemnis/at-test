@@ -16,6 +16,13 @@ const {
   EVENT_SUITE_BEGIN,
 } = Mocha.Runner.constants;
 
+const getBrowserVersion = (container) => {
+  return (
+    container.helpers("Playwright")?.browser?.version?.() ||
+    container.helpers("WebDriver").browser?.capabilities?.browserVersion
+  );
+};
+
 // this reporter outputs test results, indenting two spaces per suite
 class MyReporter {
   constructor(runner, options) {
@@ -42,18 +49,14 @@ class MyReporter {
         json.environment.browser = {
           name: browser,
           driver,
-          version: (browserVersion = container
-            .helpers("Playwright")
-            .browser.version()),
+          version: (browserVersion = getBrowserVersion(container)),
         };
       })
       .once(EVENT_TEST_FAIL, () => {
         json.environment.browser = {
           name: browser,
           driver,
-          version: (browserVersion = container
-            .helpers("Playwright")
-            ?.browser.version()),
+          version: (browserVersion = getBrowserVersion(container)),
         };
       })
       .on(EVENT_TEST_PASS, (test) => {

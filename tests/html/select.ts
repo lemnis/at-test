@@ -13,10 +13,9 @@ const html = (label?: string) => /*html*/ `<select
 Scenario("Should be focusable", async ({ I }) => {
   I.setContent(html());
   I.nextFocusableItem?.();
-  expect(await I.grabFocusedElement()).to.have.property('role').with.oneOf([
-    "combobox",
-    "pop up button",
-  ]);
+  expect(await I.grabFocusedElement())
+    .to.have.property("role")
+    .with.oneOf(["combobox", "pop up button"]);
 }).tag("focusable");
 
 Scenario("Should be expandable", async ({ I }) => {
@@ -26,7 +25,7 @@ Scenario("Should be expandable", async ({ I }) => {
   expect(await I.grabATOutput("#test")).to.be.collapsed;
   I.click("#test");
   expect(await I.grabATOutput("#test")).to.be.expanded;
-  I.pressEscape();
+  I.pressKey("Escape");
 }).tag("expandable");
 
 Scenario("Should have value", async ({ I }) => {
@@ -41,6 +40,7 @@ Scenario("Should have role", async ({ I }) => {
   expect(await I.grabATOutput("#test")).to.have.role([
     "combobox",
     "pop up button",
+    "combo box",
   ]);
 }).tag("role");
 
