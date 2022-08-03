@@ -37,7 +37,7 @@ export const playwrightCursor = async (
 export const webdriverCursor = async (
   browser: Browser<"async">,
   element?: Element<"async">
-): Promise<Cursor> => {
+): Promise<Cursor & { innerText?: string }> => {
   const location = await element?.getLocation();
   const size = await element?.getSize();
   const windowOffset = await browser.execute(() => {
@@ -56,6 +56,7 @@ export const webdriverCursor = async (
       y: (location?.y || 0) + windowOffset.y,
     },
     text,
+    innerText: await element?.getText()
   };
 };
 
