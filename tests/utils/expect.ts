@@ -26,9 +26,7 @@ function toInclude(property: string, str: string | string[], value: any) {
     if (property in value) {
       new Assertion(value[property]).to.be.oneOf(str);
     } else if (value.output?.phrases?.length) {
-      new Assertion(value.output.phrases.join()).to.contain.oneOf(
-        str
-      );
+      new Assertion(value.output.phrases.join()).to.contain.oneOf(str);
     } else {
       new Assertion(value.spoken).to.contain.oneOf(str);
     }
@@ -41,7 +39,11 @@ function toInclude(property: string, str: string | string[], value: any) {
   }
 }
 
-function toIncludeBoolean(property: string, str: string | string[], value: any) {
+function toIncludeBoolean(
+  property: string,
+  str: string | string[],
+  value: any
+) {
   if (!(property in value && "spoken" in value)) {
     new Assertion(value).to.have.any.keys(property, "spoken");
   }
@@ -50,9 +52,7 @@ function toIncludeBoolean(property: string, str: string | string[], value: any) 
     new Assertion(value[property]).to.be.true;
   } else if (Array.isArray(str)) {
     if (value.output?.phrases?.length) {
-      new Assertion(value.output.phrases.join()).to.contain.oneOf(
-        str
-      );
+      new Assertion(value.output.phrases.join()).to.contain.oneOf(str);
     } else {
       new Assertion(value.spoken).to.contain.oneOf(str);
     }
@@ -61,23 +61,21 @@ function toIncludeBoolean(property: string, str: string | string[], value: any) 
   }
 }
 
-function toNotIncludeBoolean(property: string, str: string | string[], value: any) {
-  if (!(property in value && "spoken" in value)) {
-    new Assertion(value).to.have.any.keys(property, "spoken");
-  }
-
-  if (property in value) {
-    new Assertion(value[property]).to.be.false;
-  } else if (Array.isArray(str)) {
-    if (value.output?.phrases?.length) {
-      new Assertion(value.output.phrases.join()).to.not.contain.oneOf(
-        str
-      );
-    } else {
-      new Assertion(value.spoken).to.not.contain.oneOf(str);
-    }
-  } else {
+function toNotIncludeBoolean(
+  property: string,
+  str: string | string[],
+  value: any
+) {
+  if (Array.isArray(str) && value.output?.phrases?.length) {
+    new Assertion(value.output.phrases.join()).to.not.contain.oneOf(str);
+  } else if (Array.isArray(str) && "spoken" in value) {
+    new Assertion(value.spoken).to.not.contain.oneOf(str);
+  } else if ("spoken" in value) {
     new Assertion(value.spoken).to.not.contain(str);
+  } else if (property in value) {
+    new Assertion(value[property]).to.be.false;
+  } else {
+    new Assertion(value).to.not.have.property(property);
   }
 }
 
@@ -90,18 +88,14 @@ function toNotInclude(property: string, str: string | string[], value: any) {
     if (property in value) {
       new Assertion(value.role).to.not.be.oneOf(str);
     } else if (value.output?.phrases?.length) {
-      new Assertion(
-        value.output.phrases.join()
-      ).to.not.contain.oneOf(str);
+      new Assertion(value.output.phrases.join()).to.not.contain.oneOf(str);
     } else {
       new Assertion(value.spoken).to.not.contain.oneOf(str);
     }
   } else if (property in value) {
     new Assertion(value.role).to.not.be.equal(str);
   } else if (value.output?.phrases?.length) {
-    new Assertion(value.output.phrases.join()).to.not.contain(
-      str
-    );
+    new Assertion(value.output.phrases.join()).to.not.contain(str);
   } else {
     new Assertion(value.spoken).to.not.contain(str);
   }
@@ -162,9 +156,9 @@ util.addChainableMethod(Assertion.prototype, "expanded", function (this: any) {
   const obj = util.flag(this, "object");
 
   if (util.flag(this, "negate")) {
-    toNotIncludeBoolean('expanded', "expanded", obj);
+    toNotIncludeBoolean("expanded", "expanded", obj);
   } else {
-    toIncludeBoolean('expanded', "expanded", obj);
+    toIncludeBoolean("expanded", "expanded", obj);
   }
 });
 
@@ -180,26 +174,30 @@ util.addChainableMethod(Assertion.prototype, "collapsed", function (this: any) {
   }
 });
 
-util.addChainableMethod(Assertion.prototype, "level", function (this: any, level: number) {
-  const obj = util.flag(this, "object");
+util.addChainableMethod(
+  Assertion.prototype,
+  "level",
+  function (this: any, level: number) {
+    const obj = util.flag(this, "object");
 
-  if (obj && "level" in obj) {
-    new Assertion(obj.level).to.equal(level);
-  } else if (obj && "spoken" in obj) {
-    const text = obj?.output?.phrases?.join?.() || obj.spoken;
-    new Assertion(text).to.contain("level " + level);
-  } else {
-    new Assertion(obj).to.have.any.keys("level", "spoken");
+    if (obj && "level" in obj) {
+      new Assertion(obj.level).to.equal(level);
+    } else if (obj && "spoken" in obj) {
+      const text = obj?.output?.phrases?.join?.() || obj.spoken;
+      new Assertion(text).to.contain("level " + level);
+    } else {
+      new Assertion(obj).to.have.any.keys("level", "spoken");
+    }
   }
-});
+);
 
 util.addChainableMethod(Assertion.prototype, "invalid", function (this: any) {
   const obj = util.flag(this, "object");
 
   if (util.flag(this, "negate")) {
-    toNotIncludeBoolean('invalid', "invalid data", obj);
+    toNotIncludeBoolean("invalid", "invalid data", obj);
   } else {
-    toIncludeBoolean('invalid', "invalid data", obj);
+    toIncludeBoolean("invalid", "invalid data", obj);
   }
 });
 
@@ -207,9 +205,9 @@ util.addProperty(Assertion.prototype, "selected", function (this: any) {
   const obj = util.flag(this, "object");
 
   if (util.flag(this, "negate")) {
-    toNotIncludeBoolean('selected', "✓", obj);
+    toNotIncludeBoolean("selected", "✓", obj);
   } else {
-    toIncludeBoolean('selected', "✓", obj);
+    toIncludeBoolean("selected", "✓", obj);
   }
 });
 
@@ -217,9 +215,9 @@ util.addProperty(Assertion.prototype, "disabled", function (this: any) {
   const obj = util.flag(this, "object");
 
   if (util.flag(this, "negate")) {
-    toNotIncludeBoolean('disabled', ["dimmed", "Disabled"], obj);
+    toNotIncludeBoolean("disabled", ["dimmed", "Disabled"], obj);
   } else {
-    toIncludeBoolean('disabled', ["dimmed", "Disabled"], obj);
+    toIncludeBoolean("disabled", ["dimmed", "Disabled"], obj);
   }
 });
 

@@ -8,6 +8,16 @@ exports['Details @html/details: Should hide / show content depending on expanded
       "name": "",
       "children": [
         {
+          "role": "TextGroup",
+          "name": "",
+          "children": [
+            {
+              "role": "button",
+              "name": "start"
+            }
+          ]
+        },
+        {
           "role": "Details",
           "name": "",
           "children": [
@@ -20,6 +30,16 @@ exports['Details @html/details: Should hide / show content depending on expanded
                   "name": "Summary title"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "role": "TextGroup",
+          "name": "",
+          "children": [
+            {
+              "role": "button",
+              "name": "end"
             }
           ]
         }

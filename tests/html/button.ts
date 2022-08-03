@@ -9,17 +9,27 @@ const html = (prop?: string, value?: string) =>
     prop ? (value ? `${prop}="${value}"` : prop) : ""
   } aria-label="Foo">Foo</button>`;
 
-Scenario("MUST convey its role & name", async ({ I }) => {
+Scenario("MUST convey its role", async ({ I }) => {
   I.setContent(html());
 
   I.focus("#start");
   I.nextItem?.();
 
   const ax = await I.grabATOutput("#test");
-  expect(ax).to.have.role(["button", "Button"]).and.have.name("Foo").and.not.be
-    .disabled;
+  expect(ax).to.have.role(["button", "Button"]);
   snapshot(ax as any);
-}).tag("base");
+}).tag("role");
+
+Scenario("MUST convey its name", async ({ I }) => {
+  I.setContent(html());
+
+  I.focus("#start");
+  I.nextItem?.();
+
+  const ax = await I.grabATOutput("#test");
+  expect(ax).to.have.name("Foo").and.not.be.disabled;
+  snapshot(ax as any);
+}).tag("name");
 
 Scenario("MUST convey disabled state", async ({ I }) => {
   I.setContent(html("disabled"));
@@ -53,7 +63,7 @@ Scenario("MUST convey disabled state", async ({ I }) => {
       expect(await I.grabFocusedElement()).to.have.property("name", "Foo");
       snapshot(ax as any);
     }
-  ).tag("base");
+  ).tag("shortcuts");
 });
 
 if (getAT() === ASSISTIVE_TECHNOLOGY.VOICEOVER) {
@@ -74,5 +84,5 @@ if (getAT() === ASSISTIVE_TECHNOLOGY.VOICEOVER) {
       expect(await I.grabFocusedElement()).to.have.property("name", "Foo");
       snapshot(ax as any);
     }
-  ).tag("base");
+  ).tag("shortcuts");
 }

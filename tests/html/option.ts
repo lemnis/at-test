@@ -24,7 +24,7 @@ async function closeMenu(I: CodeceptJS.I) {
 Scenario("MUST convey its role", async ({ I }) => {
   I.setContent(html());
   I.focus("#parent");
-  I.clickNext();
+  I.clickNext?.();
   if ([ASSISTIVE_TECHNOLOGY.VOICEOVER].includes(getAT())) {
     ((I as any).pressVoKey || I.pressKey)("ArrowDown");
     ((I as any).pressVoKey || I.pressKey)("ArrowUp");
@@ -42,7 +42,7 @@ Scenario("MUST convey its role", async ({ I }) => {
 Scenario("MUST convey its name", async ({ I }) => {
   I.setContent(html());
   I.focus("#parent");
-  I.clickNext();
+  I.clickNext?.();
   if ([ASSISTIVE_TECHNOLOGY.VOICEOVER].includes(getAT())) {
     ((I as any).pressVoKey || I.pressKey)("ArrowDown");
     ((I as any).pressVoKey || I.pressKey)("ArrowUp");
@@ -60,7 +60,7 @@ Scenario("MUST convey the disabled state", async ({ I }) => {
   <option id="second" value="banana" disabled>banana</option>
 </select>`);
   I.focus("#parent");
-  I.clickNext();
+  I.clickNext?.();
   if ([ASSISTIVE_TECHNOLOGY.VOICEOVER].includes(getAT())) {
     ((I as any).pressVoKey || I.pressKey)("ArrowDown");
     ((I as any).pressVoKey || I.pressKey)("ArrowUp");
@@ -80,7 +80,7 @@ Scenario("MUST convey the disabled state", async ({ I }) => {
 Scenario("MUST convey the selected state", async ({ I }) => {
   I.setContent(html());
   I.focus("#parent");
-  I.clickNext();
+  I.clickNext?.();
   if ([ASSISTIVE_TECHNOLOGY.VOICEOVER].includes(getAT())) {
     ((I as any).pressVoKey || I.pressKey)("ArrowDown");
     ((I as any).pressVoKey || I.pressKey)("ArrowUp");

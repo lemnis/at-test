@@ -26,7 +26,7 @@ Scenario(
       "Button outside modal"
     );
     if ([ASSISTIVE_TECHNOLOGY.NONE].includes(getAT())) {
-      expect(root?.children).to.have.length(1);
+      expect(root?.children).to.have.length(2);
     } else {
       await I.nextItem?.();
       expect(
@@ -61,6 +61,7 @@ Scenario(
   }
 ).tag("showAndFocus");
 
+// TODO: fix checking focus of buttons
 Scenario(
   "When opened normally the accessibility tree should include all elements",
   async ({ I }) => {
@@ -70,7 +71,7 @@ Scenario(
     });
 
     let root = await I.grabATOutput(undefined);
-    expect(root?.children?.[0] || root).to.have.name("Button inside modal");
+    expect(root?.children?.[1] || root).to.have.name("Button inside modal");
     expect(await I.grabFocusedElement()).to.have.name("Button inside modal");
 
     if (

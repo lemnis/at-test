@@ -10,7 +10,7 @@ const html = /*html*/ `
   <button id="end">end</button>
 `;
 
-Scenario("Should support role", async ({ I }) => {
+Scenario("MUST convey its role	", async ({ I }) => {
   I.setContent(html);
 
   if (
@@ -22,7 +22,7 @@ Scenario("Should support role", async ({ I }) => {
     await I.nextItem?.();
   }
 
-  const ax = await I.grabATOutput("#test");
+  const ax = await I.grabATOutput("#test", { includeIgnored: true });
   snapshot(ax as any);
   expect(ax).to.have.role("time");
 

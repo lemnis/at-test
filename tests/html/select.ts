@@ -2,7 +2,6 @@ import { expect } from "../utils/expect";
 
 Feature("Select").tag("html/select");
 
-const helpers = codeceptjs.config.get("helpers");
 const html = (label?: string) => /*html*/ `<select
   id="test"
   ${label ? `aria-label="${label}"` : ""}
@@ -11,11 +10,9 @@ const html = (label?: string) => /*html*/ `<select
 </select>`;
 
 Scenario("Should be focusable", async ({ I }) => {
-  I.setContent(html());
+  I.setContent(html("Foo"));
   I.nextFocusableItem?.();
-  expect(await I.grabFocusedElement())
-    .to.have.property("role")
-    .with.oneOf(["combobox", "pop up button"]);
+  expect(await I.grabFocusedElement()).to.have.name("Foo");
 }).tag("focusable");
 
 Scenario("Should be expandable", async ({ I }) => {
@@ -31,8 +28,9 @@ Scenario("Should be expandable", async ({ I }) => {
 Scenario("Should have value", async ({ I }) => {
   I.setContent(html());
   I.focus("#test");
+  console.log(await I.grabATOutput("#test"));
   expect(await I.grabATOutput("#test")).to.have.value("apple");
-}).tag("role");
+}).tag("value");
 
 Scenario("Should have role", async ({ I }) => {
   I.setContent(html());
@@ -41,6 +39,7 @@ Scenario("Should have role", async ({ I }) => {
     "combobox",
     "pop up button",
     "combo box",
+    "button",
   ]);
 }).tag("role");
 
