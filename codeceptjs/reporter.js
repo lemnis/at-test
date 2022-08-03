@@ -60,7 +60,7 @@ class MyReporter {
         };
       })
       .on(EVENT_TEST_PASS, (test) => {
-        if(!(test.tags || test._retriedTest.tags)?.length) console.log(`Test is missing tags`, test.title, 'at', test.file, test);
+        if(!(test?.tags || test?._retriedTest?.tags)?.length) console.log(`Test is missing tags`, test.title, 'at', test.file, test);
         json.results.push({
           id: (test.tags || test._retriedTest.tags)?.map((i) => i.replace(/@/g, "")).join("/"),
           pass: true,
@@ -75,7 +75,7 @@ class MyReporter {
         (test, err) => {
           console.log(`✖ ${test.title}`);
           console.log(err);
-          if(!(test.tags || test._retriedTest.tags)?.length) console.log(`Test is missing tags`, test.title, 'at', test.file, test);
+          if(!(test?.tags || test?._retriedTest?.tags)?.length) console.log(`Test is missing tags`, test.title, 'at', test.file, test);
           console.log();
           json.results.push({
             id: (test.tags || test._retriedTest.tags)?.map((i) => i.replace(/@/g, "")).join("/"),
