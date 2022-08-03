@@ -34,7 +34,7 @@ export const getFocusedElement = async (helpers: any) => {
   if (helpers.Playwright) {
     const page: Page = helpers.Playwright.page;
     const snapshot = await page.accessibility.snapshot();
-    return await findFocusedNode(snapshot) || undefined;
+    return findFocusedNode(snapshot) || helpers.ChromeVox?.grabATOutput() || undefined;
     // TODO: Grab AX focused element, not the DOM active element
   } else if (helpers.VoiceOver) {
     const voiceOver: VoiceOver = helpers.VoiceOver;

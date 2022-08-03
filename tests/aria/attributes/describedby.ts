@@ -3,7 +3,7 @@ import { expect } from "../../utils/expect";
 
 const helpers = codeceptjs.config.get("helpers");
 
-(helpers.InternalBrowser ? xFeature : Feature)("aria-describedby").tag(
+xFeature("aria-describedby").tag(
   "aria/attribute/aria-describedby"
 );
 

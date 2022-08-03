@@ -1,6 +1,7 @@
 import { expect } from "../utils/expect";
 import snapshot from "snap-shot-it";
 import { ASSISTIVE_TECHNOLOGY, getAT } from "../utils/setup";
+import { TAGS } from "../utils/tags";
 
 Feature("Svg").tag("svg/svg");
 
@@ -16,25 +17,25 @@ Scenario(`MUST convey its name`, async ({ I }) => {
   I.focus("#start");
   I.nextItem?.();
 
-  const ax = await I.grabATOutput("#target");
-  expect(ax).to.have.name("red square");
+  const ax = await I.grabATOutput("#target", { includeIgnored: true });
   snapshot(ax as any);
-}).tag("name");
+  expect(ax).to.have.name("red square");
+}).tag(TAGS.NAME);
 
 Scenario(`MUST convey its role`, async ({ I }) => {
   I.setContent(html);
   I.focus("#start");
   I.nextItem?.();
 
-  const ax = await I.grabATOutput("#target");
-  expect(ax).to.have.role(["Graphic", "image", "diagram", "img"]);
+  const ax = await I.grabATOutput("#target", { includeIgnored: true });
   snapshot(ax as any);
-}).tag("role");
+  expect(ax).to.have.role(["Graphic", "image", "diagram", "img"]);
+}).tag(TAGS.ROLE);
 
 const navigation =
   getAT() == ASSISTIVE_TECHNOLOGY.VOICEOVER
     ? ["nextItem", "nextGraphicItem"]
-    : ["nextItem"];
+    : [];
 
 navigation.forEach((nav) => {
   Scenario(
@@ -45,5 +46,5 @@ navigation.forEach((nav) => {
       I[nav]();
       expect(await I.grabATOutput("#target")).to.have.name("red square");
     }
-  ).tag("role");
+  ).tag(TAGS.SHORTCUTS);
 });

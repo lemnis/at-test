@@ -1,8 +1,44 @@
 {
   "results": [
     {
-      "id": "html/figure/nameMissingFigcaption",
-      "pass": false
+      "id": "html/li/role",
+      "pass": true
+    },
+    {
+      "id": "html/li/role",
+      "pass": true
+    },
+    {
+      "id": "html/ol/role",
+      "pass": true
+    },
+    {
+      "id": "html/summary/name",
+      "pass": true
+    },
+    {
+      "id": "html/summary/role",
+      "pass": true
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/ul/role",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/name",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/role",
+      "pass": true
+    },
+    {
+      "id": "svg/title/name",
+      "pass": true
     }
   ],
   "environment": {
@@ -10,6 +46,7 @@
       "name": "darwin",
       "version": "20.6.0"
     },
+    "at": {},
     "browser": {
       "name": "firefox",
       "driver": "Playwright",

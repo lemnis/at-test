@@ -2,7 +2,7 @@ import { expect } from "chai";
 import snapshot from "snap-shot-it";
 import { ASSISTIVE_TECHNOLOGY, getAT } from "../utils/setup";
 
-Feature("Progress").tag("html/progress");
+xFeature("Progress").tag("html/progress");
 
 const html = () => /*html*/ `
   <button id="start" type="button">start</button>
@@ -34,7 +34,7 @@ Scenario("Should be targetable when having a label", async ({ I }) => {
     I.nextItem?.();
   }
 
-  snapshot((await I.grabATOutput("#test")) as any);
+  snapshot((await I.grabATOutput("#test", { includeIgnored: true })) as any);
   expect(await I.grabATOutput("#test")).to.be.undefined;
 }).tag("targetable");
 

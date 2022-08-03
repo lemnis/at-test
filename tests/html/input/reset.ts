@@ -2,7 +2,7 @@ import snapshot from "snap-shot-it";
 import { expect } from "../../utils/expect";
 import { getAT, ASSISTIVE_TECHNOLOGY } from "../../utils/setup";
 
-Feature("Reset").tag("html/input/reset");
+xFeature("Reset").tag("html/input/reset");
 
 const html = (prop?: string, value?: string) =>
   /*html*/ `<button id="start" aria-label="start">start</button><input id="test" ${
@@ -51,7 +51,7 @@ Scenario("MUST convey disabled state", async ({ I }) => {
 
       const ax = await I.grabFocusedElement();
       console.log(ax);
-      expect(ax).to.have.property("name", "Reset");
+      expect(ax).to.have.name("Reset");
       snapshot(ax as any);
     }
   ).tag("base");

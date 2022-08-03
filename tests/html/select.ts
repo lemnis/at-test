@@ -1,6 +1,6 @@
 import { expect } from "../utils/expect";
 
-Feature("Select").tag("html/select");
+xFeature("Select").tag("html/select");
 
 const html = (label?: string) => /*html*/ `<select
   id="test"

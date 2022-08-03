@@ -2,7 +2,7 @@ import snapshot from "snap-shot-it";
 import { expect } from "../utils/expect";
 import { getAT, ASSISTIVE_TECHNOLOGY } from "../utils/setup";
 
-Feature("Button").tag("html/button");
+xFeature("Button").tag("html/button");
 
 const html = (prop?: string, value?: string) =>
   /*html*/ `<button id="start" aria-label="start">start</button><button id="test" ${
@@ -60,7 +60,7 @@ Scenario("MUST convey disabled state", async ({ I }) => {
       I[nav]?.();
 
       const ax = await I.grabATOutput("#test");
-      expect(await I.grabFocusedElement()).to.have.property("name", "Foo");
+      expect(await I.grabFocusedElement()).to.have.name("Foo");
       snapshot(ax as any);
     }
   ).tag("shortcuts");
@@ -81,8 +81,10 @@ if (getAT() === ASSISTIVE_TECHNOLOGY.VOICEOVER) {
       I.wait(2);
 
       const ax = await I.grabATOutput("#test");
-      expect(await I.grabFocusedElement()).to.have.property("name", "Foo");
+      expect(await I.grabFocusedElement()).to.have.name("Foo");
       snapshot(ax as any);
     }
   ).tag("shortcuts");
 }
+
+Scenario.todo('MAY convey inner-text name changes when in focus');

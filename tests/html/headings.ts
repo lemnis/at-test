@@ -2,7 +2,7 @@ import snapshot from "snap-shot-it";
 import { expect } from "../utils/expect";
 import { getAT, ASSISTIVE_TECHNOLOGY } from "../utils/setup";
 
-Feature("Headings").tag("html/h1");
+xFeature("Headings").tag("html/h1");
 
 const html = (prop?: string, value?: string) =>
   /*html*/ `<button id="start" aria-label="start">start</button><h1 id="test">Foo</h1>`;

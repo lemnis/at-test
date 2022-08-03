@@ -18,6 +18,7 @@ const mocha = {
     browser,
     ATVersion,
     ATName,
+    driver: 'VoiceOver',
   },
 };
 

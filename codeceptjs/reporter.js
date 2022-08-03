@@ -19,7 +19,7 @@ const {
 const getBrowserVersion = (container) => {
   return (
     container.helpers("Playwright")?.browser?.version?.() ||
-    container.helpers("WebDriver").browser?.capabilities?.browserVersion
+    container.helpers("WebDriver")?.browser?.capabilities?.browserVersion
   );
 };
 
@@ -60,17 +60,30 @@ class MyReporter {
         };
       })
       .on(EVENT_TEST_PASS, (test) => {
+        if(!(test.tags || test._retriedTest.tags)?.length) console.log(`Test is missing tags`, test.title, 'at', test.file, test);
         json.results.push({
-          id: test.tags.map((i) => i.replace(/@/g, "")).join("/"),
+          id: (test.tags || test._retriedTest.tags)?.map((i) => i.replace(/@/g, "")).join("/"),
           pass: true,
         });
       })
-      .on(EVENT_TEST_FAIL, (test, err) => {
-        json.results.push({
-          id: test.tags?.map((i) => i.replace(/@/g, "")).join("/"),
-          pass: false,
-        });
-      })
+      .on(
+        EVENT_TEST_FAIL,
+        /**
+         * @param {Mocha.Test} test
+         * @param {Error} err
+         */
+        (test, err) => {
+          console.log(`✖ ${test.title}`);
+          console.log(err.message);
+          console.log(err.stack);
+          if(!(test.tags || test._retriedTest.tags)?.length) console.log(`Test is missing tags`, test.title, 'at', test.file, test);
+          console.log();
+          json.results.push({
+            id: (test.tags || test._retriedTest.tags)?.map((i) => i.replace(/@/g, "")).join("/"),
+            pass: false,
+          });
+        }
+      )
       .once(EVENT_RUN_END, () => {
         const folder = path.join(
           __dirname,

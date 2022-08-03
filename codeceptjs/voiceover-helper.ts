@@ -15,17 +15,20 @@ import {
 import { exec } from "child_process";
 import { promisify } from "util";
 import { NATIVE_WINDOWS } from "./voiceover/voiceover.constants";
-import { ElementHandle, Page } from "playwright";
 import { matchCursors, voCursor } from "./voiceover/cursors";
 import { VoiceOverController } from "./voiceover/controller";
 const { screenshotOutputFolder } = require("codeceptjs/lib/utils.js");
 
 const voiceOver = new VoiceOverController({ log: false });
 class VoiceOver extends Helper implements ATHelper {
-  // _before - before a test
+  
+  protected _before(): void {
+    const [test]: [Mocha.Test] = arguments as any;
+    const retryCount = 3;
+    test.retries(retryCount);
+  }
+  
   // _after - after a test
-  // _beforeStep - before each step
-  // _afterStep - after each step
   // _beforeSuite - before each suite
   // _afterSuite - after each suite
   // _passed - after a test passed
@@ -132,6 +135,10 @@ class VoiceOver extends Helper implements ATHelper {
 
   async pressKey(key: string) {
     await voiceOver.pressKey(key);
+  }
+
+  async pressVoKey(key: string, modifiers: string[] = []) {
+    await voiceOver.pressKey(key, modifiers);
   }
 
   async clickNext() {

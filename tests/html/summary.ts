@@ -1,6 +1,7 @@
 import snapshot from "snap-shot-it";
 import { expect } from "../utils/expect";
 import { ASSISTIVE_TECHNOLOGY, getAT } from "../utils/setup";
+import { TAGS } from "../utils/tags";
 
 Feature("Summary").tag("html/summary");
 
@@ -20,7 +21,7 @@ Scenario("MUST convey its name", async ({ I }) => {
   const ax = await I.grabATOutput("#test");
   expect(ax).to.have.name("Title");
   snapshot(ax as any);
-}).tag("name");
+}).tag(TAGS.NAME);
 
 Scenario("MUST convey its role", async ({ I }) => {
   I.setContent(html);
@@ -34,22 +35,23 @@ Scenario("MUST convey its role", async ({ I }) => {
     "disclosure triangle",
   ]);
   snapshot(ax as any);
-}).tag("role");
+}).tag(TAGS.ROLE);
 
-Scenario("MUST convey the expanded state", async ({ I }) => {
+Scenario("MUST convey the expanded state", async function (this: any, { I }) {
+  if(getAT() === ASSISTIVE_TECHNOLOGY.NONE) this.skip();
+
   I.setContent(html);
 
   I.focus("#start");
   I.nextItem?.();
   let ax = await I.grabATOutput("#test");
-  expect(ax).to.be.collapsed();
-  snapshot(ax as any);
+  expect(ax).to.be.collapsed;
 
   I.click("#test");
   ax = await I.grabATOutput("#test");
-  expect(ax).to.be.expanded();
+  expect(ax).to.be.expanded;
   snapshot(ax as any);
-}).tag("expanded");
+}).tag(TAGS.EXPANDED);
 
 ([ASSISTIVE_TECHNOLOGY.VOICEOVER, ASSISTIVE_TECHNOLOGY.CHROMEVOX].includes(
   getAT()
@@ -67,7 +69,7 @@ Scenario("MUST convey the expanded state", async ({ I }) => {
       expect(ax).to.have.name("Title");
       snapshot(ax as any);
     }
-  ).tag("shortcuts");
+  ).tag(TAGS.SHORTCUTS);
 });
 
 if (getAT() === ASSISTIVE_TECHNOLOGY.VOICEOVER) {
@@ -88,5 +90,5 @@ if (getAT() === ASSISTIVE_TECHNOLOGY.VOICEOVER) {
       expect(ax).to.have.name("Title");
       snapshot(ax as any);
     }
-  ).tag("base");
+  ).tag(TAGS.SHORTCUTS);
 }

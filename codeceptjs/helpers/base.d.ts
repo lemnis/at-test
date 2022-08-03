@@ -4,6 +4,18 @@ export type AccessibilityNode = Awaited<
   ReturnType<Page["accessibility"]["snapshot"]>
 >;
 
+export type Output = Partial<{
+  spoken: string;
+  output: {
+    phrase: string;
+    bounds?:
+      | { x: number; y: number; width: number; height: number }
+      | undefined;
+    textUnderCursor?: string;
+    phrases?: string[] | undefined;
+  };
+} & AccessibilityNode>;
+
 export class ATHelper {
   // Data
   grabATOutput(
@@ -12,38 +24,12 @@ export class ATHelper {
       includeIgnored?: boolean;
       checkCursor?: boolean;
     }
-  ): Promise<
-    | Partial<
-        {
-          spoken: string;
-          output: {
-            phrase: string,
-            bounds?: { x: number, y: number, width: number, height: number} | undefined,
-            textUnderCursor?: string,
-            phrases?: string[] | undefined
-          }
-        } & AccessibilityNode
-      >
-    | undefined
-  >;
+  ): Promise<Output | undefined>;
   sayDescription?(): void;
 
   // Browser Actions
   focus(locator: CodeceptJS.LocatorOrString): Promise<void>;
-  grabFocusedElement(): Promise<
-  | Partial<
-      {
-        spoken: string;
-        output: {
-          phrase: string,
-          bounds?: { x: number, y: number, width: number, height: number} | undefined,
-          textUnderCursor?: string,
-          phrases?: string[] | undefined
-        }
-      } & AccessibilityNode
-    >
-  | undefined
->;
+  grabFocusedElement(): Promise<Output | undefined>;
 
   // AT Actions
   nextItem?(): Promise<void>;
@@ -56,7 +42,7 @@ export class ATHelper {
   performDefaultAction?(): Promise<void>;
 
   nextGraphicItem?(): void;
-  
+
   // nextHeading(): void;
   // nextLink(): void;
   // nextList(): void;

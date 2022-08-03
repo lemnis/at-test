@@ -1,0 +1,123 @@
+{
+  "results": [
+    {
+      "id": "html/li/role",
+      "pass": true
+    },
+    {
+      "id": "html/li/role",
+      "pass": true
+    },
+    {
+      "id": "html/li/posInSet",
+      "pass": true
+    },
+    {
+      "id": "html/li/notPosInSet",
+      "pass": true
+    },
+    {
+      "id": "html/ol/role",
+      "pass": true
+    },
+    {
+      "id": "html/ol/boundaries",
+      "pass": true
+    },
+    {
+      "id": "html/ol/boundaries",
+      "pass": true
+    },
+    {
+      "id": "html/ol/setSize",
+      "pass": true
+    },
+    {
+      "id": "html/ol/level",
+      "pass": true
+    },
+    {
+      "id": "html/summary/name",
+      "pass": true
+    },
+    {
+      "id": "html/summary/role",
+      "pass": true
+    },
+    {
+      "id": "html/summary/expanded",
+      "pass": false
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": false
+    },
+    {
+      "id": "html/ul/role",
+      "pass": true
+    },
+    {
+      "id": "html/ul/boundaries",
+      "pass": true
+    },
+    {
+      "id": "html/ul/boundaries",
+      "pass": true
+    },
+    {
+      "id": "html/ul/setSize",
+      "pass": true
+    },
+    {
+      "id": "html/ul/level",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/name",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/role",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "svg/title/name",
+      "pass": true
+    }
+  ],
+  "environment": {
+    "os": {
+      "name": "darwin",
+      "version": "20.6.0"
+    },
+    "at": {
+      "name": "VoiceOver",
+      "version": "767.29"
+    },
+    "browser": {
+      "name": "firefox",
+      "driver": "VoiceOver",
+      "version": "100.0.2"
+    }
+  }
+}

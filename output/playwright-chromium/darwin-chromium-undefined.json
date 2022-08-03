@@ -1,0 +1,110 @@
+{
+  "results": [
+    {
+      "id": "html/li/role",
+      "pass": true
+    },
+    {
+      "id": "html/li/role",
+      "pass": true
+    },
+    {
+      "id": "html/li/posInSet",
+      "pass": true
+    },
+    {
+      "id": "html/li/notPosInSet",
+      "pass": true
+    },
+    {
+      "id": "html/ol/role",
+      "pass": true
+    },
+    {
+      "id": "html/ol/boundaries",
+      "pass": true
+    },
+    {
+      "id": "html/ol/boundaries",
+      "pass": false
+    },
+    {
+      "id": "html/ol/setSize",
+      "pass": false
+    },
+    {
+      "id": "html/ol/level",
+      "pass": false
+    },
+    {
+      "id": "html/summary/name",
+      "pass": false
+    },
+    {
+      "id": "html/summary/role",
+      "pass": false
+    },
+    {
+      "id": "html/summary/expanded",
+      "pass": false
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": false
+    },
+    {
+      "id": "html/ul/role",
+      "pass": true
+    },
+    {
+      "id": "html/ul/boundaries",
+      "pass": true
+    },
+    {
+      "id": "html/ul/boundaries",
+      "pass": false
+    },
+    {
+      "id": "html/ul/setSize",
+      "pass": true
+    },
+    {
+      "id": "html/ul/level",
+      "pass": false
+    },
+    {
+      "id": "svg/svg/name",
+      "pass": false
+    },
+    {
+      "id": "svg/svg/role",
+      "pass": false
+    },
+    {
+      "id": "svg/title/name",
+      "pass": true
+    }
+  ],
+  "environment": {
+    "os": {
+      "name": "darwin",
+      "version": "20.6.0"
+    },
+    "at": {
+      "name": "ChromeVox",
+      "version": "53.0.2784.13"
+    },
+    "browser": {
+      "name": "chromium",
+      "driver": "Playwright"
+    }
+  }
+}

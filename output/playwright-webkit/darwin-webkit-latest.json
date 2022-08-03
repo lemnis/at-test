@@ -1,175 +1,15 @@
 {
   "results": [
     {
-      "id": "api/HTMLDialogElement/closed",
+      "id": "html/li/role",
       "pass": true
     },
     {
-      "id": "api/HTMLDialogElement/showAndFocus",
+      "id": "html/li/role",
       "pass": true
     },
     {
-      "id": "api/HTMLDialogElement/showAndFocus",
-      "pass": true
-    },
-    {
-      "id": "api/HTMLDialogElement/pressEscape",
-      "pass": false
-    },
-    {
-      "id": "aria/attribute/aria-describedby/default",
-      "pass": true
-    },
-    {
-      "id": "aria/attribute/aria-describedby/changes",
-      "pass": false
-    },
-    {
-      "id": "aria/attribute/aria-describedby/roleAlert",
-      "pass": false
-    },
-    {
-      "id": "aria/role/alert/changes",
-      "pass": false
-    },
-    {
-      "id": "aria/role/time/role",
-      "pass": false
-    },
-    {
-      "id": "html/details/ignored",
-      "pass": true
-    },
-    {
-      "id": "html/details/role",
-      "pass": true
-    },
-    {
-      "id": "html/details/hideContent",
-      "pass": true
-    },
-    {
-      "id": "html/figcaption/role",
-      "pass": false
-    },
-    {
-      "id": "html/figcaption/name",
-      "pass": true
-    },
-    {
-      "id": "html/figure/role",
-      "pass": true
-    },
-    {
-      "id": "html/figure/name",
-      "pass": true
-    },
-    {
-      "id": "html/input/color/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/input/color/role",
-      "pass": true
-    },
-    {
-      "id": "html/input/color/name",
-      "pass": true
-    },
-    {
-      "id": "html/input/file/targetable",
-      "pass": true
-    },
-    {
-      "id": "html/input/file/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/input/file/role",
-      "pass": true
-    },
-    {
-      "id": "html/input/file/name",
-      "pass": true
-    },
-    {
-      "id": "html/input/file/noFiles",
-      "pass": true
-    },
-    {
-      "id": "html/input/file/nativeLabel",
-      "pass": true
-    },
-    {
-      "id": "html/meter/role",
-      "pass": true
-    },
-    {
-      "id": "html/meter/name",
-      "pass": true
-    },
-    {
-      "id": "html/optgroup/role",
-      "pass": false
-    },
-    {
-      "id": "html/optgroup/name",
-      "pass": false
-    },
-    {
-      "id": "html/option/role",
-      "pass": true
-    },
-    {
-      "id": "html/option/name",
-      "pass": true
-    },
-    {
-      "id": "html/option/selected",
-      "pass": true
-    },
-    {
-      "id": "html/progress/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/progress/role",
-      "pass": true
-    },
-    {
-      "id": "html/progress/name",
-      "pass": true
-    },
-    {
-      "id": "html/select/focusable",
-      "pass": false
-    },
-    {
-      "id": "html/select/expandable",
-      "pass": true
-    },
-    {
-      "id": "html/select/role",
-      "pass": false
-    },
-    {
-      "id": "html/select/role",
-      "pass": true
-    },
-    {
-      "id": "html/select/name",
-      "pass": true
-    },
-    {
-      "id": "html/summary/focusable",
-      "pass": false
-    },
-    {
-      "id": "html/summary/expandable",
-      "pass": true
-    },
-    {
-      "id": "html/summary/role",
+      "id": "html/ol/role",
       "pass": true
     },
     {
@@ -177,20 +17,28 @@
       "pass": true
     },
     {
-      "id": "html/textarea/focusable",
+      "id": "html/summary/role",
       "pass": true
     },
     {
-      "id": "html/textarea/role",
+      "id": "html/summary/shortcuts",
       "pass": true
     },
     {
-      "id": "html/textarea/multiline",
+      "id": "html/ul/role",
       "pass": true
     },
     {
-      "id": "html/time/role",
+      "id": "svg/svg/name",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/role",
       "pass": false
+    },
+    {
+      "id": "svg/title/name",
+      "pass": true
     }
   ],
   "environment": {
@@ -198,10 +46,7 @@
       "name": "darwin",
       "version": "20.6.0"
     },
-    "at": {
-      "name": "VoiceOver",
-      "version": "767.29"
-    },
+    "at": {},
     "browser": {
       "name": "webkit",
       "driver": "Playwright",

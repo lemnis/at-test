@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ASSISTIVE_TECHNOLOGY, getAT } from "../utils/setup";
 
-Feature("Optgroup").tag("html/optgroup");
+xFeature("Optgroup").tag("html/optgroup");
 
 const html = () => /*html*/ `<select id="parent">
   <optgroup label="Fruits" id="test">

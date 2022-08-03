@@ -19,6 +19,7 @@ const mocha = {
     browser,
     ATVersion: require(pathToExtension + '/manifest.json').version,
     ATName: 'ChromeVox',
+    driver: 'chromevox',
   },
 };
 

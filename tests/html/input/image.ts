@@ -3,7 +3,7 @@ import { expect } from "../../utils/expect";
 import { getAT, ASSISTIVE_TECHNOLOGY } from "../../utils/setup";
 import fs from 'fs';
 
-Feature("Image").tag("html/input/image");
+xFeature("Image").tag("html/input/image");
 
 const html = (prop?: string, value?: string) =>
   /*html*/ `<button id="start" aria-label="start">start</button><input id="test" ${

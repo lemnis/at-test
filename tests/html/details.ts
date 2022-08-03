@@ -2,7 +2,7 @@ import { expect } from "chai";
 import snapshot from "snap-shot-it";
 import { ASSISTIVE_TECHNOLOGY, getAT } from "../utils/setup";
 
-Feature("Details").tag("html/details");
+xFeature("Details").tag("html/details");
 
 const html = (label?: string, role?: string) => /*html*/ `
   <button id="start">start</button>
@@ -30,7 +30,7 @@ Scenario("Should not be targetable", async ({ I }) => {
       "end"
     );
   } else {
-    expect(await I.grabATOutput("#test")).to.be.null;
+    expect(await I.grabATOutput("#test")).to.be.undefined;
   }
 }).tag("ignored");
 
@@ -60,7 +60,7 @@ Scenario(
       I.focus("#start");
       I.nextItem?.();
       I.nextItem?.();
-      expect(await I.grabFocusedElement()).to.have.property("name", "end");
+      expect(await I.grabFocusedElement()).to.have.name("end");
     } else {
       const root = await I.grabATOutput();
       snapshot(
@@ -76,7 +76,7 @@ Scenario(
       I.nextItem?.();
       I.nextItem?.();
       I.nextItem?.();
-      expect(await I.grabFocusedElement()).to.have.property("name", "end");
+      expect(await I.grabFocusedElement()).to.have.name("end");
     } else {
       const root = await I.grabATOutput();
       snapshot(

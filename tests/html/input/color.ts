@@ -8,7 +8,7 @@ const helpers = codeceptjs.config.get("helpers");
 const isFirefox = getBrowserName() === BROWSERS.FIREFOX;
 
 // Firefox crashes, so just skip the test for now.
-(isFirefox ? xFeature : Feature)("Color").tag("html/input/color");
+xFeature("Color").tag("html/input/color");
 
 const html = /*html*/ `
   <button id="start" aria-label="start">start</button>

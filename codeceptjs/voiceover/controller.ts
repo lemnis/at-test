@@ -81,7 +81,7 @@ export class VoiceOverController {
       }
 
       if (this.started) {
-        setTimeout(this.timer, 300);
+        setTimeout(this.timer, 100);
       }
     };
     this.timer();
@@ -248,7 +248,7 @@ export class VoiceOverController {
     const letters = text.split("");
 
     for await (const letter of letters) {
-      await new Promise((r) => setTimeout(() => r(undefined), 500));
+      await new Promise((r) => setTimeout(() => r(undefined), 50));
       await this.pressKey(letter);
     }
 

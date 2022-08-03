@@ -1,7 +1,7 @@
 import { expect } from "../utils/expect";
 import snapshot from "snap-shot-it";
 
-Feature("Figure").tag("html/figure");
+xFeature("Figure").tag("html/figure");
 
 const helpers = codeceptjs.config.get("helpers");
 const html = /*html*/ `

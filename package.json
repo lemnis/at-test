@@ -11,6 +11,7 @@
         "test:firefox": "cd output/playwright-firefox && BROWSER=firefox npx codeceptjs run --config ../../codeceptjs/configs/playwright.js",
         "test:webkit": "cd output/playwright-webkit && BROWSER=webkit npx codeceptjs run --config ../../codeceptjs/configs/playwright.js",
         "test:chromium": "cd output/playwright-chromium && npx codeceptjs run --config ../../codeceptjs/configs/playwright.js",
+        "test:chromevox:chromium": "cd output/chromevox-chromium && npx codeceptjs run --config ../../codeceptjs/configs/chromevox-playwright.js",
         "test:voiceover:chromium": "cd output/voiceover-chromium && npx codeceptjs run --config ../../codeceptjs/configs/voiceover-playwright.js",
         "test:voiceover:webkit": "cd output/voiceover-webkit && BROWSER=webkit npx codeceptjs run --config ../../codeceptjs/configs/voiceover-playwright.js",
         "test:voiceover:firefox": "cd output/voiceover-firefox && BROWSER=firefox npx codeceptjs run --config ../../codeceptjs/configs/voiceover-playwright.js",
@@ -39,7 +40,9 @@
     "dependencies": {
         "@accesslint/voiceover": "^0.5.5",
         "@jxa/global-type": "^1.3.5",
+        "@types/node-fetch": "^2.6.2",
         "active-win": "^7.7.2",
+        "node-fetch": "^2.6.7",
         "plist": "^3.0.6"
     },
     "optionalDependencies": {

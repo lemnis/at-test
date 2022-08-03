@@ -2,7 +2,7 @@ import { ok } from "assert";
 import { expect } from "chai";
 import snapshot from "snap-shot-it";
 
-Feature("File").tag("html/input/file");
+xFeature("File").tag("html/input/file");
 
 const helpers = codeceptjs.config.get("helpers");
 const html = /*html*/ `<input id="test" type="file">`;

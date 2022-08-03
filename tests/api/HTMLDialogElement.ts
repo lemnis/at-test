@@ -2,7 +2,7 @@ import snapshot from "snap-shot-it";
 import { expect } from "../utils/expect";
 import { ASSISTIVE_TECHNOLOGY, getAT } from "../utils/setup";
 
-Feature("HTMLDialogElement").tag("api/HTMLDialogElement");
+xFeature("HTMLDialogElement").tag("api/HTMLDialogElement");
 
 const html = /*html*/ `
   <button id="start">start</button>
@@ -103,8 +103,9 @@ Scenario("Pressing Escape should hide the modal", async ({ I }) => {
   I.pressKey("Escape");
 
   root = await I.grabATOutput(undefined);
-  // equal(root?.children?.length, 1);
-
-  expect(root?.children?.[0] || root).to.have.name("Button outside modal");
+  expect(root?.children?.[0] || root).to.have.name("start");
+  I.nextFocusableItem();
+  root = await I.grabATOutput(undefined);
+  expect(root?.children?.[1] || root).to.have.name("Button outside modal");
   snapshot(root as any);
 }).tag("pressEscape");

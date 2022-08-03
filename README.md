@@ -22,3 +22,219 @@ Me fooling around with testing automated accessibility testing in multiple envir
 - [x] Webkit with Playwright (Internal browser testing)
 
 Feel free to suggest more combinations (e.g. AXAPI testing)
+
+## Tests
+
+- [ ] ARIA: aria-activedescendant
+- [ ] ARIA: aria-atomic
+- [ ] ARIA: aria-autocomplete
+- [ ] ARIA: aria-braillelabel
+- [ ] ARIA: aria-brailleroledescription
+- [ ] ARIA: aria-busy
+- [ ] ARIA: aria-checked
+- [ ] ARIA: aria-colcount
+- [ ] ARIA: aria-colindex
+- [ ] ARIA: aria-colindextext
+- [ ] ARIA: aria-colspan
+- [ ] ARIA: aria-controls
+- [ ] ARIA: aria-current
+- [ ] ARIA: aria-describedby
+- [ ] ARIA: aria-description
+- [ ] ARIA: aria-details
+- [ ] ARIA: aria-disabled
+- [ ] ARIA: aria-errormessage
+- [ ] ARIA: aria-expanded
+- [ ] ARIA: aria-flowto
+- [ ] ARIA: aria-haspopup
+- [ ] ARIA: aria-hidden
+- [ ] ARIA: aria-invalid
+- [ ] ARIA: aria-keyshortcuts
+- [ ] ARIA: aria-label
+- [ ] ARIA: aria-labelledby
+- [ ] ARIA: aria-level
+- [ ] ARIA: aria-live
+- [ ] ARIA: aria-modal
+- [ ] ARIA: aria-multiline
+- [ ] ARIA: aria-multiselectable
+- [ ] ARIA: aria-orientation
+- [ ] ARIA: aria-owns
+- [ ] ARIA: alert role
+- [ ] ARIA: alertdialog role
+- [ ] ARIA: application role
+- [ ] ARIA: article role
+- [ ] ARIA: banner role
+- [ ] ARIA: button role
+- [ ] ARIA: cell role
+- [ ] ARIA: checkbox role
+- [ ] ARIA: columnheader role
+- [ ] ARIA: combobox role
+- [ ] ARIA: command role
+- [ ] ARIA: comment role
+- [ ] ARIA: complementary role
+- [ ] ARIA: composite role
+- [ ] ARIA: contentinfo role
+- [ ] ARIA: definition role
+- [ ] ARIA: dialog role
+- [ ] ARIA: document role
+- [ ] ARIA: feed role
+- [ ] ARIA: figure role
+- [ ] ARIA: form role
+- [ ] ARIA: generic role
+- [ ] ARIA: grid role
+- [ ] ARIA: gridcell role
+- [ ] ARIA: group role
+- [ ] ARIA: heading role
+- [ ] ARIA: img role
+- [ ] ARIA: input role
+- [ ] ARIA: landmark role
+- [ ] ARIA: link role
+- [ ] ARIA: list role
+- [ ] ARIA: listbox role
+- [ ] ARIA: listitem role
+- [ ] ARIA: log role
+- [ ] ARIA: main role
+- [ ] ARIA: mark role
+- [ ] ARIA: marquee role
+- [ ] ARIA: math role
+- [ ] ARIA: menu role
+- [ ] ARIA: menubar role
+- [ ] ARIA: menuitem role
+- [ ] ARIA: menuitemcheckbox role
+- [ ] ARIA: menuitemradio role
+- [ ] ARIA: meter role
+- [ ] ARIA: navigation Role
+- [ ] ARIA: none role
+- [ ] ARIA: note role
+- [ ] ARIA: option role
+- [ ] ARIA: presentation role
+- [ ] ARIA: progressbar role
+- [ ] ARIA: radio role
+- [ ] ARIA: radiogroup role
+- [ ] ARIA: range role
+- [ ] ARIA: region role
+- [ ] ARIA: roletype role
+- [ ] ARIA: row role
+- [ ] ARIA: rowgroup role
+- [ ] ARIA: rowheader role
+- [ ] ARIA: scrollbar role
+- [ ] ARIA: search role
+- [ ] ARIA: searchbox role
+- [ ] ARIA: section role
+- [ ] ARIA: sectionhead role
+- [ ] ARIA: select role
+- [ ] ARIA: separator role
+- [ ] ARIA: slider role
+- [ ] ARIA: spinbutton role
+- [ ] ARIA: status role
+- [ ] ARIA: document structural roles
+- [ ] ARIA: structure role
+- [ ] ARIA: suggestion role
+- [ ] ARIA: switch role
+- [ ] ARIA: tab role
+- [ ] ARIA: table role
+- [ ] ARIA: tablist role
+- [ ] ARIA: tabpanel role
+- [ ] ARIA: term role
+- [ ] ARIA: textbox role
+- [ ] ARIA: timer role
+- [ ] ARIA: toolbar role
+- [ ] ARIA: tooltip role
+- [ ] ARIA: tree role
+- [ ] ARIA: treegrid role
+- [ ] ARIA: treeitem role
+- [ ] ARIA: widget role
+- [ ] ARIA: window role
+- [ ] HTML: `<a>`
+- [ ] HTML: `<abbr>`
+- [ ] HTML: `<address>`
+- [ ] HTML: `<area>`
+- [ ] HTML: `<article>`
+- [ ] HTML: `<aside>`
+- [ ] HTML: `<audio>`
+- [ ] HTML: `<b>`
+- [ ] HTML: `<bdi>`
+- [ ] HTML: `<bdo>`
+- [ ] HTML: `<blockquote>`
+- [ ] HTML: `<body>`
+- [ ] HTML: `<br>`
+- [ ] HTML: `<button>`
+- [ ] HTML: `<canvas>`
+- [ ] HTML: `<caption>`
+- [ ] HTML: `<cite>`
+- [ ] HTML: `<code>`
+- [ ] HTML: `<data>`
+- [ ] HTML: `<datalist>`
+- [ ] HTML: `<dd>`
+- [ ] HTML: `<del>`
+- [ ] HTML: `<details>`
+- [ ] HTML: `<dfn>`
+- [ ] HTML: `<dialog>`
+- [ ] HTML: `<div>`
+- [ ] HTML: `<dl>`
+- [ ] HTML: `<dt>`
+- [ ] HTML: `<em>`
+- [ ] HTML: `<embed>`
+- [ ] HTML: `<fieldset>`
+- [ ] HTML: `<figcaption>`
+- [ ] HTML: `<figure>`
+- [ ] HTML: `<footer>`
+- [ ] HTML: `<form>`
+- [ ] HTML: `<header>`
+- [ ] HTML: `<h1>`
+- [ ] HTML: `<hr>`
+- [ ] HTML: `<html>`
+- [ ] HTML: `<i>`
+- [ ] HTML: `<iframe>`
+- [ ] HTML: `<img>`
+- [ ] HTML: `<input>`
+- [ ] HTML: `<ins>`
+- [ ] HTML: `<kbd>`
+- [ ] HTML: `<label>`
+- [ ] HTML: `<legend>`
+- [x] HTML: `<li>`
+- [ ] HTML: `<main>`
+- [ ] HTML: `<mark>`
+- [ ] HTML: `<menu>`
+- [ ] HTML: `<meter>`
+- [ ] HTML: `<nav>`
+- [ ] HTML: `<object>`
+- [x] HTML: `<ol>`
+- [ ] HTML: `<optgroup>`
+- [ ] HTML: `<option>`
+- [ ] HTML: `<output>`
+- [ ] HTML: `<p>`
+- [ ] HTML: `<pre>`
+- [ ] HTML: `<progress>`
+- [ ] HTML: `<q>`
+- [ ] HTML: `<rp>`
+- [ ] HTML: `<rt>`
+- [ ] HTML: `<ruby>`
+- [ ] HTML: `<s>`
+- [ ] HTML: `<samp>`
+- [ ] HTML: `<section>`
+- [ ] HTML: `<select>`
+- [ ] HTML: `<small>`
+- [ ] HTML: `<span>`
+- [ ] HTML: `<strong>`
+- [ ] HTML: `<sub>`
+- [x] HTML: `<summary>`
+- [ ] HTML: `<sup>`
+- [ ] HTML: `<table>`
+- [ ] HTML: `<tbody>`
+- [ ] HTML: `<td>`
+- [ ] HTML: `<textarea>`
+- [ ] HTML: `<tfoot>`
+- [ ] HTML: `<th>`
+- [ ] HTML: `<thead>`
+- [ ] HTML: `<time>`
+- [ ] HTML: `<tr>`
+- [ ] HTML: `<u>`
+- [x] HTML: `<ul>`
+- [ ] HTML: `<var>`
+- [ ] HTML: `<video>`
+- [ ] HTML: `<wbr>`
+- [x] SVG: `<svg>`
+- [x] SVG: `<title>`
+- [ ] SVG: `<desc>`
+- [ ] SVG: `<symbol>`
+- [ ] SVG: `<use>`

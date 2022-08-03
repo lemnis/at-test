@@ -1,37 +1,60 @@
 import { expect, util, Assertion } from "chai";
+import { AccessibilityNode, Output } from "../../codeceptjs/helpers/base";
 
 declare global {
   export namespace Chai {
     interface Assertion {
       role(str: string | string[]): Assertion;
+      exactName(str: string | string[]): Assertion;
       name(str: string | string[]): Assertion;
       value(str: string | string[]): Assertion;
       multiline(): Assertion;
-      expanded(): Assertion;
-      collapsed(): Assertion;
+      expanded: Assertion;
+      collapsed: Assertion;
       invalid(): Assertion;
       level(level: number): Assertion;
+      size(size: number): Assertion;
+      position(size: number): Assertion;
       selected: Assertion;
       disabled: Assertion;
     }
   }
 }
 
-function toInclude(property: string, str: string | string[], value: any) {
+const getChildName = (child: AccessibilityNode): string | undefined => {
+  if (child?.name === "") {
+    return (child.children || [])
+      .map((c) => getChildName(c))
+      .filter(Boolean)
+      .join(",");
+  }
+  return child?.name;
+};
+
+function toInclude(
+  property: keyof Output,
+  str: string | string[],
+  value: Output
+) {
+  if(!value) new Assertion(value).to.exist;
   if (!(property in value && "spoken" in value)) {
     new Assertion(value).to.have.any.keys(property, "spoken");
   }
 
+  let full = value[property];
+  if (property === "name" && full === "" && value.children?.length)
+    full = getChildName(value as any);
+
   if (Array.isArray(str)) {
     if (property in value) {
-      new Assertion(value[property]).to.be.oneOf(str);
+      new Assertion(full).to.be.oneOf(str);
     } else if (value.output?.phrases?.length) {
       new Assertion(value.output.phrases.join()).to.contain.oneOf(str);
     } else {
       new Assertion(value.spoken).to.contain.oneOf(str);
     }
   } else if (property in value) {
-    new Assertion(value[property]).to.be.equal(str);
+    new Assertion(full).to.be.equal(str);
   } else if (value.output?.phrases?.length) {
     new Assertion(value.output.phrases.join()).to.contain(str);
   } else {
@@ -140,6 +163,37 @@ util.addChainableMethod(
   }
 );
 
+util.addChainableMethod(
+  Assertion.prototype,
+  "exactName",
+  function (this: any, str: string) {
+    const obj = util.flag(this, "object");
+    if (!("name" in obj && "spoken" in obj)) {
+      new Assertion(obj).to.have.any.keys("name", "spoken");
+    }
+  
+    let full = obj["name"];
+    if ("name" === "name" && full === "" && obj.children?.length)
+      full = getChildName(obj as any);
+  
+    if (Array.isArray(str)) {
+      if ("name" in obj) {
+        new Assertion(full).to.be.oneOf(str);
+      } else if (obj.output?.phrases?.length) {
+        new Assertion(obj.output.phrases).to.contain.oneOf(str);
+      } else {
+        new Assertion(obj.spoken).to.contain.oneOf(str);
+      }
+    } else if ("name" in obj) {
+      new Assertion(full).to.be.equal(str);
+    } else if (obj.output?.phrases?.length) {
+      new Assertion(obj.output.phrases).to.contain(str);
+    } else {
+      new Assertion(obj.spoken).to.contain(str);
+    }
+  }
+);
+
 util.addChainableMethod(Assertion.prototype, "multiline", function (this: any) {
   const obj = util.flag(this, "object");
 
@@ -152,7 +206,7 @@ util.addChainableMethod(Assertion.prototype, "multiline", function (this: any) {
   }
 });
 
-util.addChainableMethod(Assertion.prototype, "expanded", function (this: any) {
+util.addProperty(Assertion.prototype, "expanded", function (this: any) {
   const obj = util.flag(this, "object");
 
   if (util.flag(this, "negate")) {
@@ -162,7 +216,7 @@ util.addChainableMethod(Assertion.prototype, "expanded", function (this: any) {
   }
 });
 
-util.addChainableMethod(Assertion.prototype, "collapsed", function (this: any) {
+util.addProperty(Assertion.prototype, "collapsed", function (this: any) {
   const obj = util.flag(this, "object");
 
   if (obj && "expanded" in obj) {
@@ -187,6 +241,56 @@ util.addChainableMethod(
       new Assertion(text).to.contain("level " + level);
     } else {
       new Assertion(obj).to.have.any.keys("level", "spoken");
+    }
+  }
+);
+
+util.addChainableMethod(
+  Assertion.prototype,
+  "size",
+  function (this: any, size: number) {
+    const obj = util.flag(this, "object");
+
+    if (util.flag(this, "negate")) {
+      if (obj && "size" in obj) {
+        new Assertion(obj.size).to.not.equal(size);
+      } else if (obj && "spoken" in obj) {
+        const text = obj?.output?.phrases?.join?.() || obj.spoken;
+        new Assertion(text).to.not.contain(`${size} of`);
+      } else {
+        new Assertion(obj).to.not.have.any.keys("size", "spoken");
+      }
+    } else if (obj && "size" in obj) {
+      new Assertion(obj.size).to.equal(size);
+    } else if (obj && "spoken" in obj) {
+      const text = obj?.output?.phrases?.join?.() || obj.spoken;
+      new Assertion(text).to.contain(`${size} of`);
+    } else {
+      new Assertion(obj).to.have.any.keys("size", "spoken");
+    }
+  }
+);
+
+util.addChainableMethod(
+  Assertion.prototype,
+  "position",
+  function (this: any, position: number) {
+    const obj = util.flag(this, "object");
+
+    if(!("spoken" in obj) && !("posinset" in obj)) {
+      new Assertion(obj).to.have.any.keys("posinset", "spoken");
+    } else if (util.flag(this, "negate")) {
+      if (obj && "posinset" in obj) {
+        new Assertion(obj.position).to.not.equal(position);
+      } else if (obj && "spoken" in obj) {
+        const text = obj?.output?.phrases?.join?.() || obj.spoken;
+        new Assertion(text).to.not.contain(position)
+      }
+    } else if (obj && "posinset" in obj) {
+      new Assertion(obj.position).to.equal(position);
+    } else if (obj && "spoken" in obj) {
+      const text = obj?.output?.phrases?.join?.() || obj.spoken;
+      new Assertion(text).to.contain(position)
     }
   }
 );

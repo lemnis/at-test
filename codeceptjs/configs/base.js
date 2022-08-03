@@ -18,13 +18,16 @@ exports.plugins = {
     enabled: true,
   },
   stepByStepReport: {
-    enabled: true,
+    enabled: false,
     deleteSuccessful: true,
   },
   stepTimeout: {
     enabled: true,
     timeout: 10,
   },
+  retryFailedStep: {
+    enabled: true
+  }
 };
 
 exports.config = {

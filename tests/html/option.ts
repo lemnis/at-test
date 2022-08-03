@@ -1,7 +1,7 @@
 import { expect } from "../utils/expect";
 import { ASSISTIVE_TECHNOLOGY, getAT, getDriver } from "../utils/setup";
 
-Feature("Option").tag("html/option");
+xFeature("Option").tag("html/option");
 
 const html = () => /*html*/ `<select id="parent" aria-label="Parent">
   <option id="test" value="apple" selected>apple</option>

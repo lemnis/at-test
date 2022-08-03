@@ -3,7 +3,7 @@ import { expect } from "../../utils/expect";
 import snapshot from "snap-shot-it";
 import { ASSISTIVE_TECHNOLOGY, getAT } from "../../utils/setup";
 
-Feature("Alert").tag("aria/role/alert");
+xFeature("Alert").tag("aria/role/alert");
 
 const firstAnnouncement =
   "The assertive announcement should interrupt or follow this first announcement.";

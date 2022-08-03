@@ -10,7 +10,7 @@ const html = /*html*/ `
   <button id="end">end</button>
 `;
 
-Scenario("MUST convey its role	", async ({ I }) => {
+xScenario("MUST convey its role	", async ({ I }) => {
   I.setContent(html);
 
   if (

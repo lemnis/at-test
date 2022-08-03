@@ -1,227 +1,107 @@
 {
   "results": [
     {
-      "id": "js/reportvalidity/showAndFocus",
-      "pass": false
-    },
-    {
-      "id": "js/setCustomValidity/showAndFocus",
-      "pass": false
-    },
-    {
-      "id": "api/HTMLDialogElement/closed",
-      "pass": false
-    },
-    {
-      "id": "api/HTMLDialogElement/showAndFocus",
-      "pass": false
-    },
-    {
-      "id": "api/HTMLDialogElement/showAndFocus",
-      "pass": false
-    },
-    {
-      "id": "api/HTMLDialogElement/pressEscape",
-      "pass": false
-    },
-    {
-      "id": "aria/role/time/role",
-      "pass": false
-    },
-    {
-      "id": "html/abbr/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/abbr/name",
-      "pass": false
-    },
-    {
-      "id": "html/abbr/role",
-      "pass": false
-    },
-    {
-      "id": "html/details/ignored",
-      "pass": false
-    },
-    {
-      "id": "html/details/role",
-      "pass": false
-    },
-    {
-      "id": "html/details/hideContent",
-      "pass": false
-    },
-    {
-      "id": "html/figcaption/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/figcaption/role",
-      "pass": false
-    },
-    {
-      "id": "html/figcaption/name",
-      "pass": false
-    },
-    {
-      "id": "html/figure/targetable",
+      "id": "html/li/role",
       "pass": true
     },
     {
-      "id": "html/figure/role",
-      "pass": false
-    },
-    {
-      "id": "html/figure/name",
-      "pass": false
-    },
-    {
-      "id": "html/figure/nameMissingFigcaption",
-      "pass": false
-    },
-    {
-      "id": "html/input/color/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/input/color/role",
-      "pass": false
-    },
-    {
-      "id": "html/input/color/name",
-      "pass": false
-    },
-    {
-      "id": "html/input/file/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/input/file/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/input/file/role",
-      "pass": false
-    },
-    {
-      "id": "html/input/file/name",
-      "pass": false
-    },
-    {
-      "id": "html/input/file/name",
-      "pass": false
-    },
-    {
-      "id": "html/meter/targetable",
+      "id": "html/li/role",
       "pass": true
     },
     {
-      "id": "html/meter/role",
-      "pass": false
-    },
-    {
-      "id": "html/meter/name",
+      "id": "html/li/posInSet",
       "pass": true
     },
     {
-      "id": "html/optgroup/targetable",
+      "id": "html/li/notPosInSet",
       "pass": false
     },
     {
-      "id": "html/optgroup/role",
-      "pass": false
-    },
-    {
-      "id": "html/optgroup/name",
-      "pass": false
-    },
-    {
-      "id": "html/option/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/option/role",
-      "pass": false
-    },
-    {
-      "id": "html/option/name",
-      "pass": false
-    },
-    {
-      "id": "html/option/selected",
-      "pass": false
-    },
-    {
-      "id": "html/progress/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/progress/role",
-      "pass": false
-    },
-    {
-      "id": "html/progress/name",
-      "pass": false
-    },
-    {
-      "id": "html/select/targetable",
-      "pass": false
-    },
-    {
-      "id": "html/select/focusable",
-      "pass": false
-    },
-    {
-      "id": "html/select/expandable",
-      "pass": false
-    },
-    {
-      "id": "html/select/role",
-      "pass": false
-    },
-    {
-      "id": "html/select/role",
-      "pass": false
-    },
-    {
-      "id": "html/select/name",
-      "pass": false
-    },
-    {
-      "id": "html/summary/targetable",
+      "id": "html/ol/role",
       "pass": true
     },
     {
-      "id": "html/summary/focusable",
-      "pass": false
+      "id": "html/ol/boundaries",
+      "pass": true
     },
     {
-      "id": "html/summary/expandable",
+      "id": "html/ol/boundaries",
+      "pass": true
+    },
+    {
+      "id": "html/ol/setSize",
+      "pass": true
+    },
+    {
+      "id": "html/ol/level",
+      "pass": true
+    },
+    {
+      "id": "html/summary/name",
       "pass": true
     },
     {
       "id": "html/summary/role",
-      "pass": false
-    },
-    {
-      "id": "html/summary/name",
-      "pass": false
-    },
-    {
-      "id": "html/textarea/targetable",
       "pass": true
     },
     {
-      "id": "html/textarea/focusable",
-      "pass": false
-    },
-    {
-      "id": "html/textarea/role",
+      "id": "html/summary/expanded",
       "pass": true
     },
     {
-      "id": "html/textarea/multiline",
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/summary/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "html/ul/role",
+      "pass": true
+    },
+    {
+      "id": "html/ul/boundaries",
+      "pass": true
+    },
+    {
+      "id": "html/ul/boundaries",
+      "pass": true
+    },
+    {
+      "id": "html/ul/setSize",
+      "pass": true
+    },
+    {
+      "id": "html/ul/level",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/name",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/role",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "svg/svg/shortcuts",
+      "pass": true
+    },
+    {
+      "id": "svg/title/name",
       "pass": true
     }
   ],
@@ -229,6 +109,10 @@
     "os": {
       "name": "darwin",
       "version": "20.6.0"
+    },
+    "at": {
+      "name": "VoiceOver",
+      "version": "767.29"
     },
     "browser": {
       "name": "chromium",
