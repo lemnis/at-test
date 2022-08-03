@@ -2,7 +2,6 @@
 import { VoiceOver as VO, moveRight, activate } from "@accesslint/voiceover";
 import { ATHelper } from "./helpers/base";
 import { focus, getFocusedElement } from "./helpers/browser-actions/focus";
-import { KEY_CODES } from "./helpers/voiceover/voiceover.constants";
 import {
   nextFocusableItem,
   previousFocusableItem,
@@ -14,20 +13,18 @@ import {
 } from "./voiceover/window-management";
 import { exec } from "child_process";
 import { promisify } from "util";
-import { NATIVE_WINDOWS } from "./voiceover/voiceover.constants";
 import { domCursor, matchCursors, voCursor } from "./voiceover/cursors";
 import { VoiceOverController } from "./voiceover/controller";
 const { screenshotOutputFolder } = require("codeceptjs/lib/utils.js");
 
 const voiceOver = new VoiceOverController({ log: false });
 class VoiceOver extends Helper implements ATHelper {
-  
   protected _before(): void {
     const [test]: [Mocha.Test] = arguments as any;
     const retryCount = 3;
     test.retries(retryCount);
   }
-  
+
   // _after - after a test
   // _beforeSuite - before each suite
   // _afterSuite - after each suite
@@ -36,15 +33,9 @@ class VoiceOver extends Helper implements ATHelper {
 
   async _beforeStep() {
     const phrase = await voiceOver.lastPhrase();
-    if (
-      phrase.includes(NATIVE_WINDOWS.DICTATION) ||
-      phrase.includes(
-        "You can configure your microphone in Dictation preferences."
-      )
-    ) {
-      console.log("Warning: Dictaction modal detected, trying to close.");
-      await voiceOver.seek({ text: "Not Now", tries: 10 });
-      await voiceOver.pressKey("Return");
+    if (phrase.includes("Dictation")) {
+      console.log("Warning: Dictaction modal could be open, trying to close.");
+      await voiceOver.pressKey("Escape");
 
       if ((await voiceOver.lastPhrase()) !== phrase) {
         throw new Error("Got stuck on dictaction");
@@ -124,11 +115,19 @@ class VoiceOver extends Helper implements ATHelper {
   }
 
   async nextControlItem() {
-    await voiceOver.pressKey(38, ["control down", "option down", "command down"]);
+    await voiceOver.pressKey(38, [
+      "control down",
+      "option down",
+      "command down",
+    ]);
   }
 
   async nextGraphicItem() {
-    await voiceOver.pressKey(5, ["control down", "option down", "command down"]);
+    await voiceOver.pressKey(5, [
+      "control down",
+      "option down",
+      "command down",
+    ]);
   }
 
   async rotor(...args: Parameters<typeof voiceOver["rotor"]>) {
