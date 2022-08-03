@@ -15,7 +15,7 @@ import {
 import { exec } from "child_process";
 import { promisify } from "util";
 import { NATIVE_WINDOWS } from "./voiceover/voiceover.constants";
-import { matchCursors, voCursor } from "./voiceover/cursors";
+import { domCursor, matchCursors, voCursor } from "./voiceover/cursors";
 import { VoiceOverController } from "./voiceover/controller";
 const { screenshotOutputFolder } = require("codeceptjs/lib/utils.js");
 
@@ -85,9 +85,11 @@ class VoiceOver extends Helper implements ATHelper {
       locator &&
       !(await matchCursors(this.helpers, locator))
     ) {
-      console.log(locator);
-      console.log(await voCursor());
-      throw new Error("Unexpected VoiceOver cursor");
+      const error = new Error("Unexpected VoiceOver cursor");
+      (error as any).voCursor = await voCursor();
+      (error as any).domCursor = await domCursor(this.helpers, locator);
+      (error as any).locator = locator;
+      throw error;
     }
 
     return {

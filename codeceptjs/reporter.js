@@ -74,8 +74,7 @@ class MyReporter {
          */
         (test, err) => {
           console.log(`✖ ${test.title}`);
-          console.log(err.message);
-          console.log(err.stack);
+          console.log(err);
           if(!(test.tags || test._retriedTest.tags)?.length) console.log(`Test is missing tags`, test.title, 'at', test.file, test);
           console.log();
           json.results.push({

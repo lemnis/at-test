@@ -47,7 +47,7 @@ export const webdriverCursor = async (
     };
   });
 
-  const text = undefined // await element?.getComputedLabel(); // Only enable for chrome / catch error
+  const text = undefined; // await element?.getComputedLabel(); // Only enable for chrome / catch error
 
   return {
     bounds: {
@@ -67,6 +67,30 @@ export const voCursor = async () => {
       text: (voiceOver.voCursor as any).textUnderCursor(),
     };
   });
+};
+
+export const domCursor = async (
+  helpers: any,
+  locator: CodeceptJS.LocatorOrString
+) => {
+  const playwright: Omit<CodeceptJS.Playwright, "_locate"> &
+    Record<string, any> = helpers.Playwright;
+  if (playwright) {
+    const page: Page = playwright.page;
+
+    return await playwright
+      ._locate(locator)
+      .then((els: ElementHandle[]) => playwrightCursor(page, els?.[0]));
+  } else {
+    const WebDriver: Omit<CodeceptJS.WebDriver, "_locate"> & {
+      _locate: (
+        locator: CodeceptJS.LocatorOrString
+      ) => Promise<Element<"async">[]>;
+    } = helpers.WebDriver;
+    return WebDriver._locate(locator).then((els) =>
+      webdriverCursor(helpers.WebDriver.browser, els?.[0])
+    );
+  }
 };
 
 const RANGE = 1.2;
@@ -90,40 +114,14 @@ export const matchCursors = async (
   helpers: any,
   locator: CodeceptJS.LocatorOrString
 ) => {
-  const playwright: Omit<CodeceptJS.Playwright, "_locate"> &
-    Record<string, any> = helpers.Playwright;
-  if (playwright) {
-    const page: Page = playwright.page;
+  const [vo, dom] = await Promise.all([
+    voCursor(),
+    domCursor(helpers, locator),
+  ]);
 
-    const [vo, dom] = await Promise.all([
-      voCursor(),
-      playwright
-        ._locate(locator)
-        .then((els: ElementHandle[]) => playwrightCursor(page, els?.[0])),
-    ]);
-
-    return (
-      (compareBounds(dom.bounds, vo.bounds) ||
-        compareBounds(vo.bounds, dom.bounds)) &&
-      (!dom.text || !vo.text || vo.text.includes(dom.text))
-    );
-  } else {
-    const WebDriver: Omit<CodeceptJS.WebDriver, "_locate"> & {
-      _locate: (
-        locator: CodeceptJS.LocatorOrString
-      ) => Promise<Element<"async">[]>;
-    } = helpers.WebDriver;
-    const [vo, dom] = await Promise.all([
-      voCursor(),
-      WebDriver._locate(locator).then((els) =>
-        webdriverCursor(helpers.WebDriver.browser, els?.[0])
-      ),
-    ]);
-
-    return (
-      (compareBounds(dom.bounds, vo.bounds) ||
-        compareBounds(vo.bounds, dom.bounds)) &&
-      (!dom.text || !vo.text || vo.text.includes(dom.text))
-    );
-  }
+  return (
+    (compareBounds(dom.bounds, vo.bounds) ||
+      compareBounds(vo.bounds, dom.bounds)) &&
+    (!dom.text || !vo.text || vo.text.includes(dom.text))
+  );
 };
