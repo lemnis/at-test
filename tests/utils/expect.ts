@@ -210,9 +210,9 @@ util.addProperty(Assertion.prototype, "expanded", function (this: any) {
   const obj = util.flag(this, "object");
 
   if (util.flag(this, "negate")) {
-    toNotIncludeBoolean("expanded", "expanded", obj);
+    toNotIncludeBoolean("expanded", ["expanded", "▾"], obj);
   } else {
-    toIncludeBoolean("expanded", "expanded", obj);
+    toIncludeBoolean("expanded", ["expanded", "▾"], obj);
   }
 });
 
