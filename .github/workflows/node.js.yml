@@ -33,7 +33,7 @@ jobs:
     - run: npm install
     - run: node scripts/update-codecept-default-helpers.mjs
     - run: npx @guidepup/setup --ci
-    - run: REPORT=true SNAPSHOT_UPDATE=1 npm run test:voiceover:webkit || true
+    - run: REPORT=true npm run test:voiceover:webkit || true
     - uses: actions/upload-artifact@v3
       with:
         name: Webkit with VoiceOver
@@ -61,7 +61,7 @@ jobs:
     - run: |
         sudo safaridriver --enable
         safaridriver -p 4444 &
-    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:safari || true
+    - run: REPORT=true npm run test:voiceover:safari || true
     - uses: actions/upload-artifact@v3
       with:
         name: Safari with VoiceOver
@@ -86,7 +86,7 @@ jobs:
     - run: npm install
     - run: node scripts/update-codecept-default-helpers.mjs
     - run: npx @guidepup/setup --ci
-    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:chromium || true
+    - run: REPORT=true npm run test:voiceover:chromium || true
     - uses: actions/upload-artifact@v3
       with:
         name: Chromium with VoiceOver
@@ -111,7 +111,7 @@ jobs:
     - run: npm install
     - run: node scripts/update-codecept-default-helpers.mjs
     - run: npx @guidepup/setup --ci
-    - run: REPORT=true SNAPSHOT_UPDATE=1  npm run test:voiceover:firefox || true
+    - run: REPORT=true npm run test:voiceover:firefox || true
     - uses: actions/upload-artifact@v3
       with:
         name: Firefox with VoiceOver
@@ -133,7 +133,7 @@ jobs:
         cache: 'npm'
     - run: npx playwright install
     - run: npm install
-    - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
+    - run: REPORT=true npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
     - uses: actions/upload-artifact@v3
       with:
         name: Playwright on MacOs
@@ -156,7 +156,7 @@ jobs:
           cache: 'npm'
       - run: npx playwright install
       - run: npm install
-      - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:chromium || true
+      - run: REPORT=true npx npm-run-all -c --parallel test:chromium || true
         shell: bash
       - uses: actions/upload-artifact@v3
         with:
@@ -180,7 +180,7 @@ jobs:
           cache: 'npm'
       - run: npx playwright install
       - run: npm install
-      - run: REPORT=true SNAPSHOT_UPDATE=1 npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
+      - run: REPORT=true npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
       - uses: actions/upload-artifact@v3
         with:
           name: Playwright on Ubuntu
