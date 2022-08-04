@@ -11,7 +11,7 @@ import {
   stopWindowManagment,
   startWindowManagement,
 } from "./voiceover/window-management";
-import { exec } from "child_process";
+import { exec, spawn } from "child_process";
 import { promisify } from "util";
 import { domCursor, matchCursors, voCursor } from "./voiceover/cursors";
 import { VoiceOverController } from "./voiceover/controller";
@@ -55,10 +55,16 @@ class VoiceOver extends Helper implements ATHelper {
       // startWindowManagement(voiceOver);
       voiceOver.launch().then(resolve);
       setTimeout(() => reject("Failed to start"), 5000);
-      
-      if(process.env.CI) {
-        const outputFile = screenshotOutputFolder('record.mov');
-        promisify(exec)(`screencapture -v -C -k -T0 -g ${outputFile}`);
+
+      if (process.env.CI) {
+        const outputFile = screenshotOutputFolder("record.mov");
+        promisify(spawn)(
+          "screencapture",
+          ["-v", "-C", "-k", "-T0", "-g", outputFile],
+          {
+            detached: true,
+          }
+        );
       }
     });
   }
