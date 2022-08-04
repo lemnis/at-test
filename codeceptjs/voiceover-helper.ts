@@ -56,16 +56,16 @@ class VoiceOver extends Helper implements ATHelper {
       voiceOver.launch().then(resolve);
       setTimeout(() => reject("Failed to start"), 5000);
 
-      if (process.env.CI) {
-        const outputFile = screenshotOutputFolder("record.mov");
-        promisify(spawn)(
-          "screencapture",
-          ["-v", "-C", "-k", "-T0", "-g", outputFile],
-          {
-            detached: true,
-          }
-        );
-      }
+      // if (process.env.CI) {
+      //   const outputFile = screenshotOutputFolder("record.mov");
+      //   promisify(spawn)(
+      //     "screencapture",
+      //     ["-v", "-C", "-k", "-T0", "-g", outputFile],
+      //     {
+      //       detached: true,
+      //     }
+      //   );
+      // }
     });
   }
 
