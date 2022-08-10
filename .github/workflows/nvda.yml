@@ -37,7 +37,7 @@ jobs:
           # & $NVDA_BIN -logFile $LOG_FILE_PATH 
           #  node $REPO_PATH\examples\node\index.js $LOG_FILE_PATH
           #  & $NVDA_BIN -quit
-          ls $REPO_PATH\examples\node
+          ls $REPO_PATH\node_modules
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
