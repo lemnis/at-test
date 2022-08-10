@@ -13,54 +13,33 @@ jobs:
     runs-on: windows-latest
 
     steps:
-
-    - name: Get last release
-      id: get-last-release
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        repository: nvaccess/nvda
-        excludes: prerelease, draft
-    
-    - name: Cache NVDA
-      id: cache-nvda
-      uses: actions/cache@v3
-      with:
-        path: nvda
-        key: ${{ runner.os }}-nvda-${{ steps.get-last-release.outputs.release }}
-    - name: Set up Python 3.7 x86
-      if: steps.cache-nvda.outputs.cache-hit != 'true'
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.7
-        architecture: x86
-    - name: Checkout NVDA
-      if: steps.cache-nvda.outputs.cache-hit != 'true'
-      uses: actions/checkout@v3
-      with:
-        repository: nvaccess/nvda
-        submodules: true
-        path: nvda
-        ref: ${{ steps.get-last-release.outputs.release }}
-    - name: Prepare NVDA's source tree
-      if: steps.cache-nvda.outputs.cache-hit != 'true'
-      run: |
-        cd nvda
-        scons source
-      shell: cmd
-    - name: Start NVDA
-      run: |
-        cd nvda
-        runnvda -m --debug-logging
-        ping 127.0.0.1 /n 20
-      shell: cmd
-    - name: Quit NVDA
-      run: |
-        cd nvda
-        runnvda -q
-        ping 127.0.0.1 /n 20
-      shell: cmd
-    - name: Upload log
-      uses: actions/upload-artifact@v3
-      with:
-        name: nvda-log
-        path: nvda\source\nvda.log
+      - uses: actions/checkout@v3
+        with:
+          repository: eps1lon/screen-reader-testing-library
+      - name: Use node@12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - run: npm install
+      - name: "examples/node/test.example.ps1"
+        shell: powershell
+        run: |
+          # Required config
+          # The path you cloned this repository to
+          $REPO_PATH = "${{ github.workspace }}"
+          # Optional config
+          # The path where NVDA speech output is logged. Need read/write access.
+          $LOG_FILE_PATH = "$REPO_PATH\nvda-node.log"
+          # The path where your package manager installed the "screen-reader-testing-library" package.
+          $PACKAGE_PATH = "$REPO_PATH\node_modules\screen-reader-testing-library"
+          # End of configuration. Changing anything below at your own risk
+          $NVDA_BIN = "$PACKAGE_PATH\bin\nvda.ps1"
+          & $NVDA_BIN -logFile $LOG_FILE_PATH 
+          node $REPO_PATH\examples\node\index.js $LOG_FILE_PATH
+          & $NVDA_BIN -quit
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: nvda.log
+          path: |
+            nvda-node.log
