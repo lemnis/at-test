@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 12
-      - run: npm install
+      - run: yarn
       - name: "examples/node/test.example.ps1"
         shell: powershell
         run: |
@@ -34,10 +34,9 @@ jobs:
           $PACKAGE_PATH = "$REPO_PATH\node_modules\screen-reader-testing-library"
           # End of configuration. Changing anything below at your own risk
           $NVDA_BIN = "$PACKAGE_PATH\bin\nvda.ps1"
-          # & $NVDA_BIN -logFile $LOG_FILE_PATH 
-          #  node $REPO_PATH\examples\node\index.js $LOG_FILE_PATH
-          #  & $NVDA_BIN -quit
-          ls $REPO_PATH\node_modules
+          & $NVDA_BIN -logFile $LOG_FILE_PATH 
+          node $REPO_PATH\examples\node\index.js $LOG_FILE_PATH
+          & $NVDA_BIN -quit
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
