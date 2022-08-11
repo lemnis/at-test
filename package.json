@@ -12,6 +12,8 @@
         "test:webkit": "cd output/playwright-webkit && BROWSER=webkit npx codeceptjs run --config ../../codeceptjs/configs/playwright.js",
         "test:chromium": "cd output/playwright-chromium && npx codeceptjs run --config ../../codeceptjs/configs/playwright.js",
         "test:chromevox:chromium": "cd output/chromevox-chromium && npx codeceptjs run --config ../../codeceptjs/configs/chromevox-playwright.js",
+        "test:nvda:chromium": "cd output/nvda-chromium && npx codeceptjs run --config ../../codeceptjs/configs/nvda-playwright.js",
+        "test:nvda:firefox": "cd output/nvda-firefox && npx codeceptjs run --config ../../codeceptjs/configs/nvda-playwright.js",
         "test:voiceover:chromium": "cd output/voiceover-chromium && npx codeceptjs run --config ../../codeceptjs/configs/voiceover-playwright.js",
         "test:voiceover:webkit": "cd output/voiceover-webkit && BROWSER=webkit npx codeceptjs run --config ../../codeceptjs/configs/voiceover-playwright.js",
         "test:voiceover:firefox": "cd output/voiceover-firefox && BROWSER=firefox npx codeceptjs run --config ../../codeceptjs/configs/voiceover-playwright.js",
