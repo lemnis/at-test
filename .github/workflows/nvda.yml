@@ -35,11 +35,17 @@ jobs:
           # End of configuration. Changing anything below at your own risk
           $NVDA_BIN = "$PACKAGE_PATH\bin\nvda.ps1"
           & $NVDA_BIN -logFile $LOG_FILE_PATH 
-          node $REPO_PATH\examples\node\index.js $LOG_FILE_PATH
-          & $NVDA_BIN -quit
+          cd output/nvda-chromium && npx codeceptjs run --config ../../codeceptjs/configs/nvda-playwright.js
+          | $NVDA_BIN -quit
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
           name: nvda.log
           path: |
             nvda-node.log
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: nvda.log
+          path: |
+            output/nvda-*
