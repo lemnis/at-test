@@ -27,10 +27,8 @@ jobs:
           $PACKAGE_PATH = "$REPO_PATH\node_modules\screen-reader-testing-library"
           $NVDA_BIN = "$PACKAGE_PATH\bin\nvda.ps1"
           & $NVDA_BIN -logFile $LOG_FILE_PATH 
-          cd output/nvda-chromium
-          $CI = ""
-          $REPORT = "true"
-          & npx codeceptjs run --config ../../codeceptjs/configs/nvda-playwright.js
+      - run: CI="" REPORT=true npm run test:nvda:chromium
+        shell: bash          
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
