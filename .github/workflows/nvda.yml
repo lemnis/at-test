@@ -17,8 +17,8 @@ jobs:
       - name: Use node@12
         uses: actions/setup-node@v2
         with:
-          node-version: 12
-      - run: yarn
+          node-version: 14
+      - run: npm install
       - name: "examples/node/test.example.ps1"
         shell: powershell
         run: |
