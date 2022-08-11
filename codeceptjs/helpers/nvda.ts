@@ -1,7 +1,5 @@
 /// <reference path="../steps.d.ts" />
-
-import { platform } from "os";
-import { BrowserContext, ConsoleMessage, Page } from "playwright";
+import { Page } from "playwright";
 import { ATHelper } from "./base";
 import { focus, getFocusedElement } from "./browser-actions/focus";
 import {
@@ -12,28 +10,35 @@ import {
 import {
 	awaitNvdaRecording,
 	createSpeechRecorder,
-    Speech,
-    SpeechLine
+    Recorder
 } from "screen-reader-testing-library";
 
 class NVDA extends Helper implements ATHelper {
-  recorder: any;
+  recorder?: Recorder;
 
-  private lastPhrase = () => {
-    return SpeechLine;
+  private lastPhrase = async () => {
+    const s = this.recorder?.stop();
+    this.recorder?.start();
+    return s;
   };
+
+  _before() {
+    this.recorder?.start();
+  }
 
   async _init() {
     await awaitNvdaRecording();
+    const logFilePath = __dirname + "/../../nvda-node.log";
     this.recorder = createSpeechRecorder(logFilePath);
   }
 
   async grabATOutput(locator: CodeceptJS.LocatorOrString) {
+    const phrase = await this.lastPhrase();
     return {
-      spoken: this.lastPhrase()?.join(', '),
+      spoken: phrase?.join(', '),
       output: {
-        phrase: this.lastPhrase(),
-        phrases: Speech()
+        phrase: phrase?.join(',') || '',
+        phrases: phrase?.flat()
       },
     };
   }
