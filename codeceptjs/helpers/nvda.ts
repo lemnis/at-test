@@ -22,7 +22,10 @@ class NVDA extends Helper implements ATHelper {
     return s;
   };
 
-  _before() {
+  async _before() {
+    const page: Page = this.helpers.Playwright.page;
+    await page.bringToFront();
+    await awaitNvdaRecording();
     this.recorder?.start();
   }
 
