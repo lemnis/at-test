@@ -33,8 +33,9 @@ jobs:
     - run: npm install
     - run: node scripts/update-codecept-default-helpers.mjs
     - run: npx @guidepup/setup --ci
-    - run: REPORT=true npm run test:voiceover:webkit || true
+    - run: REPORT=true npm run test:voiceover:webkit
     - uses: actions/upload-artifact@v3
+      if: ${{ always() }}
       with:
         name: Webkit with VoiceOver
         path: output/voiceover-webkit
@@ -61,8 +62,9 @@ jobs:
     - run: |
         sudo safaridriver --enable
         safaridriver -p 4444 &
-    - run: REPORT=true npm run test:voiceover:safari || true
+    - run: REPORT=true npm run test:voiceover:safari
     - uses: actions/upload-artifact@v3
+      if: ${{ always() }}
       with:
         name: Safari with VoiceOver
         path: output/voiceover-safari
@@ -86,8 +88,9 @@ jobs:
     - run: npm install
     - run: node scripts/update-codecept-default-helpers.mjs
     - run: npx @guidepup/setup --ci
-    - run: REPORT=true npm run test:voiceover:chromium || true
+    - run: REPORT=true npm run test:voiceover:chromium
     - uses: actions/upload-artifact@v3
+      if: ${{ always() }}
       with:
         name: Chromium with VoiceOver
         path: output/voiceover-chromium
@@ -111,8 +114,9 @@ jobs:
     - run: npm install
     - run: node scripts/update-codecept-default-helpers.mjs
     - run: npx @guidepup/setup --ci
-    - run: REPORT=true npm run test:voiceover:firefox || true
+    - run: REPORT=true npm run test:voiceover:firefox
     - uses: actions/upload-artifact@v3
+      if: ${{ always() }}
       with:
         name: Firefox with VoiceOver
         path: output/voiceover-firefox
@@ -133,8 +137,9 @@ jobs:
         cache: 'npm'
     - run: npx playwright install
     - run: npm install
-    - run: REPORT=true npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
+    - run: REPORT=true npx npm-run-all -c --parallel test:webkit test:chromium test:firefox 
     - uses: actions/upload-artifact@v3
+      if: ${{ always() }}
       with:
         name: Playwright on MacOs
         path: output/playwright-*/darwin-*-latest.json
@@ -156,9 +161,10 @@ jobs:
           cache: 'npm'
       - run: npx playwright install
       - run: npm install
-      - run: REPORT=true npx npm-run-all -c --parallel test:chromium || true
+      - run: REPORT=true npx npm-run-all -c --parallel test:webkit test:chromium test:firefox
         shell: bash
       - uses: actions/upload-artifact@v3
+        if: ${{ always() }}
         with:
           name: Playwright on Windows
           path: output/playwright-*/win32-*-latest.json
@@ -180,8 +186,9 @@ jobs:
           cache: 'npm'
       - run: npx playwright install
       - run: npm install
-      - run: REPORT=true npx npm-run-all -c --parallel test:webkit test:chromium test:firefox  || true
+      - run: REPORT=true npx npm-run-all -c --parallel test:webkit test:chromium test:firefox
       - uses: actions/upload-artifact@v3
+        if: ${{ always() }}
         with:
           name: Playwright on Ubuntu
           path: output/playwright-*/linux-*-latest.json
