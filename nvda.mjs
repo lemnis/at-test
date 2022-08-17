@@ -12,7 +12,7 @@ import {
 
 async function main() {
   const browserType = "chromium";
-  const logFilePath = path.join(__dirname, "nvda-node.log");
+  const logFilePath = path.join(path.dirname(""), "./nvda-node.log");
 
   const browser = await playwright[browserType].launch({ headless: false });
   const context = await browser.newContext();
