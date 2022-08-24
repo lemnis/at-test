@@ -3,7 +3,7 @@
 import { equal, ok } from "assert";
 import snapshot from "snap-shot-it";
 
-const currentEngine: "webkit" | "firefox" | "chromium" = codeceptjs.config.get("helpers").Playwright.browser;
+const currentEngine: "webkit" | "firefox" | "chromium" = codeceptjs.config.get("helpers").Playwright?.browser;
 
 Feature("Color").tag("html/input/color");
 

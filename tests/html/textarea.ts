@@ -7,7 +7,7 @@ import { expect } from "../utils/expect";
 Feature("Textarea").tag("html/textarea");
 
 const helpers = codeceptjs.config.get("helpers");
-const html = /*html*/ `<textarea id="test"></textarea>`;
+const html = /*html*/ `<textarea id="test" aria-label='HERE HERE HERE'></textarea>`;
 
 Scenario("Should be targetable", async ({ I }) => {
   I.setContent(html);
@@ -16,13 +16,13 @@ Scenario("Should be targetable", async ({ I }) => {
   snapshot(ax);
 }).tag("targetable");
 
-Scenario("Should be focusable", async ({ I }) => {
+Scenario.only("Should be focusable", async ({ I }) => {
   I.setContent(html);
   I.pressKey("Tab");
   ok((await I.grabAXNode("#test"))?.focused);
 }).tag("focusable");
 
-Scenario("Should have role", async ({ I }) => {
+Scenario.only("Should have role", async ({ I }) => {
   I.setContent(html);
 
   if (helpers.ChromevoxHelper) {
@@ -31,7 +31,11 @@ Scenario("Should have role", async ({ I }) => {
     I.nextItem();
   }
 
-  expect(await I.grabATOutput("#test")).to.have.role(["textbox", "text area"]);
+  expect(await I.grabATOutput("#test")).to.have.role([
+    "textbox",
+    "text area",
+    "entry",
+  ]);
 }).tag("role");
 
 Scenario("Should be multiline", async ({ I }) => {
